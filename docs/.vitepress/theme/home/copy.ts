@@ -14,7 +14,6 @@ export interface HomeCopy {
     message: string
     routes: string
     list: { title: string, text: string, link: string }[]
-    license: string
     more: string
   }
 }
@@ -38,7 +37,6 @@ const ru: HomeCopy = {
       { title: 'Развернуть Orpheus', text: 'От подготовки доступов до бота Mattermost и первой задачи в веб-интерфейсе.', link: '/getting-started/requirements' },
       { title: 'Подключить свою систему', text: 'Сессии, контекст и доставка результата. Пример обработки тикетов на Python.', link: '/integrations/custom/overview' },
     ],
-    license: 'Лицензия MIT',
     more: 'Ссылки',
   },
 }
@@ -62,7 +60,6 @@ const en: HomeCopy = {
       { title: 'Deploy Orpheus', text: 'From credentials to a Mattermost bot and your first task in the web interface.', link: '/getting-started/requirements' },
       { title: 'Connect your system', text: 'Sessions, context and result delivery. A helpdesk example in Python.', link: '/integrations/custom/overview' },
     ],
-    license: 'MIT License',
     more: 'Links',
   },
 }
