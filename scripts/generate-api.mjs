@@ -40,7 +40,7 @@ for (const lang of ['ru', 'en']) {
       if (!translations[text]) throw Error(`Missing Russian API translation: ${text}`)
       return esc(translations[text])
     }
-    if (text === 'Accepted for future explicit sandbox removal; never called by this API version.') return 'Accepted by the API but never executed. Do not use for cleanup.'
+    if (text === 'Reserved for future use; never called, including before automatic sandbox deletion.') return 'Accepted by the API but never executed, including before automatic sandbox deletion. Do not use for cleanup.'
     return esc(text)
   }
   const intro = ru ? 'Справочник построен из OpenAPI Orpheus. Описания переведены на русский. В блоках JSON Schema сохранён исходный контракт.' : 'Generated from the Orpheus OpenAPI contract. Usage guidance is provided in the integration guides.'

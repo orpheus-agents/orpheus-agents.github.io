@@ -4,7 +4,7 @@
 POST /api/v1/sessions/{sid}/runs
 ```
 
-Create Run
+Create a subsequent run. Sessions created with allow_multiple_runs=false reject this operation with 409 multiple_runs_not_allowed, regardless of the first run or sandbox state. Idempotent replay of an accepted request returns the original acceptance.
 
 **operationId:** `create_run`
 

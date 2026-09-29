@@ -4,6 +4,8 @@ Creating a session also accepts its first task. Configure the [`default`](../../
 
 <<< @/../examples/create-session.json
 
+This uses the default [`allow_multiple_runs: false`](../../reference/api/create-session.md). A new session per task is enough for a simple connector. For an ongoing conversation, set it to `true` when creating the session. An existing session's mode cannot be changed.
+
 Save the JSON as `request.json`. Set [`ORPHEUS_API_KEY`](../../reference/environment.md#env-public-api-keys) in your shell to the server's service key and send:
 
 ```sh

@@ -1,6 +1,6 @@
 # Conversation, context and clarifications
 
-The bot works within a thread. The first request includes conversation context. Later requests add new messages.
+The bot works within a thread. The first request includes conversation context. Later requests add new messages. Mattermost automatically creates sessions with [`allow_multiple_runs: true`](../../reference/api/create-session.md) for this purpose. No workflow setting is needed.
 
 | Action | Result |
 | --- | --- |

@@ -8,8 +8,8 @@
 | --- | --- | --- | --- |
 | `after_create` | No | string | Executable script text with a shebang; runs once after workspace creation.  |
 | `before_run` | No | string | Executable script text with a shebang; runs before every assignment.  |
-| `after_run` | No | string | Executable script text with a shebang; runs after confirmed agent completion, before pause.  |
-| `before_remove` | No | string | Accepted by the API but never executed. Do not use for cleanup.  |
+| `after_run` | No | string | Executable script text with a shebang; runs after confirmed agent completion, before sandbox pause or deletion.  |
+| `before_remove` | No | string | Accepted by the API but never executed, including before automatic sandbox deletion. Do not use for cleanup.  |
 | `timeout_seconds` | No | integer | Timeout for each hook invocation. default: <code>300</code><br>minimum: <code>1</code><br>maximum: <code>2147483647</code> |
 
 ## JSON Schema
@@ -27,11 +27,11 @@
       "type": "string"
     },
     "after_run": {
-      "description": "Executable script text with a shebang; runs after confirmed agent completion, before pause.",
+      "description": "Executable script text with a shebang; runs after confirmed agent completion, before sandbox pause or deletion.",
       "type": "string"
     },
     "before_remove": {
-      "description": "Accepted for future explicit sandbox removal; never called by this API version.",
+      "description": "Reserved for future use; never called, including before automatic sandbox deletion.",
       "type": "string"
     },
     "timeout_seconds": {

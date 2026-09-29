@@ -6,7 +6,7 @@ Hooks execute repeatable actions inside the sandbox before or after the agent wo
 | --- | --- | --- |
 | <span id="hook-after-create"></span>`after_create` | After preparing the workspace | Create directories |
 | <span id="hook-before-run"></span>`before_run` | Before every assignment | Download data and record the output path |
-| <span id="hook-after-run"></span>`after_run` | After confirmed agent completion, before pause | Send a finished file |
+| <span id="hook-after-run"></span>`after_run` | After confirmed agent completion, before sandbox pause or deletion | Send a finished file |
 
 ```json
 {

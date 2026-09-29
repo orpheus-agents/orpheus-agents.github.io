@@ -1,5 +1,31 @@
 import { test, expect } from '@playwright/test'
 
+test('root home introduces the platform and opens either language', async ({ page }, testInfo) => {
+  const errors: string[] = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.goto('/')
+  const home = page.locator('.docs-home')
+  await expect(home.locator('h1')).toHaveText('AI agents for your company')
+  await expect(home.locator('h1')).toHaveCSS('font-weight', '700')
+  await expect(home.locator('.home-route')).toHaveCount(3)
+  for (const colorScheme of ['light', 'dark'] as const) {
+    await page.emulateMedia({ colorScheme })
+    await expect(page.locator('html')).toHaveClass(colorScheme === 'dark' ? /dark/ : /^(?!.*dark)/)
+    await expect(home.getByRole('link', { name: 'Read in English' })).toBeVisible()
+    await expect(home.getByRole('link', { name: 'Читать на русском' })).toBeVisible()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy()
+    await page.screenshot({ path: `test-results/root-${testInfo.project.name}-${colorScheme}.png`, fullPage: true })
+  }
+  await home.getByRole('link', { name: 'Читать на русском' }).click()
+  await expect(page).toHaveURL(/\/ru\/$/)
+  await expect(page.locator('h1')).toHaveText('Платформа AI-агентов компании')
+  await page.goto('/')
+  await home.getByRole('link', { name: 'Read in English' }).click()
+  await expect(page).toHaveURL(/\/en\/$/)
+  await expect(page.locator('h1')).toHaveText('AI agents for your company')
+  expect(errors).toEqual([])
+})
+
 for (const lang of ['ru', 'en']) {
   test(`${lang}: home, reading and theme`, async ({ page }, testInfo) => {
     const errors: string[] = []

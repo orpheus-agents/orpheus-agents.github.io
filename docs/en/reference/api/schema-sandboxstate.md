@@ -7,9 +7,9 @@
 | Field | Required | Type | Description and constraints |
 | --- | --- | --- | --- |
 | `error` | Yes | [Error](schema-error.md) / null |   |
-| `id` | Yes | string / null | AgentBox sandbox ID, if known. A retained ID does not guarantee that an unavailable sandbox is accessible.  |
+| `id` | Yes | string / null | AgentBox sandbox ID, if known. Retained for diagnostics after deletion or loss; does not guarantee accessibility.  |
 | `last_known_state` | Yes | string / null |   |
-| `state` | Yes | string |  enum: <code>["not_created","provisioning","ready","pausing","paused","resuming","unavailable"]</code> |
+| `state` | Yes | string |  enum: <code>["not_created","provisioning","ready","pausing","paused","resuming","deleting","deleted","unavailable"]</code> |
 | `workspace` | Yes | string / null | Absolute workspace path resolved during sandbox preparation, if known.  |
 
 ## JSON Schema
@@ -36,7 +36,7 @@
           "type": "null"
         }
       ],
-      "description": "AgentBox sandbox ID, if known. A retained ID does not guarantee that an unavailable sandbox is accessible."
+      "description": "AgentBox sandbox ID, if known. Retained for diagnostics after deletion or loss; does not guarantee accessibility."
     },
     "last_known_state": {
       "anyOf": [
@@ -57,6 +57,8 @@
         "pausing",
         "paused",
         "resuming",
+        "deleting",
+        "deleted",
         "unavailable"
       ],
       "title": "State",

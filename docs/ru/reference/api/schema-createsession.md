@@ -6,6 +6,7 @@
 
 | Поле | Обязательное | Тип | Описание и ограничения |
 | --- | --- | --- | --- |
+| `allow_multiple_runs` | Нет | boolean | Режим сессии задаётся при создании и не меняется. При false допускается один запуск, после его завершения, ошибки или отмены песочница удаляется. При true песочница ставится на паузу для следующих запусков. Восстановление и уточнения в текущем запуске доступны в обоих режимах. default: <code>false</code> |
 | `namespace` | Нет | string | Имя интеграции или workflow. От 1 до 128 байт UTF-8. NUL и строки только из пробелов запрещены. Точное сравнение без нормализации. minLength: <code>1</code><br>maxLength: <code>128</code> |
 | `external_key` | Нет | string | Ключ внешнего объекта с указанием источника. Не уникален между сессиями. От 1 до 512 байт UTF-8. NUL и строки только из пробелов запрещены. Точное сравнение. minLength: <code>1</code><br>maxLength: <code>512</code> |
 | `input_fingerprint` | Нет | string | Версия входных данных первого запуска. Не устраняет дубли запросов. От 1 до 256 байт UTF-8. NUL и строки только из пробелов запрещены. Точное сравнение. minLength: <code>1</code><br>maxLength: <code>256</code> |
@@ -20,6 +21,11 @@
 {
   "additionalProperties": false,
   "properties": {
+    "allow_multiple_runs": {
+      "description": "Immutable session policy. If false, only the run created with the session is allowed and its sandbox is deleted after completion, failure or cancellation. If true, the sandbox is paused for subsequent runs. Recovery and messages within the current run are allowed in either mode.",
+      "type": "boolean",
+      "default": false
+    },
     "namespace": {
       "description": "Logical integration or workflow name. Opaque identifier, 1–128 UTF-8 bytes; no NUL or whitespace-only value. Compared exactly, without normalization.",
       "type": "string",

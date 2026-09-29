@@ -6,6 +6,7 @@
 
 | Поле | Обязательное | Тип | Описание и ограничения |
 | --- | --- | --- | --- |
+| `allow_multiple_runs` | Да | boolean | Неизменяемый режим сессии, разрешающий следующие запуски. При false песочница удаляется после завершения первого запуска. История сессии остаётся доступной.  |
 | `last_run_created_at` | Да | string | Время создания последнего запуска, а не последней активности. format: <code>"date-time"</code> |
 | `usage` | Да | [Usage](schema-usage.md) |   |
 | `phase` | Да | string / null |   |
@@ -26,6 +27,10 @@
 ```json
 {
   "properties": {
+    "allow_multiple_runs": {
+      "description": "Immutable policy allowing subsequent runs. False means the sandbox is deleted after the first run terminates; session history remains available.",
+      "type": "boolean"
+    },
     "last_run_created_at": {
       "description": "Creation time of the latest run, not the last activity time.",
       "format": "date-time",
@@ -131,6 +136,7 @@
     }
   },
   "required": [
+    "allow_multiple_runs",
     "usage",
     "phase",
     "namespace",

@@ -6,6 +6,7 @@
 
 | Field | Required | Type | Description and constraints |
 | --- | --- | --- | --- |
+| `allow_multiple_runs` | No | boolean | Immutable session policy. If false, only the run created with the session is allowed and its sandbox is deleted after completion, failure or cancellation. If true, the sandbox is paused for subsequent runs. Recovery and messages within the current run are allowed in either mode. default: <code>false</code> |
 | `namespace` | No | string | Logical integration or workflow name. Opaque identifier, 1–128 UTF-8 bytes; no NUL or whitespace-only value. Compared exactly, without normalization. minLength: <code>1</code><br>maxLength: <code>128</code> |
 | `external_key` | No | string | Source-qualified external object key; not unique across sessions. Opaque identifier, 1–512 UTF-8 bytes; no NUL or whitespace-only value. Compared exactly, without normalization. minLength: <code>1</code><br>maxLength: <code>512</code> |
 | `input_fingerprint` | No | string | Opaque input snapshot version for the first run; does not deduplicate requests. Opaque identifier, 1–256 UTF-8 bytes; no NUL or whitespace-only value. Compared exactly, without normalization. minLength: <code>1</code><br>maxLength: <code>256</code> |
@@ -20,6 +21,11 @@
 {
   "additionalProperties": false,
   "properties": {
+    "allow_multiple_runs": {
+      "description": "Immutable session policy. If false, only the run created with the session is allowed and its sandbox is deleted after completion, failure or cancellation. If true, the sandbox is paused for subsequent runs. Recovery and messages within the current run are allowed in either mode.",
+      "type": "boolean",
+      "default": false
+    },
     "namespace": {
       "description": "Logical integration or workflow name. Opaque identifier, 1–128 UTF-8 bytes; no NUL or whitespace-only value. Compared exactly, without normalization.",
       "type": "string",
