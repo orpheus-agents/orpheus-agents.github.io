@@ -72,6 +72,8 @@ const descriptions = {
   en: 'The AI agent platform for your company. Deploy, configure and integrate Orpheus.',
   ru: 'Платформа AI-агентов компании. Развёртывание, настройка и интеграции Orpheus.',
 }
+// The root page shows the English site. Its link preview is Russian, as on the Russian home page.
+const home = parse(readFileSync(new URL('../ru/index.md', import.meta.url), 'utf8').split('---')[1]) as { title: string, description: string }
 export default defineConfig({
   title: 'Orpheus',
   description: descriptions.en,
@@ -91,15 +93,17 @@ export default defineConfig({
   // Link previews: every page gets its title, description and the card of its language.
   transformHead({ pageData }) {
     if (pageData.isNotFound) return
-    const lang = pageData.relativePath.startsWith('ru/') ? 'ru' : 'en'
+    const root = pageData.relativePath === 'index.md'
+    const lang = root || pageData.relativePath.startsWith('ru/') ? 'ru' : 'en'
+    const { title, description } = root ? home : pageData
     const path = pageData.relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '.html')
     const image = `${site}/og-${lang}.png`
     return [
       ['meta', { property: 'og:type', content: 'website' }],
       ['meta', { property: 'og:site_name', content: 'Orpheus' }],
       ['meta', { property: 'og:locale', content: lang === 'ru' ? 'ru_RU' : 'en_US' }],
-      ['meta', { property: 'og:title', content: pageData.title ? `${pageData.title} | Orpheus` : 'Orpheus' }],
-      ['meta', { property: 'og:description', content: pageData.description || descriptions[lang] }],
+      ['meta', { property: 'og:title', content: title ? `${title} | Orpheus` : 'Orpheus' }],
+      ['meta', { property: 'og:description', content: description || descriptions[lang] }],
       ['meta', { property: 'og:url', content: `${site}/${path}` }],
       ['meta', { property: 'og:image', content: image }],
       ['meta', { property: 'og:image:width', content: '1200' }],

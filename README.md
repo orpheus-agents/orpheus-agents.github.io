@@ -96,7 +96,7 @@ Numbers and the quote of the RetailCRM case come from the post [t.me/dev_salikho
 
 ### Link previews
 
-Every page carries Open Graph and Twitter tags with its title, description and address. `transformHead` in `docs/.vitepress/config.mts` adds them at build time. Russian pages use `docs/public/og-ru.png`, other pages use `docs/public/og-en.png`.
+Every page carries Open Graph and Twitter tags with its title, description and address. `transformHead` in `docs/.vitepress/config.mts` adds them at build time. Russian pages use `docs/public/og-ru.png`, other pages use `docs/public/og-en.png`. The root page shows the English site, but its preview is Russian: the card, the title and the description come from the Russian home page.
 
 The cards are 1200 by 630 pixels. They repeat the first screen: the title on a sheet of strings with the relief of the mark. `scripts/og.mjs` draws them with the strings engine of the site. Redraw the cards after the first screen, the fonts or the logo change:
 

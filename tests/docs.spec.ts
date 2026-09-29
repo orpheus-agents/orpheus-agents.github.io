@@ -210,7 +210,8 @@ for (const compact of [false, true]) {
 test('pages describe themselves for link previews', async ({ page, request }) => {
   const site = 'https://orpheus-agents.github.io'
   const pages = [
-    ['/', 'en', 'AI agents for your company | Orpheus'],
+    ['/', 'ru', 'Платформа AI-агентов компании | Orpheus'],
+    ['/en/', 'en', 'AI agents for your company | Orpheus'],
     ['/ru/', 'ru', 'Платформа AI-агентов компании | Orpheus'],
     ['/en/guide/overview.html', 'en', 'What is Orpheus | Orpheus'],
   ]
