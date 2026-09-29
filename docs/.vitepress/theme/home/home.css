@@ -1,0 +1,269 @@
+/* Orpheus project site. Tokens follow the Orpheus interface guide: ink, paper, one accent,
+   sharp corners and 1px rules. Consoles are dark in both themes and keep rounded corners.
+   Landing preset: variance 7, motion 6, density 4. Motion is discrete. */
+@font-face {
+  font-family: 'Martian Grotesk';
+  src: url('/fonts/MartianGroteskSemiExpanded-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Martian Mono';
+  src: url('/fonts/MartianMonoCondensed-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Martian Mono';
+  src: url('/fonts/MartianMonoCondensed-SemiBold.woff2') format('woff2');
+  font-weight: 500 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+.Layout.home-page .VPHome { margin-bottom: 0; }
+
+.docs-home {
+  --bg: #f7f6f3;
+  --bg-raised: #ffffff;
+  --bg-subtle: #f1eee9;
+  --ink: #0e0e10;
+  --muted: #69635b;
+  --line: #e0dbd3;
+  --accent: #00ad71;
+  --accent-ink: #007e4f;
+  --danger: #e75b61;
+  --danger-ink: #b4373d;
+  --term-bg: #0b0b0d;
+  --term-fg: #d8d8d4;
+  --term-dim: #8b8b86;
+  --term-line: #26262b;
+  --term-ok: #4ef2aa;
+  --term-err: #e75b61;
+  --font-display: 'Martian Grotesk', var(--vp-font-family-base);
+  --font-mono: 'Martian Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --gutter: 32px;
+  color: var(--ink);
+  background: var(--bg);
+}
+.dark .docs-home {
+  --bg: #0e0e10;
+  --bg-raised: #17171a;
+  --bg-subtle: #1c1c1f;
+  --ink: #ededeb;
+  --muted: #a49d94;
+  --line: #2c2c30;
+  --accent: #4ef2aa;
+  --accent-ink: #4ef2aa;
+  --danger-ink: #e75b61;
+  --term-line: #2c2c30;
+}
+
+/* Logos are black. The dark theme inverts them. */
+.dark .docs-home .home-logo { filter: invert(1); }
+
+.docs-home pre { margin: 0; }
+.docs-home fieldset { margin: 0; padding: 0; border: 0; }
+.docs-home figure { margin: 0; }
+.docs-home dd { margin: 0; }
+
+.home-wrap {
+  width: 100%;
+  max-width: calc(var(--vp-layout-max-width) - 64px + var(--gutter) * 2);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.docs-home a:focus-visible,
+.docs-home button:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 3px;
+}
+
+.home-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 48px;
+  padding: 0 24px;
+  border: 1px solid var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+}
+.home-button:active { transform: translateY(1px); }
+.home-primary { background: var(--ink); color: var(--bg); }
+.home-primary:hover { background: color-mix(in srgb, var(--ink) 82%, var(--bg)); border-color: color-mix(in srgb, var(--ink) 82%, var(--bg)); }
+.home-secondary { background: var(--bg); color: var(--ink); }
+.home-secondary:hover { border-color: var(--accent-ink); color: var(--accent-ink); }
+
+/* Sections */
+.home-section { padding: 120px 0; border-bottom: 1px solid var(--line); }
+.docs-home :is(h2, h3, h4) { text-wrap: balance; }
+.docs-home p { text-wrap: pretty; }
+.home-title {
+  max-width: 880px;
+  font: 800 clamp(2rem, 3.7vw, 3.25rem)/1.06 var(--font-display);
+  letter-spacing: -0.035em;
+}
+.home-lead {
+  max-width: 660px;
+  margin-top: 20px;
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.home-tabs { display: flex; flex-wrap: wrap; }
+.home-tabs button {
+  min-height: 44px;
+  margin: 0 -1px -1px 0;
+  padding: 0 20px;
+  border: 1px solid var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  transition: background-color .18s ease, color .18s ease;
+}
+.home-tabs button:hover { background: var(--bg-subtle); }
+.home-tabs button[aria-selected='true'] { background: var(--ink); color: var(--bg); }
+
+.home-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.home-links a { font-size: 15px; font-weight: 600; color: var(--ink); transition: color .18s ease; }
+.home-links a span { color: var(--accent-ink); }
+.home-links a:hover { color: var(--accent-ink); }
+
+/* The console is dark in both themes. It is the only element with rounded corners. */
+.home-console {
+  border: 1px solid var(--term-line);
+  border-radius: 10px;
+  background: var(--term-bg);
+  color: var(--term-fg);
+  font: 400 13px/1.6 var(--font-mono);
+  overflow: hidden;
+}
+.home-console-bar {
+  display: flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--term-line);
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: var(--term-dim);
+}
+
+/* A thread of a chat or of a ticket */
+.thread {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--line);
+  background: var(--bg-raised);
+}
+.thread-place {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  font-weight: 600;
+}
+.thread-posts {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 18px;
+  min-height: 0;
+  padding: 20px;
+}
+.thread-live .thread-posts { justify-content: flex-end; overflow: hidden; }
+.thread-live .thread-post { animation: home-appear .4s ease both; }
+.thread-idle { margin: auto; font-size: 14px; color: var(--muted); }
+.thread-post { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 12px; }
+.thread-post.service { display: block; }
+.thread-face {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  background: var(--bg-subtle);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.thread-post.agent .thread-face { background: #0e0e10 url('/brand/orpheus-mark.svg') center / 18px no-repeat; }
+.thread-name { font-size: 13px; font-weight: 600; line-height: 1.3; }
+.thread-name span { margin-left: 6px; font-weight: 400; color: var(--muted); }
+.thread-text { margin-top: 3px; font-size: 14px; line-height: 1.5; white-space: pre-line; }
+.thread-file {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  font: 400 12px/1.3 var(--font-mono);
+}
+.thread-service { padding-left: 44px; font: 400 12px/1.4 var(--font-mono); color: var(--muted); }
+.thread-service b { font-weight: 500; color: var(--ink); }
+@keyframes home-appear {
+  from { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .thread-live .thread-post { animation: none; }
+}
+
+.home-field {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+/* Hero */
+.home-hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+.hero-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: min(760px, calc(100dvh - var(--vp-nav-height)));
+  padding-top: 72px;
+  padding-bottom: 80px;
+}
+.home-hero h1 {
+  font: 800 clamp(2.75rem, 6.1vw, 5.5rem)/1 var(--font-display);
+  letter-spacing: -0.04em;
+}
+.hero-line { display: block; white-space: nowrap; }
+.hero-sub {
+  max-width: 540px;
+  margin-top: 32px;
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
+
+@media (max-width: 767px) {
+  .docs-home { --gutter: 20px; }
+  .home-section { padding: 72px 0; }
+  .home-lead { font-size: 17px; }
+  .home-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .home-tabs button { padding: 0 12px; }
+  .hero-inner { justify-content: flex-start; min-height: 0; padding-top: 48px; padding-bottom: 400px; }
+  .home-hero h1 { font-size: clamp(2.5rem, 12.6vw, 4rem); }
+  .hero-sub { margin-top: 24px; font-size: 17px; }
+  .hero-actions { display: grid; margin-top: 32px; }
+}
