@@ -67,9 +67,14 @@ function theme(lang: 'ru' | 'en'): DefaultTheme.Config {
     skipToContentLabel: ru ? 'К содержимому' : 'Skip to content',
   }
 }
+const site = 'https://orpheus-agents.github.io'
+const descriptions = {
+  en: 'The AI agent platform for your company. Deploy, configure and integrate Orpheus.',
+  ru: 'Платформа AI-агентов компании. Развёртывание, настройка и интеграции Orpheus.',
+}
 export default defineConfig({
   title: 'Orpheus',
-  description: 'The AI agent platform for your company. Deploy, configure and integrate Orpheus.',
+  description: descriptions.en,
   lang: 'en',
   cleanUrls: false,
   appearance: true,
@@ -82,14 +87,34 @@ export default defineConfig({
       })),
     },
   },
-  sitemap: { hostname: 'https://orpheus-agents.github.io' },
+  sitemap: { hostname: site },
+  // Link previews: every page gets its title, description and the card of its language.
+  transformHead({ pageData }) {
+    if (pageData.isNotFound) return
+    const lang = pageData.relativePath.startsWith('ru/') ? 'ru' : 'en'
+    const path = pageData.relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '.html')
+    const image = `${site}/og-${lang}.png`
+    return [
+      ['meta', { property: 'og:type', content: 'website' }],
+      ['meta', { property: 'og:site_name', content: 'Orpheus' }],
+      ['meta', { property: 'og:locale', content: lang === 'ru' ? 'ru_RU' : 'en_US' }],
+      ['meta', { property: 'og:title', content: pageData.title ? `${pageData.title} | Orpheus` : 'Orpheus' }],
+      ['meta', { property: 'og:description', content: pageData.description || descriptions[lang] }],
+      ['meta', { property: 'og:url', content: `${site}/${path}` }],
+      ['meta', { property: 'og:image', content: image }],
+      ['meta', { property: 'og:image:width', content: '1200' }],
+      ['meta', { property: 'og:image:height', content: '630' }],
+      ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+      ['meta', { name: 'twitter:image', content: image }],
+    ]
+  },
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
     ['link', { rel: 'preload', href: '/fonts/MartianGroteskSemiExpanded-Bold.woff2', as: 'font', type: 'font/woff2', crossorigin: '' }],
   ],
   locales: {
     en: { label: 'English', lang: 'en', link: '/en/', themeConfig: theme('en') },
-    ru: { label: 'Русский', lang: 'ru', link: '/ru/', description: 'Платформа AI-агентов компании. Развёртывание, настройка и интеграции Orpheus.', themeConfig: theme('ru') },
+    ru: { label: 'Русский', lang: 'ru', link: '/ru/', description: descriptions.ru, themeConfig: theme('ru') },
   },
   themeConfig: {
     nav: theme('en').nav,
