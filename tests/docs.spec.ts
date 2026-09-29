@@ -207,3 +207,26 @@ for (const compact of [false, true]) {
     await expect(page).toHaveURL(/\/ru\/integrations\/custom\/helpdesk.html$/)
   })
 }
+
+test('pages describe themselves for link previews', async ({ page, request }) => {
+  const site = 'https://orpheus-agents.github.io'
+  const pages = [
+    ['/', 'ru', 'Платформа AI-агентов компании | Orpheus'],
+    ['/en/', 'en', 'AI agents for your company | Orpheus'],
+    ['/ru/', 'ru', 'Платформа AI-агентов компании | Orpheus'],
+    ['/en/guide/overview.html', 'en', 'What is Orpheus | Orpheus'],
+  ]
+  for (const [path, lang, title] of pages) {
+    await page.goto(path)
+    const property = (name: string) => page.locator(`meta[property="og:${name}"]`)
+    await expect(property('title')).toHaveAttribute('content', title)
+    await expect(property('url')).toHaveAttribute('content', site + path)
+    await expect(property('image')).toHaveAttribute('content', `${site}/og-${lang}.png`)
+    await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image')
+  }
+  for (const lang of ['ru', 'en']) {
+    const image = await request.get(`/og-${lang}.png`)
+    expect(image.status()).toBe(200)
+    expect(image.headers()['content-type']).toBe('image/png')
+  }
+})

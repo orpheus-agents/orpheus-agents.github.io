@@ -9,6 +9,7 @@
     "dev": "vitepress dev docs --host 127.0.0.1",
     "build": "vitepress build docs",
     "preview": "python3 -m http.server --bind 127.0.0.1 --directory docs/.vitepress/dist",
+    "og": "node scripts/og.mjs",
     "api:generate": "node scripts/generate-api.mjs",
     "api:check": "node scripts/generate-api.mjs --check",
     "examples:check": "node scripts/check-examples.mjs",
@@ -22,7 +23,8 @@
     "yaml": "2.8.3",
     "ajv": "8.18.0",
     "ajv-formats": "3.0.1",
-    "@playwright/test": "1.58.2"
+    "@playwright/test": "1.58.2",
+    "esbuild": "0.25.12"
   },
   "overrides": {
     "vite": "6.4.3"
