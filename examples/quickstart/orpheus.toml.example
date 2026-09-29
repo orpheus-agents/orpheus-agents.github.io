@@ -1,0 +1,7 @@
+[profiles.default]
+harness = "codex"
+model = "gpt-6-sol"
+
+[profiles.default.auth]
+mode = "api_key"
+api_key_env = "OPENAI_API_KEY"

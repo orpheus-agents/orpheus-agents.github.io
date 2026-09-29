@@ -1,0 +1,76 @@
+/* VitePress navigation with Orpheus brand tokens. Documentation preset: variance 3, motion 1, density 5. */
+@font-face {
+  font-family: 'Martian Grotesk';
+  src: url('/fonts/MartianGroteskSemiExpanded-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  --vp-c-bg: #f7f6f3;
+  --vp-c-bg-alt: #f1eee9;
+  --vp-c-bg-elv: #fff;
+  --vp-c-bg-soft: #f1eee9;
+  --vp-c-text-1: #0e0e10;
+  --vp-c-text-2: #69635b;
+  --vp-c-text-3: #69635b;
+  --vp-c-divider: #e0dbd3;
+  --vp-c-brand-1: #007e4f;
+  --vp-c-brand-2: #006a43;
+  --vp-c-brand-3: #007e4f;
+  --vp-c-brand-soft: rgba(0,126,79,.09);
+  --vp-font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --vp-sidebar-width: 292px;
+}
+.dark {
+  --vp-c-bg: #0e0e10;
+  --vp-c-bg-alt: #17171a;
+  --vp-c-bg-elv: #1c1c1f;
+  --vp-c-bg-soft: #1c1c1f;
+  --vp-c-text-1: #ededeb;
+  --vp-c-text-2: #a49d94;
+  --vp-c-text-3: #a49d94;
+  --vp-c-divider: #2c2c30;
+  --vp-c-brand-1: #4ef2aa;
+  --vp-c-brand-2: #7bf5be;
+  --vp-c-brand-3: #007e4f;
+  --vp-c-brand-soft: rgba(78,242,170,.1);
+}
+.VPNavBarTitle .logo { height: 25px; width: auto; }
+.VPSidebar .VPSidebarItem.level-0.has-active > .item > .text,
+.VPSidebar .VPSidebarItem.level-1.has-active > .item > .link > .text,
+.VPSidebar .VPSidebarItem.level-2.has-active > .item > .link > .text { color: var(--vp-c-brand-1); }
+.vp-doc h1 { font-family: 'Martian Grotesk', var(--vp-font-family-base); font-size: 30px; line-height: 1.35; }
+.vp-doc h2 { margin-top: 40px; }
+.vp-doc a { text-underline-offset: 3px; }
+.vp-doc div[class*='language-'], .vp-doc .custom-block { border-radius: 4px; }
+.vp-doc th { white-space: normal; }
+.vp-doc td { min-width: 90px; }
+.docs-home { max-width: 1120px; margin: 0 auto; padding: 72px 32px 88px; }
+.home-intro { display: grid; grid-template-columns: minmax(0, 1fr) 176px; align-items: center; gap: 64px; padding-bottom: 64px; }
+.home-intro h1 { font: 700 clamp(32px, 4vw, 46px)/1.2 'Martian Grotesk', var(--vp-font-family-base); letter-spacing: -.035em; max-width: 780px; }
+.home-intro p { max-width: 610px; font-size: 19px; line-height: 1.65; color: var(--vp-c-text-2); margin: 24px 0 30px; }
+.home-primary { display: inline-flex; gap: 28px; align-items: center; padding: 12px 22px; background: var(--vp-c-brand-3); color: #fff; font-size: 15px; font-weight: 600; }
+.home-primary:hover { background: #006a43; }
+.home-primary:active { transform: translateY(1px); }
+.home-route { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 48px; padding: 28px 0; border-top: 1px solid var(--vp-c-divider); }
+.home-route h2 { font-size: 21px; line-height: 1.4; font-weight: 650; }
+.home-route h2 span { color: var(--vp-c-brand-1); margin-left: 8px; }
+.home-route p { color: var(--vp-c-text-2); line-height: 1.65; font-size: 16px; }
+.home-route:hover h2 { color: var(--vp-c-brand-1); }
+.home-resources { padding-top: 44px; }
+.home-resources h2 { font-size: 16px; font-weight: 650; margin-bottom: 16px; }
+.home-resources div { display: flex; flex-wrap: wrap; gap: 16px 32px; }
+.home-resources a { color: var(--vp-c-brand-1); font-size: 15px; text-decoration: underline; text-underline-offset: 4px; }
+.docs-home a:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 6px; }
+@media (max-width: 767px) {
+  .docs-home { padding: 40px 24px 56px; }
+  .home-intro { grid-template-columns: minmax(0, 1fr); gap: 0; padding-bottom: 44px; }
+  .home-mark { display: none; }
+  .home-intro h1 { font-size: 32px; }
+  .home-intro p { font-size: 17px; }
+  .home-route { grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 24px 0; }
+  .home-route h2 { font-size: 19px; }
+  .home-resources div { flex-direction: column; gap: 16px; }
+  .vp-doc h1 { font-size: 25px; }
+}

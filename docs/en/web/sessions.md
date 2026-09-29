@@ -1,0 +1,19 @@
+# Sessions and runs
+
+Use the session list to find a conversation or inspect unfinished work. Filter by activity, status, [namespace and external key](../reference/api/list-sessions.md). Sorting by latest run helps locate recently updated conversations.
+
+Session details show profile, model, sandbox state, token usage and runs. Select a run to inspect its messages, tools and hooks.
+
+## Investigate a problem
+
+1. Find the `mattermost/assistant` or `helpdesk` namespace.
+2. Open the session for the relevant thread or ticket.
+3. Select the latest run.
+4. Check its status and error phase.
+5. Inspect the unsuccessful tool or hook.
+
+Session status describes its work. A completed run does not prevent a later request from continuing the conversation.
+
+Share the detail-page link with a colleague who has web access. History is shared among admitted users. The interface reconnects after interruptions. Check its connection indicator when assessing whether updates are current.
+
+[States](../reference/states.md) · [History details](history.md)

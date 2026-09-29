@@ -1,0 +1,30 @@
+{
+  "name": "orpheus-documentation",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "vitepress dev docs --host 127.0.0.1",
+    "build": "vitepress build docs",
+    "preview": "python3 -m http.server --bind 127.0.0.1 --directory docs/.vitepress/dist",
+    "api:generate": "node scripts/generate-api.mjs",
+    "api:check": "node scripts/generate-api.mjs --check",
+    "examples:check": "node scripts/check-examples.mjs",
+    "check": "npm run api:check && npm run examples:check && npm run build && python3 scripts/check-site.py",
+    "test:browser": "playwright test",
+    "test:stack": "node scripts/smoke-stack.mjs"
+  },
+  "devDependencies": {
+    "vitepress": "1.6.4",
+    "vue": "3.5.30",
+    "yaml": "2.8.3",
+    "ajv": "8.18.0",
+    "ajv-formats": "3.0.1",
+    "@playwright/test": "1.58.2"
+  },
+  "overrides": {
+    "vite": "6.4.3"
+  }
+}

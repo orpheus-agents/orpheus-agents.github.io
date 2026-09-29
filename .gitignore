@@ -1,0 +1,11 @@
+node_modules/
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+playwright-report/
+test-results/
+.env
+examples/quickstart/orpheus.toml
+examples/quickstart/workflows/
+*.dump
+__pycache__/
+.DS_Store

@@ -1,0 +1,116 @@
+name: orpheus-quickstart
+
+x-core-image: &core-image retailcrm/orpheus:${ORPHEUS_VERSION:-0.2.5}
+x-core-env: &core-env
+  DATABASE_URL: postgres://orpheus:${POSTGRES_PASSWORD:?Run init.py first}@db:5432/orpheus
+  ORPHEUS_CONFIG_FILE: /etc/orpheus/orpheus.toml
+  ENV_ENCRYPTION_KEY: ${ENV_ENCRYPTION_KEY:?Run init.py first}
+  HARNESS_ENV_ALLOWLIST: '["MATTERMOST_BOT_TOKEN"]'
+x-core-volumes: &core-volumes
+  - ./orpheus.toml:/etc/orpheus/orpheus.toml:ro
+
+services:
+  db:
+    image: postgres:16.10
+    environment:
+      POSTGRES_DB: orpheus
+      POSTGRES_USER: orpheus
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run init.py first}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD, pg_isready, -U, orpheus, -d, orpheus]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  migrate:
+    image: *core-image
+    command: [migrate, up]
+    environment:
+      DATABASE_URL: postgres://orpheus:${POSTGRES_PASSWORD:?Run init.py first}@db:5432/orpheus
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      disable: true
+
+  api:
+    image: *core-image
+    command: [serve]
+    init: true
+    environment:
+      <<: *core-env
+      PUBLIC_API_KEYS: '["${ORPHEUS_API_KEY:?Run init.py first}"]'
+      ORPHEUS_BROWSER_AUTH: anonymous
+    volumes: *core-volumes
+    ports:
+      - 127.0.0.1:8000:8000
+      - 127.0.0.1:9100:9100
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [CMD, /orpheus, healthcheck]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  worker:
+    image: *core-image
+    command: [worker]
+    init: true
+    environment:
+      <<: *core-env
+      AGENTBOX_API_KEY: ${AGENTBOX_API_KEY:?Set AGENTBOX_API_KEY in .env}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:?Set OPENAI_API_KEY in .env}
+      MATTERMOST_BOT_TOKEN: ${MATTERMOST_BOT_TOKEN:?Set MATTERMOST_BOT_TOKEN in .env}
+    volumes: *core-volumes
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      disable: true
+    restart: unless-stopped
+
+  mattermost:
+    image: retailcrm/orpheus-mattermost:${ORPHEUS_MATTERMOST_VERSION:-0.4.2}
+    init: true
+    environment:
+      ORPHEUS_BASE_URL: http://api:8000
+      ORPHEUS_API_KEY: ${ORPHEUS_API_KEY:?Run init.py first}
+      WORKFLOWS_DIR: /etc/orpheus-mattermost/workflows
+      MATTERMOST_BOT_TOKEN: ${MATTERMOST_BOT_TOKEN:?Set MATTERMOST_BOT_TOKEN in .env}
+      AGENTBOX_API_KEY: ${AGENTBOX_API_KEY:?Set AGENTBOX_API_KEY in .env}
+    volumes:
+      - ./workflows:/etc/orpheus-mattermost/workflows:ro
+    ports:
+      - 127.0.0.1:8081:8080
+    depends_on:
+      api:
+        condition: service_healthy
+      worker:
+        condition: service_started
+    healthcheck:
+      test: [CMD, /orpheus-mattermost, healthcheck, --url, 'http://127.0.0.1:8080/readyz']
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  web:
+    image: retailcrm/orpheus-web:${ORPHEUS_WEB_VERSION:-0.2.3}
+    init: true
+    environment:
+      ORPHEUS_UPSTREAM: http://api:8000
+    ports:
+      - 127.0.0.1:8085:8080
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres-data:

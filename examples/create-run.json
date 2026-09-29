@@ -1,0 +1,8 @@
+{
+  "messages": [
+    {
+      "text": "The customer provided the error: export permission denied.",
+      "external_key": "support.example.com:event:106"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "namespace": "helpdesk",
+  "external_key": "support.example.com:ticket:4821",
+  "configuration": {
+    "agent": {
+      "profile": "default",
+      "instructions": "Help the support operator. Explain the likely cause and suggest a reply."
+    },
+    "sandbox": {
+      "template": "codex"
+    }
+  },
+  "messages": [
+    {
+      "text": "Ticket 4821: the customer cannot export a report. Ask for the error message.",
+      "external_key": "support.example.com:event:105",
+      "metadata": {
+        "ticket_id": 4821,
+        "event_id": 105
+      }
+    }
+  ]
+}

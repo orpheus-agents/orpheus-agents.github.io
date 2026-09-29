@@ -1,0 +1,252 @@
+[
+  [
+    "guide/overview",
+    "Что такое Orpheus",
+    "What is Orpheus"
+  ],
+  [
+    "guide/use-cases",
+    "Возможности и сценарии",
+    "Capabilities and use cases"
+  ],
+  [
+    "guide/adoption",
+    "Что потребуется для внедрения",
+    "Planning a deployment"
+  ],
+  [
+    "guide/concepts",
+    "Основные понятия",
+    "Core concepts"
+  ],
+  [
+    "getting-started/requirements",
+    "Подготовка окружения и доступов",
+    "Prepare your environment"
+  ],
+  [
+    "getting-started/launch",
+    "Запуск Orpheus и веб-интерфейса",
+    "Start Orpheus and the web interface"
+  ],
+  [
+    "getting-started/mattermost",
+    "Запуск бота Mattermost",
+    "Start the Mattermost bot"
+  ],
+  [
+    "getting-started/first-task",
+    "Первая задача и проверка результата",
+    "Verify your first task"
+  ],
+  [
+    "configuration/profiles",
+    "Профили и модели",
+    "Profiles and models"
+  ],
+  [
+    "configuration/authentication",
+    "Авторизация агента",
+    "Agent authentication"
+  ],
+  [
+    "configuration/instructions",
+    "Инструкции агенту",
+    "Agent instructions"
+  ],
+  [
+    "configuration/templates",
+    "Окружение и шаблоны песочниц",
+    "Sandbox environment and templates"
+  ],
+  [
+    "configuration/tools",
+    "Навыки, CLI и MCP",
+    "Skills, CLI and MCP"
+  ],
+  [
+    "configuration/secrets",
+    "Доступы и секреты",
+    "Access and secrets"
+  ],
+  [
+    "configuration/hooks",
+    "Подготовка и завершение работы",
+    "Preparation and finalization hooks"
+  ],
+  [
+    "configuration/limits",
+    "Таймауты, параллельность и токены",
+    "Timeouts, concurrency and tokens"
+  ],
+  [
+    "integrations/mattermost/connect",
+    "Подключение бота",
+    "Connect a bot"
+  ],
+  [
+    "integrations/mattermost/workflow",
+    "Общий workflow",
+    "The general workflow"
+  ],
+  [
+    "integrations/mattermost/channels",
+    "Workflows для отдельных каналов",
+    "Channel-specific workflows"
+  ],
+  [
+    "integrations/mattermost/automatic",
+    "Канал с автоматическим запуском",
+    "A channel with automatic starts"
+  ],
+  [
+    "integrations/mattermost/conversation",
+    "Диалог, контекст и уточнения",
+    "Conversation, context and clarifications"
+  ],
+  [
+    "integrations/mattermost/files",
+    "Вложения и ссылки",
+    "Attachments and links"
+  ],
+  [
+    "integrations/mattermost/reload",
+    "Применение настроек",
+    "Apply configuration changes"
+  ],
+  [
+    "integrations/custom/overview",
+    "Подключение своей системы",
+    "Connect your own system"
+  ],
+  [
+    "integrations/custom/first-session",
+    "Первая сессия через API",
+    "Your first API session"
+  ],
+  [
+    "integrations/custom/context",
+    "Контекст, файлы и доступы",
+    "Context, files and access"
+  ],
+  [
+    "integrations/custom/continuation",
+    "Продолжение задачи и уточнения",
+    "Continue work and send clarifications"
+  ],
+  [
+    "integrations/custom/results",
+    "Получение результата и событий",
+    "Read results and events"
+  ],
+  [
+    "integrations/custom/reliability",
+    "Повторы и восстановление",
+    "Retries and recovery"
+  ],
+  [
+    "integrations/custom/helpdesk",
+    "Пример: обработка тикетов",
+    "Example: helpdesk tickets"
+  ],
+  [
+    "integrations/custom/helpdesk-direct",
+    "Агент публикует комментарий",
+    "Let the agent publish a comment"
+  ],
+  [
+    "integrations/custom/helpdesk-hook",
+    "Markdown-файл и after_run",
+    "A Markdown file and after_run"
+  ],
+  [
+    "web/overview",
+    "Обзор активности",
+    "Activity overview"
+  ],
+  [
+    "web/sessions",
+    "Сессии и запуски",
+    "Sessions and runs"
+  ],
+  [
+    "web/history",
+    "Сообщения, инструменты и хуки",
+    "Messages, tools and hooks"
+  ],
+  [
+    "web/limits",
+    "Токены и лимиты аккаунтов",
+    "Tokens and account limits"
+  ],
+  [
+    "operations/deployment",
+    "Развёртывание на сервере",
+    "Deploy on a server"
+  ],
+  [
+    "operations/network",
+    "Домен, HTTPS и доступ к API",
+    "Domain, HTTPS and API access"
+  ],
+  [
+    "operations/sso",
+    "Вход через SSO",
+    "Sign in with SSO"
+  ],
+  [
+    "operations/backup",
+    "Данные и резервное копирование",
+    "Data and backups"
+  ],
+  [
+    "operations/maintenance",
+    "Управление сервисами и обновление",
+    "Service management and updates"
+  ],
+  [
+    "operations/scaling",
+    "Производительность и параллельность",
+    "Performance and concurrency"
+  ],
+  [
+    "operations/monitoring",
+    "Логи и проверка готовности",
+    "Logs and readiness"
+  ],
+  [
+    "operations/troubleshooting",
+    "Диагностика проблем",
+    "Troubleshooting"
+  ],
+  [
+    "reference/environment",
+    "Конфигурация Orpheus",
+    "Orpheus configuration"
+  ],
+  [
+    "reference/profiles",
+    "Справочник профилей",
+    "Profile reference"
+  ],
+  [
+    "reference/mattermost",
+    "Конфигурация Mattermost",
+    "Mattermost configuration"
+  ],
+  [
+    "reference/hooks",
+    "Хуки и переменные окружения",
+    "Hooks and environment variables"
+  ],
+  [
+    "reference/states",
+    "Состояния сессий и запусков",
+    "Session and run states"
+  ],
+  [
+    "reference/api/conventions",
+    "Правила HTTP API",
+    "HTTP API conventions"
+  ]
+]
