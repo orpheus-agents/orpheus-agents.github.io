@@ -92,6 +92,7 @@ export default defineConfig({
     ru: { label: 'Русский', lang: 'ru', link: '/ru/', description: 'Платформа AI-агентов компании. Развёртывание, настройка и интеграции Orpheus.', themeConfig: theme('ru') },
   },
   themeConfig: {
+    nav: theme('en').nav,
     logo: { alt: 'Orpheus', light: { src: '/brand/orpheus-logo-light.svg', width: 160, height: 25 }, dark: { src: '/brand/orpheus-logo.svg', width: 160, height: 25 } },
     siteTitle: false,
     socialLinks: [{ icon: 'github', link: 'https://github.com/orpheus-agents' }],

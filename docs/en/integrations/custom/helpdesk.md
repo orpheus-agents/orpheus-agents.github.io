@@ -13,6 +13,6 @@ The helpdesk is hypothetical. Paths such as `/tickets/{id}/comments`, fields `bo
 
 In both cases, a thin connector receives the event, gathers context and creates a session. It does not need to forward the final answer if the agent or hook already published it.
 
-Choose [direct API publication](helpdesk-direct.md) or [Markdown with after_run](helpdesk-hook.md). When the customer writes again, [continue the session](continuation.md) with new context.
+Choose [direct API publication](helpdesk-direct.md) or [Markdown with after_run](helpdesk-hook.md). For a new customer message, you can create a new session with the current ticket context. To keep the conversation in one session, set [`allow_multiple_runs: true`](../../reference/api/create-session.md) at creation and [continue it](continuation.md) with new context.
 
 Add customer-facing messages or status changes as explicit process rules. This example prepares output for the operator.

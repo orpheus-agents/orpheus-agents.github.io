@@ -18,6 +18,6 @@ Helpdesk ← agent API call or after_run ← result
 
 The API accepts arrays of text messages. Prepare files in the sandbox separately. The source of a task and its destination can be different systems.
 
-Start by creating a session for a new event and inspecting the result in the web interface. Then add [continuation](continuation.md), [result delivery](results.md) and [retry handling](reliability.md).
+A separate session for each event is enough for a simple connector. For a chat connector, choose [`allow_multiple_runs: true`](../../reference/api/create-session.md) to [continue the conversation](continuation.md) in one session. Set up [result delivery](results.md) and [retry handling](reliability.md).
 
 Examples use Python's standard library. They demonstrate individual operations rather than a complete webhook server. A [Go client](https://github.com/orpheus-agents/orpheus/tree/main/client) is also available.

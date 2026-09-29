@@ -4,6 +4,8 @@
 
 <<< @/../examples/create-session.json
 
+Здесь используется режим по умолчанию: [`allow_multiple_runs: false`](../../reference/api/create-session.md). Для простого коннектора достаточно новой сессии на каждую задачу. Для диалога с продолжением задайте `true` при создании сессии. Режим существующей сессии изменить нельзя.
+
 Сохраните этот JSON как `request.json`. Задайте в окружении [`ORPHEUS_API_KEY`](../../reference/environment.md#env-public-api-keys) из конфигурации сервера и отправьте запрос:
 
 ```sh

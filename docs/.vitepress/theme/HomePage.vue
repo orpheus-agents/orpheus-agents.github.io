@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useData } from 'vitepress'
+defineProps<{ languageChoice?: boolean }>()
 const { lang } = useData()
 const ru = computed(() => lang.value === 'ru')
 const prefix = computed(() => ru.value ? '/ru' : '/en')
@@ -21,7 +22,11 @@ const routes = computed(() => ru.value ? [
       <div>
         <h1>{{ ru ? 'Платформа AI-агентов компании' : 'AI agents for your company' }}</h1>
         <p>{{ ru ? 'Соедините данные и инструменты компании. Помогайте сотрудникам и автоматизируйте рабочие процессы.' : 'Connect company data and tools. Help your colleagues and automate business processes.' }}</p>
-        <a class="home-primary" :href="`${prefix}/getting-started/requirements.html`">{{ ru ? 'Начать работу' : 'Get started' }} <span aria-hidden="true">→</span></a>
+        <nav v-if="languageChoice" class="home-actions" aria-label="Documentation language">
+          <a class="home-primary" href="/en/" lang="en" hreflang="en">Read in English <span aria-hidden="true">→</span></a>
+          <a class="home-secondary" href="/ru/" lang="ru" hreflang="ru">Читать на русском <span aria-hidden="true">→</span></a>
+        </nav>
+        <a v-else class="home-primary" :href="`${prefix}/getting-started/requirements.html`">{{ ru ? 'Начать работу' : 'Get started' }} <span aria-hidden="true">→</span></a>
       </div>
       <img class="home-mark" src="/brand/orpheus-mark.svg" alt="" width="176" height="176">
     </section>

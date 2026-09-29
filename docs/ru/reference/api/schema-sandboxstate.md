@@ -7,9 +7,9 @@
 | Поле | Обязательное | Тип | Описание и ограничения |
 | --- | --- | --- | --- |
 | `error` | Да | [Error](schema-error.md) / null |   |
-| `id` | Да | string / null | ID песочницы AgentBox, если известен. Сохранённый ID не гарантирует доступность песочницы.  |
+| `id` | Да | string / null | ID песочницы AgentBox, если известен. Сохраняется для диагностики после удаления или потери песочницы и не гарантирует её доступность.  |
 | `last_known_state` | Да | string / null |   |
-| `state` | Да | string |  enum: <code>["not_created","provisioning","ready","pausing","paused","resuming","unavailable"]</code> |
+| `state` | Да | string |  enum: <code>["not_created","provisioning","ready","pausing","paused","resuming","deleting","deleted","unavailable"]</code> |
 | `workspace` | Да | string / null | Абсолютный путь рабочего каталога, определённый при подготовке песочницы, если известен.  |
 
 ## JSON Schema
@@ -36,7 +36,7 @@
           "type": "null"
         }
       ],
-      "description": "AgentBox sandbox ID, if known. A retained ID does not guarantee that an unavailable sandbox is accessible."
+      "description": "AgentBox sandbox ID, if known. Retained for diagnostics after deletion or loss; does not guarantee accessibility."
     },
     "last_known_state": {
       "anyOf": [
@@ -57,6 +57,8 @@
         "pausing",
         "paused",
         "resuming",
+        "deleting",
+        "deleted",
         "unavailable"
       ],
       "title": "State",

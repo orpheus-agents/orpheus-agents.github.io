@@ -13,6 +13,6 @@
 | Hook | Preparation or finalization script | Publish a reply file |
 | Namespace | Integration or process label | `helpdesk` |
 
-A session runs one assignment at a time. Send clarifications while the agent works. After completion, start another run with the saved context. Configuration is captured when a session is created. Editing a profile does not reconfigure an existing conversation.
+A session allows one run by default. For conversations, set [`allow_multiple_runs: true`](../reference/api/create-session.md) at creation so subsequent runs retain context. Runs execute sequentially, and clarifications during execution work in either mode. Configuration is captured when a session is created. Editing a profile does not reconfigure an existing conversation.
 
 [Lifecycle and states](../reference/states.md) · [Continue a task](../integrations/custom/continuation.md)

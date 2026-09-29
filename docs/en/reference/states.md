@@ -17,4 +17,4 @@ Sandbox state is separate: `not_created`, `provisioning`, `ready`, `pausing`, `p
 
 Errors contain [`code`](api/schema-error.md), [`message`](api/schema-error.md), [`phase`](api/get-run.md) and [`details`](api/schema-error.md). Error phases are `preparation`, `execution`, `finalization` and `recovery`. Execution [`phase`](api/get-run.md) can identify [`after_create`](../configuration/hooks.md#hook-after-create), [`before_run`](../configuration/hooks.md#hook-before-run), `agent` or [`after_run`](../configuration/hooks.md#hook-after-run).
 
-A completed session can accept another run when context and budget remain available. If context is lost, create a new session with the necessary history from your system.
+With [`allow_multiple_runs: false`](api/create-session.md), the sandbox is deleted after its only run completes, fails or is cancelled. Session history remains available. With `true`, the sandbox is paused, and the session can accept another run when context and budget remain available. If context is lost, create a new session with the necessary history from your system.

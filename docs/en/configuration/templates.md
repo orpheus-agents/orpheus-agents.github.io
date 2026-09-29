@@ -14,6 +14,6 @@ Mattermost requires Linux and Python 3.9 or newer. The connector installs its at
 
 Updating an image does not change existing sandboxes. After updating a Mattermost template, increment the workflow [`revision`](../reference/mattermost.md#workflow-revision). In a [custom integration](../integrations/custom/overview.md), create a new session with the desired template.
 
-Files and context survive sandbox pauses between session runs. Keep published results in the destination system so they remain available independently of the sandbox.
+With [`allow_multiple_runs: true`](../reference/api/create-session.md), files and context survive sandbox pauses between runs. In the default mode, the sandbox is deleted after its only run. Keep published results in the destination system.
 
 [Template names](https://docs.agentbox.ru/en/templates/names/) · [Tags and versions](https://docs.agentbox.ru/en/templates/tags/)

@@ -6,6 +6,7 @@
 
 | Field | Required | Type | Description and constraints |
 | --- | --- | --- | --- |
+| `allow_multiple_runs` | Yes | boolean | Immutable policy allowing subsequent runs. False means the sandbox is deleted after the first run terminates; session history remains available.  |
 | `last_run_created_at` | Yes | string | Creation time of the latest run, not the last activity time. format: <code>"date-time"</code> |
 | `usage` | Yes | [Usage](schema-usage.md) |   |
 | `phase` | Yes | string / null |   |
@@ -26,6 +27,10 @@
 ```json
 {
   "properties": {
+    "allow_multiple_runs": {
+      "description": "Immutable policy allowing subsequent runs. False means the sandbox is deleted after the first run terminates; session history remains available.",
+      "type": "boolean"
+    },
     "last_run_created_at": {
       "description": "Creation time of the latest run, not the last activity time.",
       "format": "date-time",
@@ -131,6 +136,7 @@
     }
   },
   "required": [
+    "allow_multiple_runs",
     "usage",
     "phase",
     "namespace",

@@ -17,4 +17,4 @@
 
 Ошибки содержат [`code`](api/schema-error.md), [`message`](api/schema-error.md), [`phase`](api/get-run.md), [`details`](api/schema-error.md). Фазы ошибки: `preparation`, `execution`, `finalization`, `recovery`. Поле [`phase`](api/get-run.md) выполнения может указывать на [`after_create`](../configuration/hooks.md#hook-after-create), [`before_run`](../configuration/hooks.md#hook-before-run), `agent` или [`after_run`](../configuration/hooks.md#hook-after-run).
 
-Завершённая сессия может принять новый запуск при доступном окружении и бюджете. При потере контекста создайте новую сессию, передав необходимую историю из своей системы.
+При [`allow_multiple_runs: false`](api/create-session.md) песочница удаляется после завершения, ошибки или отмены единственного запуска. История сессии остаётся доступной. При `true` песочница ставится на паузу, и сессия может принять следующий запуск при доступном окружении и бюджете. При потере контекста создайте новую сессию с необходимой историей из своей системы.

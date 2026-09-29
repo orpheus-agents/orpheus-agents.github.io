@@ -49,7 +49,7 @@ Update both languages together. Use links to AgentBox for its own procedures. Ke
 Read the contract from an explicit core release. Do not copy uncommitted work from neighboring repositories. Review the contract, image versions and examples together.
 
 ```sh
-node scripts/sync-api.mjs ../orpheus v0.2.5
+node scripts/sync-api.mjs ../orpheus v0.3.0
 npm run api:generate
 npm run check
 ```
