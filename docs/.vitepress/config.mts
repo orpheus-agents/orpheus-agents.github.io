@@ -100,6 +100,6 @@ export default defineConfig({
       button: { buttonText: 'Поиск', buttonAriaLabel: 'Поиск по документации' },
       modal: { displayDetails: 'Подробности', resetButtonTitle: 'Очистить', backButtonTitle: 'Закрыть', noResultsText: 'Ничего не найдено', footer: { selectText: 'выбрать', navigateText: 'перейти', closeText: 'закрыть' } },
     } } } } },
-    footer: { message: 'MIT License', copyright: 'Orpheus' },
+    footer: { copyright: 'Orpheus' },
   },
 })

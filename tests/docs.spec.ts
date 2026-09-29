@@ -98,6 +98,7 @@ for (const lang of ['ru', 'en']) {
     await expect(start.getByRole('link', { name: ru ? 'Документация' : 'Documentation' })).toHaveAttribute('href', `/${lang}/guide/overview.html`)
     const help = start.getByRole('link', { name: ru ? 'Помочь с внедрением' : 'Get help with deployment' })
     await expect(help).toHaveAttribute('href', /^https:\/\/t\.me\/orymatom\?text=/)
+    await expect(page.locator('.home-footer p')).toHaveText('Orpheus')
     const story = page.locator('#case')
     await expect(story.locator('.case-metrics b')).toHaveText(['−37%', '−27%', '−41%'])
     await expect(story.locator('.case-week')).toHaveCount(25)

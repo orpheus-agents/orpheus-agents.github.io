@@ -35,7 +35,7 @@ const help = computed(() => `https://t.me/orymatom?text=${encodeURIComponent(cop
   </section>
   <footer class="home-footer">
     <div class="home-wrap">
-      <p><img class="home-logo-own" src="/brand/orpheus-mark.svg" alt="" width="22" height="24"> Orpheus <span>{{ copy.finish.license }}</span></p>
+      <p><img src="/brand/orpheus-mark.svg" alt="" width="22" height="24"> Orpheus</p>
       <nav :aria-label="copy.finish.more">
         <a :href="link('/guide/overview')">{{ copy.finish.docs }}</a>
         <a :href="`${prefix}/reference/api/`">HTTP API</a>
@@ -63,7 +63,6 @@ const help = computed(() => `https://t.me/orymatom?text=${encodeURIComponent(cop
 .home-footer { border-top: 1px solid var(--line); }
 .home-footer .home-wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px; padding-top: 28px; padding-bottom: 28px; }
 .home-footer p { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; }
-.home-footer p span { margin-left: 6px; font-weight: 400; color: var(--muted); }
 .home-footer nav { display: flex; flex-wrap: wrap; gap: 8px 28px; }
 .home-footer a { font-size: 14px; color: var(--muted); transition: color .18s ease; }
 .home-footer a:hover { color: var(--ink); }
