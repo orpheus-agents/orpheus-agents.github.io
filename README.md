@@ -1,3 +1,12 @@
+<p align="center">
+  <a href="https://orpheus-agents.github.io/">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset=".github/orpheus-logo.svg">
+      <img src=".github/orpheus-logo-light.svg" alt="Orpheus" width="240">
+    </picture>
+  </a>
+</p>
+
 # Orpheus documentation
 
 Bilingual documentation for the company AI agent platform, built with VitePress. It covers evaluation, deployment, agent configuration, Mattermost, custom integrations, web inspection and operations. The helpdesk guide demonstrates direct agent publication and Markdown delivery through `after_run`.
