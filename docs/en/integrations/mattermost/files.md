@@ -14,11 +14,11 @@ Files are attached to the run's last answer.
 
 | Limit | Default |
 | --- | --- |
-| Files per post | 5 |
+| Files per post (1 to 100) | 5 |
 | Ordinary input file | 10 MiB |
 | Input image | 20 MiB |
 | Input batch | 100 MiB |
-| Output files | 5 |
+| Output files (1 to 100 subject to the Mattermost server limit) | 5 |
 | Each output file | 30 MiB |
 
 Configure these in the workflow's [`files`](../../reference/mattermost.md#workflow-files-max-per-post) mapping. The input batch limit cannot exceed 100 MiB.

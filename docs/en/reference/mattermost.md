@@ -43,11 +43,11 @@
 | <span id="workflow-max-session-tokens"></span>`max_session_tokens` | `100000000` | Session token budget |
 | <span id="workflow-max-post-chars"></span>`max_post_chars` | `12000` | Post character limit, also capped by the server |
 | <span id="workflow-initial-context-token-budget"></span>`initial_context_token_budget` | `100000` | Approximate initial context budget |
-| <span id="workflow-files-max-per-post"></span>`files.max_per_post` | `5` | Input files per post |
+| <span id="workflow-files-max-per-post"></span>`files.max_per_post` | `5` | Input files per post, 1 to 100 |
 | <span id="workflow-files-max-file-bytes"></span>`files.max_file_bytes` | `10485760` | Ordinary input file bytes |
 | <span id="workflow-files-max-image-bytes"></span>`files.max_image_bytes` | `20971520` | Input image bytes |
 | <span id="workflow-files-max-batch-bytes"></span>`files.max_batch_bytes` | `104857600` | Input batch bytes, maximum 100 MiB |
-| <span id="workflow-files-max-output-files"></span>`files.max_output_files` | `5` | Output file count |
+| <span id="workflow-files-max-output-files"></span>`files.max_output_files` | `5` | Output file count, 1 to 100 subject to the Mattermost server limit |
 | <span id="workflow-files-max-output-bytes"></span>`files.max_output_bytes` | `31457280` | Bytes per output file |
 | <span id="workflow-link-expansion-enabled"></span>`link_expansion.enabled` | `true` | Expand same-server Mattermost links |
 | <span id="workflow-link-expansion-max-links"></span>`link_expansion.max_links` | `5` | Expanded link count |

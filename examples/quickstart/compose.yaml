@@ -76,7 +76,7 @@ services:
     restart: unless-stopped
 
   mattermost:
-    image: retailcrm/orpheus-mattermost:${ORPHEUS_MATTERMOST_VERSION:-0.4.3}
+    image: retailcrm/orpheus-mattermost:${ORPHEUS_MATTERMOST_VERSION:-0.4.4}
     init: true
     environment:
       ORPHEUS_BASE_URL: http://api:8000

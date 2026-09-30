@@ -43,11 +43,11 @@
 | <span id="workflow-max-session-tokens"></span>`max_session_tokens` | `100000000` | Бюджет токенов сессии |
 | <span id="workflow-max-post-chars"></span>`max_post_chars` | `12000` | Символов в сообщении с учётом лимита сервера |
 | <span id="workflow-initial-context-token-budget"></span>`initial_context_token_budget` | `100000` | Приблизительный бюджет начального контекста |
-| <span id="workflow-files-max-per-post"></span>`files.max_per_post` | `5` | Файлов на входное сообщение |
+| <span id="workflow-files-max-per-post"></span>`files.max_per_post` | `5` | Файлов на входное сообщение, от 1 до 100 |
 | <span id="workflow-files-max-file-bytes"></span>`files.max_file_bytes` | `10485760` | Байт в обычном входном файле |
 | <span id="workflow-files-max-image-bytes"></span>`files.max_image_bytes` | `20971520` | Байт во входном изображении |
 | <span id="workflow-files-max-batch-bytes"></span>`files.max_batch_bytes` | `104857600` | Байт во входном пакете, максимум 100 MiB |
-| <span id="workflow-files-max-output-files"></span>`files.max_output_files` | `5` | Число файлов результата |
+| <span id="workflow-files-max-output-files"></span>`files.max_output_files` | `5` | Число файлов результата, от 1 до 100 с учётом лимита сервера Mattermost |
 | <span id="workflow-files-max-output-bytes"></span>`files.max_output_bytes` | `31457280` | Байт в одном выходном файле |
 | <span id="workflow-link-expansion-enabled"></span>`link_expansion.enabled` | `true` | Раскрывать ссылки на этот Mattermost |
 | <span id="workflow-link-expansion-max-links"></span>`link_expansion.max_links` | `5` | Число раскрываемых ссылок |
