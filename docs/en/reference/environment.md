@@ -23,7 +23,7 @@ Process settings are supplied through ENV. The application does not load [`.env`
 | <span id="env-worker-poll-seconds"></span>`WORKER_POLL_SECONDS` | `1` | Worker polling interval, seconds |
 | <span id="env-rpc-timeout-seconds"></span>`RPC_TIMEOUT_SECONDS` | `30` | Individual agent RPC timeout, seconds |
 | <span id="env-orpheus-host"></span><span id="env-orpheus-port"></span>`ORPHEUS_HOST / ORPHEUS_PORT` | `0.0.0.0 / 8000` | API listener |
-| <span id="env-orpheus-system-host"></span><span id="env-orpheus-system-port"></span>`ORPHEUS_SYSTEM_HOST / ORPHEUS_SYSTEM_PORT` | `0.0.0.0 / 9100` | System health listener |
+| <span id="env-orpheus-system-host"></span><span id="env-orpheus-system-port"></span>`ORPHEUS_SYSTEM_HOST / ORPHEUS_SYSTEM_PORT` | `0.0.0.0 / 9100` | Process probes and [service metrics](../operations/monitoring.md#service-metrics). Keep access within a trusted network |
 | <span id="env-orpheus-browser-auth"></span>`ORPHEUS_BROWSER_AUTH` | `api_only` | api_only, anonymous or saml |
 | <span id="env-orpheus-public-url"></span>`ORPHEUS_PUBLIC_URL` | `unset` | External origin. HTTPS required for SAML |
 | <span id="env-saml-sp-entity-id"></span>`SAML_SP_ENTITY_ID` | `unset` | SP entity ID |

@@ -1,6 +1,6 @@
 name: orpheus-quickstart
 
-x-core-image: &core-image retailcrm/orpheus:${ORPHEUS_VERSION:-0.3.0}
+x-core-image: &core-image retailcrm/orpheus:${ORPHEUS_VERSION:-0.4.0}
 x-core-env: &core-env
   DATABASE_URL: postgres://orpheus:${POSTGRES_PASSWORD:?Run init.py first}@db:5432/orpheus
   ORPHEUS_CONFIG_FILE: /etc/orpheus/orpheus.toml

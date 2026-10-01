@@ -23,7 +23,7 @@
 | <span id="env-worker-poll-seconds"></span>`WORKER_POLL_SECONDS` | `1` | Интервал опроса worker |
 | <span id="env-rpc-timeout-seconds"></span>`RPC_TIMEOUT_SECONDS` | `30` | Таймаут отдельного RPC агента |
 | <span id="env-orpheus-host"></span><span id="env-orpheus-port"></span>`ORPHEUS_HOST / ORPHEUS_PORT` | `0.0.0.0 / 8000` | Адрес API |
-| <span id="env-orpheus-system-host"></span><span id="env-orpheus-system-port"></span>`ORPHEUS_SYSTEM_HOST / ORPHEUS_SYSTEM_PORT` | `0.0.0.0 / 9100` | Системные проверки процесса |
+| <span id="env-orpheus-system-host"></span><span id="env-orpheus-system-port"></span>`ORPHEUS_SYSTEM_HOST / ORPHEUS_SYSTEM_PORT` | `0.0.0.0 / 9100` | Проверки процесса и [сервисные метрики](../operations/monitoring.md#service-metrics). Доступ только из доверенной сети |
 | <span id="env-orpheus-browser-auth"></span>`ORPHEUS_BROWSER_AUTH` | `api_only` | api_only, anonymous или saml |
 | <span id="env-orpheus-public-url"></span>`ORPHEUS_PUBLIC_URL` | `unset` | Внешний origin. HTTPS обязателен для SAML |
 | <span id="env-saml-sp-entity-id"></span>`SAML_SP_ENTITY_ID` | `unset` | Идентификатор SP |

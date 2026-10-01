@@ -33,7 +33,13 @@ try {
     if (!response.ok) throw Error(`${service}${path}: HTTP ${response.status}`)
     if (path.endsWith('sessions') && (await response.json()).items.length !== 0) throw Error('Smoke database must be empty')
   }
-  console.log('Published images passed migrations, API readiness, web proxy and offline workflow validation.')
+  const systemAddress = await compose(['port','api','9100'], true)
+  const metrics = await fetch(`http://${systemAddress}/metrics/service`)
+  if (!metrics.ok || !metrics.headers.get('content-type')?.startsWith('text/plain') || (await metrics.text()).trim() !== '') throw Error('API-key-only metrics must return successful empty Prometheus text')
+  const publicAddress = await compose(['port','api','8000'], true)
+  const publicMetrics = await fetch(`http://${publicAddress}/metrics/service`, { headers: { Authorization: 'Bearer fixture' } })
+  if (publicMetrics.status !== 404) throw Error('Public API must not expose service metrics')
+  console.log('Published images passed migrations, API readiness, service metrics isolation, web proxy and offline workflow validation.')
 } finally {
   await compose(['down','-v','--remove-orphans'])
   rmSync(temp, { recursive: true, force: true })

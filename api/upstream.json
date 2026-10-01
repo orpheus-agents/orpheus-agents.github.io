@@ -1,8 +1,8 @@
 {
   "orpheus": {
     "repository": "https://github.com/orpheus-agents/orpheus",
-    "tag": "v0.3.0",
-    "commit": "a85b3a7d5e6ca5b514155de1a5b956d069930fa1"
+    "tag": "v0.4.0",
+    "commit": "a0b4b7c2b222f137e3ce15e7dcb2f507e048f645"
   },
   "orpheus-mattermost": {
     "repository": "https://github.com/orpheus-agents/orpheus-mattermost",
@@ -14,5 +14,5 @@
     "tag": "v0.2.3",
     "commit": "4fc46d746fae88d8f2d160f78494ef5065f2762b"
   },
-  "openapi_sha256": "ec775bb8287869eec849380b8807865401e143403850afa7cb5e557292cb127d"
+  "openapi_sha256": "66f8f7a618109ce975a03bfb080e38de802c141d5c5e4d13cbf29b0dfa671344"
 }

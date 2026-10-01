@@ -13,6 +13,7 @@
 | `last_attempt_at` | Yes | string / null |  format: <code>"date-time"</code> |
 | `error_code` | Yes | string / null |   |
 | `buckets` | Yes | array&lt;[AccountLimitBucket](schema-accountlimitbucket.md)&gt; |   |
+| `reset_credits_available` | Yes | integer / null | Available earned rate-limit resets for the account; null when unknown. Uses the same observation time and freshness state as the quota windows.  |
 
 ## JSON Schema
 
@@ -27,7 +28,8 @@
     "observed_at",
     "last_attempt_at",
     "error_code",
-    "buckets"
+    "buckets",
+    "reset_credits_available"
   ],
   "properties": {
     "account_id": {
@@ -91,6 +93,19 @@
       "items": {
         "$ref": "#/components/schemas/AccountLimitBucket"
       }
+    },
+    "reset_credits_available": {
+      "description": "Available earned rate-limit resets for the account; null when unknown. Uses the same observation time and freshness state as the quota windows.",
+      "anyOf": [
+        {
+          "type": "integer",
+          "format": "int64",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   }
 }
