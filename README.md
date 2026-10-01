@@ -126,7 +126,7 @@ Every system in `systems.ts` carries a label with the ready way to connect. Chec
 Read the contract from an explicit core release. Do not copy uncommitted work from neighboring repositories. Review the contract, image versions and examples together.
 
 ```sh
-node scripts/sync-api.mjs ../orpheus v0.3.0
+node scripts/sync-api.mjs ../orpheus v0.4.0
 npm run api:generate
 npm run check
 ```
