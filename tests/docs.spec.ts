@@ -1,9 +1,15 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
+
+async function openPage(page: Page, path: string) {
+  await page.goto(path)
+  // Vue sets this after hydration. Visible SSR controls may have no listeners yet.
+  await page.waitForFunction(() => '__vue_app__' in (document.querySelector('#app') ?? {}))
+}
 
 test('root home introduces the platform and opens either language', async ({ page }, testInfo) => {
   const errors: string[] = []
   page.on('pageerror', error => errors.push(error.message))
-  await page.goto('/')
+  await openPage(page, '/')
   const home = page.locator('.docs-home')
   await expect(home.locator('h1')).toHaveText('AI agents for your company')
   await expect(home.locator('h1')).toHaveCSS('font-weight', '800')
@@ -19,7 +25,7 @@ test('root home introduces the platform and opens either language', async ({ pag
   await home.getByRole('link', { name: 'Читать на русском' }).click()
   await expect(page).toHaveURL(/\/ru\/$/)
   await expect(page.locator('h1')).toHaveText('Платформа AI-агентов компании')
-  await page.goto('/')
+  await openPage(page, '/')
   await home.locator('.home-hero').getByRole('link', { name: 'Get started' }).click()
   await expect(page).toHaveURL(/\/en\/getting-started\/requirements.html$/)
   expect(errors).toEqual([])
@@ -30,7 +36,7 @@ for (const lang of ['ru', 'en']) {
   test(`${lang}: home, reading and theme`, async ({ page }, testInfo) => {
     const errors: string[] = []
     page.on('pageerror', e => errors.push(e.message))
-    await page.goto(`/${lang}/`)
+    await openPage(page, `/${lang}/`)
     await expect(page.locator('.VPNavBarTitle a')).toHaveAccessibleName('Orpheus')
     await expect(page.locator('h1')).toHaveText(ru ? 'Платформа AI-агентов компании' : 'AI agents for your company')
     await page.emulateMedia({ colorScheme: 'light' })
@@ -48,7 +54,7 @@ for (const lang of ['ru', 'en']) {
     const errors: string[] = []
     page.on('pageerror', e => errors.push(e.message))
     await page.emulateMedia({ reducedMotion: 'reduce' })
-    await page.goto(`/${lang}/`)
+    await openPage(page, `/${lang}/`)
     const flow = page.locator('#flow')
     // Without motion the score shows the finished task.
     await expect(flow.locator('.score-beat')).toHaveCount(10)
@@ -69,7 +75,7 @@ for (const lang of ['ru', 'en']) {
   test(`${lang}: home explains systems, the interface and deployment`, async ({ page }) => {
     const errors: string[] = []
     page.on('pageerror', e => errors.push(e.message))
-    await page.goto(`/${lang}/`)
+    await openPage(page, `/${lang}/`)
     const systems = page.locator('#systems')
     await expect(systems.locator('.systems-group')).toHaveCount(4)
     await expect(systems.locator('.systems-group li.connector')).toContainText('Mattermost')
@@ -114,7 +120,7 @@ for (const lang of ['ru', 'en']) {
     expect(errors).toEqual([])
   })
   test(`${lang}: local search`, async ({ page }) => {
-    await page.goto(`/${lang}/`)
+    await openPage(page, `/${lang}/`)
     await page.locator('.VPNavBarSearch button').click()
     const search = page.locator('input[type="search"]')
     await search.fill('after_run')
@@ -123,7 +129,7 @@ for (const lang of ['ru', 'en']) {
     await expect(search).not.toBeVisible()
   })
   test(`${lang}: API navigation and schema`, async ({ page }) => {
-    await page.goto(`/${lang}/reference/api/`)
+    await openPage(page, `/${lang}/reference/api/`)
     await page.locator('.vp-doc a[href$="create-session.html"]').click()
     await expect(page.locator('h1')).toHaveText(lang === 'ru' ? 'Создание сессии' : 'Create Session')
     await page.locator('.vp-doc a[href$="schema-createsession.html"]').first().click()
@@ -138,6 +144,9 @@ for (const lang of ['ru', 'en']) {
       ['reference/api/get-account-limits', 'API'],
       ['reference/api/schema-accountlimits', 'API'],
       ['reference/api/conventions', 'API'],
+      ['reference/space-api/list-schedules', 'API'],
+      ['reference/space-api/schema-schedule', 'API'],
+      ['reference/space-api/conventions', 'API'],
       ['integrations/mattermost/workflow', lang === 'ru' ? 'Интеграции' : 'Integrations'],
       ['integrations/custom/helpdesk', lang === 'ru' ? 'Интеграции' : 'Integrations'],
       ['getting-started/launch', lang === 'ru' ? 'Быстрый старт' : 'Quick start'],
@@ -145,9 +154,12 @@ for (const lang of ['ru', 'en']) {
       ['reference/profiles', guide],
       ['operations/backup', guide],
       ['web/limits', guide],
+      ['space/overview', guide],
+      ['space/setup', guide],
+      ['reference/space', guide],
     ]
     for (const [path, section] of routes) {
-      await page.goto(`/${lang}/${path}.html`)
+      await openPage(page, `/${lang}/${path}.html`)
       if (mobile) await page.locator('.VPNavBarHamburger').click()
       const nav = page.locator(mobile ? '.VPNavScreenMenuLink.active' : '.VPNavBarMenuLink.active')
       await expect(nav).toHaveCount(1)
@@ -172,7 +184,7 @@ for (const lang of ['ru', 'en']) {
       })
       await expect(link.locator('.text')).toHaveCSS('color', color)
       await expect(group.locator(':scope > .item > .text')).toHaveCSS('color', color)
-      if (path.startsWith('reference/api/') && !path.endsWith('conventions')) {
+      if (/^reference\/(api|space-api)\//.test(path) && !path.endsWith('conventions')) {
         const apiGroup = page.locator('.VPSidebarItem.level-1').filter({ has: pageLink })
         await expect(apiGroup).toHaveClass(/has-active/)
         await expect(apiGroup).not.toHaveClass(/collapsed/)
@@ -194,7 +206,7 @@ for (const compact of [false, true]) {
       await expect(menu.locator('.language-options')).toBeVisible()
       await expect(menu.locator('.language-option')).toHaveText(['English', 'Русский'])
     }
-    await page.goto('/ru/integrations/custom/helpdesk.html')
+    await openPage(page, '/ru/integrations/custom/helpdesk.html')
     await openLanguages()
     await expect(menu.locator('[aria-current="true"]')).toHaveText('Русский')
     await menu.getByRole('link', { name: 'English', exact: true }).click()
@@ -217,7 +229,7 @@ test('pages describe themselves for link previews', async ({ page, request }) =>
     ['/en/guide/overview.html', 'en', 'What is Orpheus | Orpheus'],
   ]
   for (const [path, lang, title] of pages) {
-    await page.goto(path)
+    await openPage(page, path)
     const property = (name: string) => page.locator(`meta[property="og:${name}"]`)
     await expect(property('title')).toHaveAttribute('content', title)
     await expect(property('url')).toHaveAttribute('content', site + path)

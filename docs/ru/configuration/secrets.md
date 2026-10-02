@@ -22,6 +22,8 @@ HELPDESK_TOKEN: ${HELPDESK_TOKEN}
 
 JSON показывает значение [`configuration.sandbox`](../reference/api/create-session.md). Список разрешённых имён сам по себе не передаёт переменные каждой сессии.
 
+В [Space](../space/schedules.md#environment) пользователь выбирает дополнительные имена ENV для задания. Разрешите их также на Space API/worker. Значения по-прежнему получает worker Orpheus.
+
 ## Секреты только для хуков {#hook-secrets}
 
 Поля [`env`](../reference/api/create-session.md) и [`env_from`](../reference/api/create-session.md) на верхнем уровне запросов создания сессии и [нового запуска](../reference/api/create-run.md) доступны только [`before_run`](hooks.md#hook-before-run) и [`after_run`](hooks.md#hook-after-run). Они не передаются агенту. Так можно дать скрипту публикации отдельный токен. Не записывайте его в доступные агенту файлы или вывод хука.

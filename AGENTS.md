@@ -17,6 +17,9 @@ Explain the platform's capabilities and provide practical instructions for getti
 - Describe current behavior without “since version” qualifications,
   historical comparisons, or migration instructions from older APIs.
 - Split a thought into two sentences instead of using a semicolon.
+- Integrate new and changed capabilities into the documentation as a whole.
+  Keep references precise and detailed. In guides, introduce information gradually
+  and in a useful order for new readers. Avoid details before readers need them.
 
 ## Example guidelines
 

@@ -9,7 +9,7 @@
 
 # Orpheus documentation
 
-Bilingual documentation for the company AI agent platform, built with VitePress. It covers evaluation, deployment, agent configuration, Mattermost, custom integrations, web inspection and operations. The helpdesk guide demonstrates direct agent publication and Markdown delivery through `after_run`.
+Bilingual documentation for the company AI agent platform, built with VitePress. It covers evaluation, deployment, agent configuration, Mattermost, custom integrations, web inspection, Space schedules and operations. The helpdesk guide demonstrates direct agent publication and Markdown delivery through `after_run`.
 
 ## Work locally
 
@@ -31,7 +31,7 @@ npm run test:stack
 
 - `check` verifies OpenAPI checksums and generated content, language parity, code blocks, request schemas, initializer behavior, hook publication, Compose configuration, production build, local links and anchors.
 - `test:browser` checks both languages on desktop and mobile: the project site and its interactive sections, navigation, theme, search, API links and language switching.
-- `test:stack` starts an isolated, disposable PostgreSQL/API/web stack from the documented published images, validates the Mattermost workflow offline and verifies readiness and web proxying. It does not start a worker or call model providers, AgentBox or Mattermost. It removes its own containers and volume on exit.
+- `test:stack` starts isolated, disposable Orpheus and Space PostgreSQL/API/web stacks from the documented published images. It validates the Mattermost workflow offline and verifies readiness, web proxying, Space CRUD and browser-write protection. It checks the local connection with a Space worker and confirms submission to Orpheus. It does not start the Orpheus worker or call model providers, AgentBox or Mattermost. It removes its own containers and volumes on exit.
 
 To inspect the static build:
 
@@ -49,8 +49,9 @@ The preview binds to `127.0.0.1`. Production assets are in `docs/.vitepress/dist
 - `docs/.vitepress/theme/` extends VitePress with the Orpheus visual identity. Brand assets come from Orpheus Web. The bundled fonts are distributed under their included SIL OFL licenses.
 - `docs/.vitepress/theme/home/` is the project site shown on the home pages. See [Project site](#project-site).
 - `examples/quickstart/` contains the minimal runnable deployment.
+- `examples/space/` contains a separate Space deployment and a paused schedule payload.
 - `examples/helpdesk/` contains short illustrative Python scripts, not a production connector. Adapt the hypothetical helpdesk API before use.
-- `api/openapi.yaml` is the reviewed core contract. `api/upstream.json` records released revisions and its checksum. `api/translations.ru.json` translates contract descriptions. Literal JSON Schema retains the original contract.
+- `api/openapi.yaml` and `api/space.openapi.yaml` are the reviewed Orpheus and Space contracts. `api/upstream.json` records released revisions and checksums. The corresponding `translations.ru.json` and `space.translations.ru.json` translate descriptions. Literal JSON Schema retains the original contracts.
 
 Update both languages together. Use links to AgentBox for its own procedures. Keep public documentation focused on existing behavior and user tasks. Follow [AGENTS.md](AGENTS.md).
 
@@ -123,15 +124,16 @@ Every system in `systems.ts` carries a label with the ready way to connect. Chec
 
 ## Update the API reference
 
-Read the contract from an explicit core release. Do not copy uncommitted work from neighboring repositories. Review the contract, image versions and examples together.
+Read each contract from an explicit Orpheus or Space release. Do not copy uncommitted work from neighboring repositories. Review the contract, image versions and examples together.
 
 ```sh
-node scripts/sync-api.mjs ../orpheus v0.4.0
+node scripts/sync-api.mjs ../orpheus v0.4.1
+node scripts/sync-api.mjs ../orpheus-space v0.6.0 orpheus-space
 npm run api:generate
 npm run check
 ```
 
-The synchronization command exports a committed Git object and updates core provenance. Update the Russian description map when the contract gains descriptions. Update Compose image pins and related guide text deliberately when adopting another release. The generator fails on untranslated descriptions and the checks reject stale output.
+The synchronization command exports a committed Git object and updates the selected component’s provenance. Update the Russian description map when the contract gains descriptions. Update Compose image pins and related guide text deliberately when adopting another release. The generator fails on untranslated descriptions and the checks reject stale output.
 
 ## GitHub Pages
 

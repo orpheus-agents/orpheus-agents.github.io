@@ -22,6 +22,8 @@ HELPDESK_TOKEN: ${HELPDESK_TOKEN}
 
 The JSON is the value of [`configuration.sandbox`](../reference/api/create-session.md). Allowlisting a name does not pass it to every session.
 
+In [Space](../space/schedules.md#environment), users select additional ENV names per schedule. Allow these on Space API/worker as well. Values still belong on the Orpheus worker.
+
 ## Hook-only secrets {#hook-secrets}
 
 Top-level [`env`](../reference/api/create-session.md) and [`env_from`](../reference/api/create-session.md) in session creation and [run creation](../reference/api/create-run.md) requests are available only to [`before_run`](hooks.md#hook-before-run) and [`after_run`](hooks.md#hook-after-run). They are not passed to the agent. Use these fields for a publication script's token. Do not write the token to agent-readable files or hook output.

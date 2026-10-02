@@ -16,3 +16,7 @@ The connector publishes completed progress messages and final answers. Set [`sen
 Limit initial context with [`initial_context_token_budget`](../../reference/mattermost.md#workflow-initial-context-token-budget). This is an approximate budget. API request-size limits also apply. Repeat a critical requirement in the current request.
 
 After budget exhaustion, workspace loss or a revision change, the next request can create a replacement session. Reattach or link any document essential to the task.
+
+## Message author {#identity}
+
+The connector identifies the author and channel of each post separately. The [Space skill](../../space/cli.md) uses the current requester’s email to select their schedules. See [metadata format and email availability](../../reference/mattermost.md#identity).

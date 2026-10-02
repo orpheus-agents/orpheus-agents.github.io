@@ -180,6 +180,46 @@
     "Tokens and account limits"
   ],
   [
+    "space/overview",
+    "Orpheus Space",
+    "Orpheus Space"
+  ],
+  [
+    "space/setup",
+    "Запуск Space",
+    "Start Space"
+  ],
+  [
+    "space/local-core",
+    "Подключение к локальному Orpheus",
+    "Connect to local Orpheus"
+  ],
+  [
+    "space/first-task",
+    "Первое задание",
+    "First schedule"
+  ],
+  [
+    "space/schedules",
+    "Задания и результаты",
+    "Schedules and results"
+  ],
+  [
+    "space/access",
+    "Доступ и SSO",
+    "Access and SSO"
+  ],
+  [
+    "space/cli",
+    "CLI и навык агента",
+    "CLI and agent skill"
+  ],
+  [
+    "space/operations",
+    "Эксплуатация Space",
+    "Operate Space"
+  ],
+  [
     "operations/deployment",
     "Развёртывание на сервере",
     "Deploy on a server"
@@ -233,6 +273,21 @@
     "reference/mattermost",
     "Конфигурация Mattermost",
     "Mattermost configuration"
+  ],
+  [
+    "reference/space",
+    "Конфигурация Space",
+    "Space configuration"
+  ],
+  [
+    "reference/space-cli",
+    "Справочник CLI Space",
+    "Space CLI reference"
+  ],
+  [
+    "reference/space-api/conventions",
+    "Правила API Space",
+    "Space API conventions"
   ],
   [
     "reference/hooks",

@@ -1,0 +1,88 @@
+name: orpheus-space-example
+
+x-space-image: &space-image retailcrm/orpheus-space:${ORPHEUS_SPACE_VERSION:-0.6.0}
+x-space-env: &space-env
+  DATABASE_URL: postgres://orpheus_space:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@db:5432/orpheus_space
+  ORPHEUS_CONFIG_FILE: /etc/orpheus-space/space.toml
+  HARNESS_ENV_ALLOWLIST: '[]'
+  ORPHEUS_BASE_URL: ${ORPHEUS_BASE_URL:-}
+  ORPHEUS_API_KEY: ${ORPHEUS_API_KEY:-}
+x-space-volumes: &space-volumes
+  - ./space.toml:/etc/orpheus-space/space.toml:ro
+
+services:
+  db:
+    image: postgres:16.10
+    environment:
+      POSTGRES_DB: orpheus_space
+      POSTGRES_USER: orpheus_space
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - space-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD, pg_isready, -U, orpheus_space, -d, orpheus_space]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  migrate:
+    image: *space-image
+    command: [migrate, up]
+    environment:
+      DATABASE_URL: postgres://orpheus_space:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@db:5432/orpheus_space
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      disable: true
+
+  api:
+    image: *space-image
+    command: [serve]
+    init: true
+    environment:
+      <<: *space-env
+      PUBLIC_API_KEYS: '["${ORPHEUS_SPACE_API_KEY:?Set ORPHEUS_SPACE_API_KEY in .env}"]'
+      ORPHEUS_BROWSER_AUTH: anonymous
+      ORPHEUS_PUBLIC_URL: http://localhost:8086
+    volumes: *space-volumes
+    ports:
+      - 127.0.0.1:8010:8000
+      - 127.0.0.1:9110:9100
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [CMD, /orpheus-space, healthcheck]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
+  worker:
+    image: *space-image
+    command: [worker]
+    profiles: [execution]
+    init: true
+    environment: *space-env
+    volumes: *space-volumes
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  web:
+    image: retailcrm/orpheus-space-web:${ORPHEUS_SPACE_WEB_VERSION:-0.1.2}
+    init: true
+    environment:
+      ORPHEUS_SPACE_UPSTREAM: http://api:8000
+    ports:
+      - 127.0.0.1:8086:8080
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  space-data:

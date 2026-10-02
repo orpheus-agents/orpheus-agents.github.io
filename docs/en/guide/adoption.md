@@ -6,6 +6,7 @@ A pilot needs an administrator, a process owner and access to the services used 
 | --- | --- | --- |
 | Orpheus, PostgreSQL and web interface | Run tasks, keep history and inspect results | Your team |
 | Mattermost and its connector | Converse with agents | Your team |
+| [Space, its separate database and Space Web](../space/setup.md) | Employee recurring tasks, when scheduling is needed | Your team |
 | AgentBox | Execute agents in sandboxes | Your AgentBox project |
 | Model access | Power the Codex agent | API key or account owner |
 | Company tools | Access business data | Owners of those systems |

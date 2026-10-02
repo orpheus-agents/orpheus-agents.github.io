@@ -1,0 +1,10 @@
+services:
+  api:
+    networks: [default, space-core]
+  worker:
+    networks: [default, space-core]
+
+networks:
+  space-core:
+    external: true
+    name: ${ORPHEUS_SPACE_CORE_NETWORK:-orpheus-space-core}

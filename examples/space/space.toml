@@ -1,0 +1,10 @@
+[execution.agent]
+profile = "default"
+instructions = "Complete the scheduled task. Leave the result in your final response unless the task specifies a destination."
+
+[execution.sandbox]
+template = "codex"
+env_from = []
+
+[execution.limits]
+run_timeout_seconds = 3600

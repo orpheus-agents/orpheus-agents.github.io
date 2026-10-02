@@ -4,21 +4,23 @@ import { readFileSync } from 'node:fs'
 import { parse } from 'yaml'
 import pages from './pages.json'
 
-const api = parse(readFileSync(new URL('../../api/openapi.yaml', import.meta.url), 'utf8')) as {
+type API = {
   paths: Record<string, Record<string, { operationId?: string }>>
   components: { schemas: Record<string, unknown> }
 }
-function apiSidebar(lang: 'ru' | 'en'): DefaultTheme.SidebarItem {
+function apiSidebar(lang: 'ru' | 'en', space = false): DefaultTheme.SidebarItem {
+  const directory = space ? 'space-api' : 'api'
+  const api = parse(readFileSync(new URL(space ? '../../api/space.openapi.yaml' : '../../api/openapi.yaml', import.meta.url), 'utf8')) as API
   const item = (name: string): DefaultTheme.SidebarItem => ({
-    text: readFileSync(new URL(`../${lang}/reference/api/${name}.md`, import.meta.url), 'utf8').split('\n')[0].replace(/^# /, ''),
-    link: `/${lang}/reference/api/${name}`,
+    text: readFileSync(new URL(`../${lang}/reference/${directory}/${name}.md`, import.meta.url), 'utf8').split('\n')[0].replace(/^# /, ''),
+    link: `/${lang}/reference/${directory}/${name}`,
   })
   return {
-    text: 'HTTP API', link: `/${lang}/reference/api/`, collapsed: true,
+    text: space ? 'Space HTTP API' : 'HTTP API', link: `/${lang}/reference/${directory}/`, collapsed: true,
     items: [
       ...Object.values(api.paths).flatMap(path => Object.values(path)
         .filter(operation => operation.operationId)
-        .map(operation => item(operation.operationId!.replaceAll('_', '-')))),
+        .map(operation => item(operation.operationId!.replace(/([a-z0-9])([A-Z])/g, '$1-$2').replaceAll('_', '-').toLowerCase()))),
       { ...item('schemas'), collapsed: true, items: Object.keys(api.components.schemas).map(name => item(`schema-${name.toLowerCase()}`)) },
     ],
   }
@@ -31,6 +33,7 @@ const groups = [
   ['integrations/mattermost/', 'Mattermost', 'Mattermost'],
   ['integrations/custom/', 'Своя интеграция', 'Custom integrations'],
   ['web/', 'Веб-интерфейс', 'Web interface'],
+  ['space/', 'Orpheus Space', 'Orpheus Space'],
   ['operations/', 'Эксплуатация', 'Operations'],
   ['reference/', 'Справочник', 'Reference'],
 ]
@@ -41,7 +44,7 @@ function sidebar(lang: 'ru' | 'en'): DefaultTheme.SidebarItem[] {
     collapsed: prefix !== 'guide/' && prefix !== 'getting-started/',
     items: [
       ...pages.filter(([path]) => path.startsWith(prefix)).map(page => ({ text: page[index], link: `/${lang}/${page[0]}` })),
-      ...(prefix === 'reference/' ? [apiSidebar(lang)] : []),
+      ...(prefix === 'reference/' ? [apiSidebar(lang), apiSidebar(lang, true)] : []),
     ],
   }))
 }
@@ -49,10 +52,10 @@ function theme(lang: 'ru' | 'en'): DefaultTheme.Config {
   const ru = lang === 'ru'
   return {
     nav: [
-      { text: ru ? 'Руководство' : 'Guide', link: `/${lang}/guide/overview`, activeMatch: `^/${lang}/(?:guide/|configuration/|web/|operations/|reference/(?!api/))` },
+      { text: ru ? 'Руководство' : 'Guide', link: `/${lang}/guide/overview`, activeMatch: `^/${lang}/(?:guide/|configuration/|web/|space/|operations/|reference/(?!(?:api|space-api)/))` },
       { text: ru ? 'Быстрый старт' : 'Quick start', link: `/${lang}/getting-started/requirements`, activeMatch: `^/${lang}/getting-started/` },
       { text: ru ? 'Интеграции' : 'Integrations', link: `/${lang}/integrations/custom/overview`, activeMatch: `^/${lang}/integrations/` },
-      { text: 'API', link: `/${lang}/reference/api/`, activeMatch: `^/${lang}/reference/api/` },
+      { text: 'API', link: `/${lang}/reference/api/`, activeMatch: `^/${lang}/reference/(?:api|space-api)/` },
     ],
     sidebar: { [`/${lang}/`]: sidebar(lang) },
     outline: { level: [2, 3], label: ru ? 'На этой странице' : 'On this page' },

@@ -13,6 +13,6 @@ Select a period on the analytics page. Metrics include run count, currently acti
 - Total run time adds durations across runs. Parallel work can exceed the period's wall-clock duration.
 - Token totals reflect stored agent reports. Monetary cost is not calculated here.
 
-The web interface provides read access. Create tasks through Mattermost or your integration's API calls.
+The web interface provides read access. Create tasks through Mattermost, [Space](../space/overview.md) or your integration's API calls. Space schedule sessions use the `schedule` namespace.
 
 [Sessions and runs](sessions.md) · [Analytics API](../reference/api/get-analytics-overview.md)

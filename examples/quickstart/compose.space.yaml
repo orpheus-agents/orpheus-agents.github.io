@@ -1,0 +1,13 @@
+services:
+  api:
+    environment:
+      PUBLIC_API_KEYS: '["${ORPHEUS_API_KEY:?Run init.py first}","${ORPHEUS_SPACE_CORE_API_KEY:?Set a separate core key for Space}"]'
+    networks:
+      default:
+      space-core:
+        aliases: [orpheus-core]
+
+networks:
+  space-core:
+    external: true
+    name: ${ORPHEUS_SPACE_CORE_NETWORK:-orpheus-space-core}

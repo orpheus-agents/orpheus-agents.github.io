@@ -8,7 +8,7 @@
 | --- | --- | --- | --- |
 | `code` | Yes | string |   |
 | `details` | Yes | array&lt;[ErrorDetail](schema-errordetail.md)&gt; |   |
-| `message` | Yes | string |   |
+| `message` | Yes | string | Human-readable error message. Harness execution failures include the original harness message and additional details when available; otherwise a generic message is returned.  |
 | `phase` | Yes | string / null |   |
 
 ## JSON Schema
@@ -28,6 +28,7 @@
       "type": "array"
     },
     "message": {
+      "description": "Human-readable error message. Harness execution failures include the original harness message and additional details when available; otherwise a generic message is returned.",
       "title": "Message",
       "type": "string"
     },
