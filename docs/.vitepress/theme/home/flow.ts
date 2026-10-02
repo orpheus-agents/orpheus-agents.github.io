@@ -1,5 +1,6 @@
-// The score of a task: who takes part and when. Four scenarios follow the use cases
+// The score of a task: who takes part and when. Five scenarios follow the use cases
 // of the guide. Helpdesk, log and knowledge base tools are examples of company tools.
+// The last scenario starts from a schedule in Orpheus Space instead of a message.
 
 export type Lane = 'source' | 'orpheus' | 'sandbox' | 'model' | 'systems'
 export type RunState = 'accepted' | 'starting' | 'running' | 'finalizing' | 'completed'
@@ -71,7 +72,7 @@ export interface FlowCopy {
 
 const ru: FlowCopy = {
   title: 'Как проходит задача',
-  sub: 'Сотрудник пишет в чат или событие приходит из вашей системы. Агент собирает контекст, выполняет действия и возвращает результат.',
+  sub: 'Сотрудник пишет в чат, событие приходит из вашей системы или наступает время регулярного задания. Агент собирает контекст, выполняет действия и возвращает результат.',
   scenarios: 'Сценарии',
   access: 'Что подключить',
   lanes: { orpheus: 'Orpheus', sandbox: 'Песочница', model: 'AI-модель', systems: 'Системы компании' },
@@ -368,12 +369,73 @@ const ru: FlowCopy = {
         },
       ],
     },
+    {
+      id: 'schedule',
+      tab: 'Сводка по расписанию',
+      source: 'Space',
+      place: 'Space · Сводка по обращениям',
+      access: 'Orpheus Space и API хелпдеска',
+      template: 'support',
+      length: 20,
+      pace: 6,
+      beats: [
+        {
+          at: 0.6, lane: 'source',
+          caption: 'Наступает время задания: по будням в 10:00.',
+          post: { from: 'service', name: 'Расписание', text: 'четверг, 10:00' },
+        },
+        {
+          at: 2.4, lane: 'source', to: 'orpheus', state: 'accepted',
+          caption: 'Space передаёт поручение из задания в Orpheus.',
+        },
+        {
+          at: 4.2, lane: 'orpheus', to: 'sandbox', state: 'starting',
+          caption: 'Orpheus создаёт песочницу из шаблона с инструментами компании.',
+          lines: [{ kind: 'hook', text: 'песочница готова · шаблон support' }],
+        },
+        {
+          at: 6, lane: 'sandbox', to: 'model', state: 'running',
+          caption: 'Агент получает поручение и время срабатывания.',
+          lines: [{ kind: 'agent', text: 'Собираю открытые обращения на утро четверга.' }],
+        },
+        {
+          at: 7.8, lane: 'sandbox', to: 'systems',
+          caption: 'Запрашивает открытые обращения через CLI хелпдеска.',
+          lines: [
+            { kind: 'command', text: 'helpdesk tickets list --status open' },
+            { kind: 'output', text: '14 обращений · 5 новых за сутки' },
+          ],
+        },
+        {
+          at: 10.4, lane: 'sandbox', to: 'systems',
+          caption: 'Находит обращения, которые ждут ответа больше суток.',
+          lines: [
+            { kind: 'command', text: 'helpdesk tickets list --status open --waiting 24h' },
+            { kind: 'output', text: '4788 · 4802 · 4815' },
+          ],
+        },
+        {
+          at: 13, lane: 'sandbox', to: 'model',
+          caption: 'Готовит короткую сводку.',
+          lines: [{ kind: 'agent', text: 'Сводка готова: 14 открытых, три ждут ответа больше суток.' }],
+        },
+        {
+          at: 15.4, lane: 'sandbox', to: 'orpheus', state: 'finalizing',
+          caption: 'Агент закончил. Orpheus завершает запуск и сохраняет итоговый ответ.',
+        },
+        {
+          at: 17.6, lane: 'orpheus', to: 'source', state: 'completed',
+          caption: 'Сводка появляется в истории задания. Завтра агент подготовит новую.',
+          post: { from: 'agent', name: 'Orpheus', mark: 'результат запуска', text: 'Открыто 14 обращений, 5 новых за сутки.\nБольше суток ждут ответа: 4788, 4802, 4815.' },
+        },
+      ],
+    },
   ],
 }
 
 const en: FlowCopy = {
   title: 'The path of a task',
-  sub: 'A colleague asks in chat, or an event arrives from your system. An agent gathers context, performs actions and returns a result.',
+  sub: 'A colleague asks in chat, an event arrives from your system, or a scheduled time comes. An agent gathers context, performs actions and returns a result.',
   scenarios: 'Scenarios',
   access: 'Required access',
   lanes: { orpheus: 'Orpheus', sandbox: 'Sandbox', model: 'AI model', systems: 'Company systems' },
@@ -667,6 +729,67 @@ const en: FlowCopy = {
           at: 18.4, lane: 'orpheus', to: 'source', state: 'completed',
           caption: 'The explanation of the result arrives in the thread.',
           post: { from: 'agent', name: 'orpheus', mark: 'bot', text: 'The first page skipped records: the offset was page × page_size. The fix and a regression test are in the fix/pagination-482 branch. Tests pass: 41 of 41.' },
+        },
+      ],
+    },
+    {
+      id: 'schedule',
+      tab: 'Scheduled summary',
+      source: 'Space',
+      place: 'Space · Support ticket summary',
+      access: 'Orpheus Space and helpdesk API',
+      template: 'support',
+      length: 20,
+      pace: 6,
+      beats: [
+        {
+          at: 0.6, lane: 'source',
+          caption: 'The scheduled time arrives: weekdays at 10:00.',
+          post: { from: 'service', name: 'Schedule', text: 'Thursday, 10:00' },
+        },
+        {
+          at: 2.4, lane: 'source', to: 'orpheus', state: 'accepted',
+          caption: 'Space submits the schedule prompt to Orpheus.',
+        },
+        {
+          at: 4.2, lane: 'orpheus', to: 'sandbox', state: 'starting',
+          caption: 'Orpheus creates a sandbox from a template with company tools.',
+          lines: [{ kind: 'hook', text: 'sandbox ready · template support' }],
+        },
+        {
+          at: 6, lane: 'sandbox', to: 'model', state: 'running',
+          caption: 'The agent receives the prompt and the scheduled time.',
+          lines: [{ kind: 'agent', text: 'Collecting open tickets for Thursday morning.' }],
+        },
+        {
+          at: 7.8, lane: 'sandbox', to: 'systems',
+          caption: 'It requests open tickets through the helpdesk CLI.',
+          lines: [
+            { kind: 'command', text: 'helpdesk tickets list --status open' },
+            { kind: 'output', text: '14 tickets · 5 new in the last day' },
+          ],
+        },
+        {
+          at: 10.4, lane: 'sandbox', to: 'systems',
+          caption: 'It finds tickets that have waited over a day for a reply.',
+          lines: [
+            { kind: 'command', text: 'helpdesk tickets list --status open --waiting 24h' },
+            { kind: 'output', text: '4788 · 4802 · 4815' },
+          ],
+        },
+        {
+          at: 13, lane: 'sandbox', to: 'model',
+          caption: 'It prepares a short summary.',
+          lines: [{ kind: 'agent', text: 'Summary ready: 14 open, three waiting over a day.' }],
+        },
+        {
+          at: 15.4, lane: 'sandbox', to: 'orpheus', state: 'finalizing',
+          caption: 'The agent is done. Orpheus finishes the run and keeps the final answer.',
+        },
+        {
+          at: 17.6, lane: 'orpheus', to: 'source', state: 'completed',
+          caption: 'The summary appears in the schedule history. Tomorrow the agent prepares a new one.',
+          post: { from: 'agent', name: 'Orpheus', mark: 'run result', text: '14 open tickets, 5 new in the last day.\nWaiting over a day for a reply: 4788, 4802, 4815.' },
         },
       ],
     },

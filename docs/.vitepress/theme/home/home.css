@@ -22,6 +22,14 @@
   font-style: normal;
   font-display: swap;
 }
+/* The product italic: the word “Space” next to the logo. */
+@font-face {
+  font-family: 'Besley';
+  src: url('/fonts/Besley-Italic-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
 
 .Layout.home-page .VPHome { margin-bottom: 0; }
 
@@ -32,6 +40,8 @@
   --ink: #0e0e10;
   --muted: #69635b;
   --line: #e0dbd3;
+  /* Strings of schedules are a little stronger than the rules of the page. */
+  --string: #cdc7bc;
   --accent: #00ad71;
   --accent-ink: #007e4f;
   --danger: #e75b61;
@@ -55,6 +65,7 @@
   --ink: #ededeb;
   --muted: #a49d94;
   --line: #2c2c30;
+  --string: #3e3e44;
   --accent: #4ef2aa;
   --accent-ink: #4ef2aa;
   --danger-ink: #e75b61;
@@ -63,6 +74,9 @@
 
 /* Logos are black. The dark theme inverts them. */
 .dark .docs-home .home-logo { filter: invert(1); }
+/* The Orpheus logo has a file for each theme. */
+.docs-home .logo-light, .dark .docs-home .logo-dark { display: inline; }
+.docs-home .logo-dark, .dark .docs-home .logo-light { display: none; }
 
 .docs-home pre { margin: 0; }
 .docs-home fieldset { margin: 0; padding: 0; border: 0; }
@@ -262,6 +276,7 @@
   .home-lead { font-size: 17px; }
   .home-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
   .home-tabs button { padding: 0 12px; }
+  .home-tabs button:last-child:nth-child(odd) { grid-column: 1 / -1; }
   .hero-inner { justify-content: flex-start; min-height: 0; padding-top: 48px; padding-bottom: 400px; }
   .home-hero h1 { font-size: clamp(2.5rem, 12.6vw, 4rem); }
   .hero-sub { margin-top: 24px; font-size: 17px; }

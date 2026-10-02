@@ -62,7 +62,8 @@ The home pages `/`, `/ru/` and `/en/` present Orpheus as a project site. `/` sho
 | Section | Component | Content |
 | --- | --- | --- |
 | First screen | `HomeHero.vue` | Title, actions and the strings field with the relief of the mark |
-| The path of a task | `HomeFlow.vue`, `flow.ts` | Score of a task for four use cases with a thread and an agent console |
+| The path of a task | `HomeFlow.vue`, `flow.ts` | Score of a task for five use cases with a thread and an agent console. The last one starts from a schedule in Orpheus Space |
+| Recurring work | `HomeSpace.vue`, `space.ts` | A week of example schedules in Orpheus Space: runs by day and the latest answers |
 | Connect your systems | `HomeSystems.vue`, `systems.ts` | Systems by group with the ready way to connect, and the HTTP API for any other system |
 | Web interface | `HomeObserve.vue`, `observe.ts` | Session, analytics and limits with example data |
 | Deployment | `HomeDeploy.vue`, `deploy.ts` | Pilot requirements and links to deployment guides |
@@ -72,6 +73,7 @@ The home pages `/`, `/ru/` and `/en/` present Orpheus as a project site. `/` sho
 - Texts of both languages live next to each other in the `*.ts` files of a section. Update them together.
 - Scenario steps, commands and API fields must match the guide and `api/openapi.yaml`.
 - `strings.ts` draws the strings field on a canvas. Motion runs only on screen and stops when the visitor prefers reduced motion. The score then shows the finished task.
+- The week of schedules is an illustration, not a copy of a Space screen. Its runs fill in once when the board comes into view. The word “Space” next to the logo is set in Besley Italic, as in Orpheus Space Web.
 - The page follows the Orpheus interface guide from Orpheus Web: ink, paper and one accent, sharp corners, 1 px rules. Consoles are dark in both themes.
 
 ### Logos

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import HomeHero from './home/HomeHero.vue'
 import HomeFlow from './home/HomeFlow.vue'
+import HomeSpace from './home/HomeSpace.vue'
 import HomeSystems from './home/HomeSystems.vue'
 import HomeObserve from './home/HomeObserve.vue'
 import HomeDeploy from './home/HomeDeploy.vue'
@@ -15,6 +16,7 @@ defineProps<{ languageChoice?: boolean }>()
   <div class="docs-home">
     <HomeHero :language-choice="languageChoice" />
     <HomeFlow />
+    <HomeSpace />
     <HomeSystems />
     <HomeObserve />
     <HomeDeploy />

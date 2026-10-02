@@ -140,7 +140,7 @@ const ru: ObserveCopy = {
     ranks: [
       { name: 'mattermost/assistant', value: '136', share: 100 },
       { name: 'helpdesk', value: '84', share: 62 },
-      { name: 'mattermost/analysis', value: '28', share: 21 },
+      { name: 'schedule', value: '28', share: 21 },
     ],
   },
   limits: {
@@ -204,7 +204,7 @@ const en: ObserveCopy = {
     ranks: [
       { name: 'mattermost/assistant', value: '136', share: 100 },
       { name: 'helpdesk', value: '84', share: 62 },
-      { name: 'mattermost/analysis', value: '28', share: 21 },
+      { name: 'schedule', value: '28', share: 21 },
     ],
   },
   limits: {
