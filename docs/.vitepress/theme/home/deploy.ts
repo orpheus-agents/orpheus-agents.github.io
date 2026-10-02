@@ -18,6 +18,7 @@ const ru: DeployCopy = {
   parts: [
     ['Orpheus, PostgreSQL, веб-интерфейс', 'Запуск задач, история и просмотр результатов', 'Ваша команда'],
     ['Mattermost и коннектор', 'Общение с агентом', 'Ваша команда'],
+    ['Orpheus Space', 'Регулярные задания сотрудников, если нужны расписания', 'Ваша команда'],
     ['AgentBox', 'Окружение исполнения агентов', 'Ваш проект AgentBox'],
     ['Доступ к AI-модели', 'Выполнение задач агентом', 'Владелец ключа или аккаунта'],
     ['Корпоративные инструменты', 'Работа с источниками данных', 'Владельцы систем'],
@@ -26,6 +27,7 @@ const ru: DeployCopy = {
   links: [
     { text: 'Быстрый старт', link: '/getting-started/requirements' },
     { text: 'Развёртывание на сервере', link: '/operations/deployment' },
+    { text: 'Запуск Space', link: '/space/setup' },
     { text: 'Вход через SSO', link: '/operations/sso' },
     { text: 'Домен и HTTPS', link: '/operations/network' },
     { text: 'Резервное копирование', link: '/operations/backup' },
@@ -42,6 +44,7 @@ const en: DeployCopy = {
   parts: [
     ['Orpheus, PostgreSQL and web interface', 'Run tasks, keep history and inspect results', 'Your team'],
     ['Mattermost and its connector', 'Converse with agents', 'Your team'],
+    ['Orpheus Space', 'Recurring tasks for colleagues, when scheduling is needed', 'Your team'],
     ['AgentBox', 'Execute agents in sandboxes', 'Your AgentBox project'],
     ['AI model access', 'Power the agent', 'API key or account owner'],
     ['Company tools', 'Access business data', 'Owners of those systems'],
@@ -50,6 +53,7 @@ const en: DeployCopy = {
   links: [
     { text: 'Quick start', link: '/getting-started/requirements' },
     { text: 'Server deployment', link: '/operations/deployment' },
+    { text: 'Start Space', link: '/space/setup' },
     { text: 'Single sign-on', link: '/operations/sso' },
     { text: 'Domain and HTTPS', link: '/operations/network' },
     { text: 'Backup', link: '/operations/backup' },

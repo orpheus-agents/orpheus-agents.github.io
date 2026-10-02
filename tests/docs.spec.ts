@@ -70,12 +70,29 @@ for (const lang of ['ru', 'en']) {
     await flow.getByRole('tab', { name: ru ? 'Разбор ошибки' : 'Error investigation' }).click()
     await expect(flow.locator('.thread-place')).toHaveText(ru ? 'Mattermost · Дежурство' : 'Mattermost · On-call')
     await expect(flow.locator('.score-name').first()).toHaveText('Mattermost')
+    // A schedule in Space starts the last scenario instead of a message.
+    await flow.getByRole('tab', { name: ru ? 'Сводка по расписанию' : 'Scheduled summary' }).click()
+    await expect(flow.locator('.score-name').first()).toHaveText('Space')
+    await expect(flow.locator('.thread-post.agent')).toContainText(ru ? 'Открыто 14 обращений' : '14 open tickets')
     expect(errors).toEqual([])
   })
-  test(`${lang}: home explains systems, the interface and deployment`, async ({ page }) => {
+  test(`${lang}: home explains schedules, systems, the interface and deployment`, async ({ page }) => {
     const errors: string[] = []
     page.on('pageerror', e => errors.push(e.message))
     await openPage(page, `/${lang}/`)
+    const space = page.locator('#space')
+    await expect(space.locator('.space-lockup')).toHaveText('Space')
+    await expect(space.locator('.space-task')).toHaveCount(3)
+    await expect(space.locator('.space-task').first()).toContainText(ru ? 'по будням в 10:00' : 'weekdays at 10:00')
+    await expect(space.locator('.space-runs .space-day')).toHaveCount(21)
+    await expect(space.locator('.space-runs .space-day.latest')).toHaveCount(2)
+    // The week fills in when the board comes into view.
+    await space.locator('.space-board').scrollIntoViewIfNeeded()
+    await expect(space.locator('.space-latest').first()).toBeVisible()
+    await expect(space.locator('.space-latest').first()).toHaveCSS('opacity', '1')
+    await expect(space.locator('.space-request .thread-text')).toContainText('@orpheus')
+    await expect(space.locator('.space-foot a')).toHaveAttribute('href', `/${lang}/space/overview.html`)
+
     const systems = page.locator('#systems')
     await expect(systems.locator('.systems-group')).toHaveCount(4)
     await expect(systems.locator('.systems-group li.connector')).toContainText('Mattermost')
@@ -93,11 +110,13 @@ for (const lang of ['ru', 'en']) {
     await expect(observe.locator('.observe-hour')).toHaveCount(24)
     await observe.locator('.observe-hour').nth(3).hover()
     await expect(observe.locator('.observe-interval')).toContainText(ru ? 'С 12:00 до 13:00' : 'From 12:00 to 13:00')
+    await expect(observe.locator('.observe-ranks')).toContainText('schedule')
     await observe.getByRole('tab', { name: ru ? 'Лимиты' : 'Limits' }).click()
     await expect(observe.locator('.observe-windows > div')).toHaveCount(2)
 
     const deploy = page.locator('#deploy')
-    await expect(deploy.locator('tbody tr')).toHaveCount(5)
+    await expect(deploy.locator('tbody tr')).toHaveCount(6)
+    await expect(deploy.locator('tbody tr', { hasText: 'Orpheus Space' })).toHaveCount(1)
     await expect(deploy.locator('.home-links a').first()).toHaveAttribute('href', `/${lang}/getting-started/requirements.html`)
 
     const start = page.locator('#start')
