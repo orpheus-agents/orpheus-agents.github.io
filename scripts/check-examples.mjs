@@ -18,6 +18,13 @@ for (const [file, schema] of Object.entries(schemas)) {
   const valid = ajv.validate({ $ref: `orpheus#/components/schemas/${schema}` }, JSON.parse(readFileSync(`examples/${file}`, 'utf8')))
   if (!valid) throw Error(`${file}: ${ajv.errorsText()}`)
 }
+const space = parse(readFileSync('api/space.openapi.yaml', 'utf8'))
+ajv.addSchema({ $id: 'space', components: space.components })
+if (!ajv.validate({ $ref: 'space#/components/schemas/CreateSchedule' }, JSON.parse(readFileSync('examples/space/schedule.json', 'utf8')))) throw Error(ajv.errorsText())
+const spaceEnv = Object.fromEntries(readFileSync('examples/space/.env.example', 'utf8').trim().split('\n').map(line => line.split('=')))
+for (const [name, key] of [['orpheus-space', 'ORPHEUS_SPACE_VERSION'], ['orpheus-space-web', 'ORPHEUS_SPACE_WEB_VERSION']]) {
+  if (spaceEnv[key] !== upstream[name].tag.slice(1)) throw Error(`Space example image differs from documentation source: ${name}`)
+}
 function walk(dir) { return readdirSync(dir, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(`${dir}/${e.name}`) : [`${dir}/${e.name}`]) }
 const ru = walk('docs/ru').filter(p => p.endsWith('.md')).map(p => p.slice(8)).sort()
 const en = walk('docs/en').filter(p => p.endsWith('.md')).map(p => p.slice(8)).sort()
@@ -61,4 +68,9 @@ const compose = spawnSync('docker', ['compose','--env-file','.env.example','conf
   env: { ...process.env, POSTGRES_PASSWORD:'fixture-password', ENV_ENCRYPTION_KEY:'Zm9yLWxvY2FsLWRldmVsb3BtZW50LW9ubHktMzJieXQ=', ORPHEUS_API_KEY:'fixture', AGENTBOX_API_KEY:'fixture', OPENAI_API_KEY:'fixture', MATTERMOST_BOT_TOKEN:'fixture' },
 })
 if (compose.status !== 0) throw Error(compose.stderr || 'Docker Compose is required to validate the example')
+const spaceCompose = spawnSync('docker', ['compose', '--env-file', '.env.example', '--profile', 'execution', 'config', '--quiet'], {
+  cwd: 'examples/space', encoding: 'utf8',
+  env: { ...process.env, POSTGRES_PASSWORD: 'fixture-password', ORPHEUS_SPACE_API_KEY: 'space-fixture' },
+})
+if (spaceCompose.status !== 0) throw Error(spaceCompose.stderr)
 console.log(`Validated API payloads, code blocks, Compose and ${ru.length} translated page pairs.`)

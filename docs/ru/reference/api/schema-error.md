@@ -8,7 +8,7 @@
 | --- | --- | --- | --- |
 | `code` | Да | string |   |
 | `details` | Да | array&lt;[ErrorDetail](schema-errordetail.md)&gt; |   |
-| `message` | Да | string |   |
+| `message` | Да | string | Сообщение об ошибке для пользователя. Ошибки исполнения включают исходное сообщение харнеса и доступные дополнительные сведения. Если их нет, возвращается общее сообщение.  |
 | `phase` | Да | string / null |   |
 
 ## JSON Schema
@@ -28,6 +28,7 @@
       "type": "array"
     },
     "message": {
+      "description": "Human-readable error message. Harness execution failures include the original harness message and additional details when available; otherwise a generic message is returned.",
       "title": "Message",
       "type": "string"
     },

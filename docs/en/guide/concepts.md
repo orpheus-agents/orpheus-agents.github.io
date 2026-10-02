@@ -12,6 +12,10 @@
 | Template | Prepared sandbox software | Codex, Python and a helpdesk CLI |
 | Hook | Preparation or finalization script | Publish a reply file |
 | Namespace | Integration or process label | `helpdesk` |
+| Orpheus | Service that creates sessions and executes runs | Orpheus API and worker |
+| [Space](../space/overview.md) | Separate service and web interface for recurring tasks | Morning reports |
+| Space schedule | Prompt, repeat rule and agent settings | Report at 10:00 on weekdays |
+| Occurrence | A due schedule instance with dispatch and run information | Monday’s report |
 
 A session allows one run by default. For conversations, set [`allow_multiple_runs: true`](../reference/api/create-session.md) at creation so subsequent runs retain context. Runs execute sequentially, and clarifications during execution work in either mode. Configuration is captured when a session is created. Editing a profile does not reconfigure an existing conversation.
 

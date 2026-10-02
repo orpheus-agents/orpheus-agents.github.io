@@ -1,0 +1,10 @@
+{
+  "name": "Morning report",
+  "prompt": "Summarize the open support tickets using the available helpdesk tool. Include ticket links and recommended next actions. Leave the report in the final response.",
+  "cron": "0 10 * * 1-5",
+  "timezone": "Europe/Moscow",
+  "status": "paused",
+  "owner_email": "alice@example.com",
+  "session_mode": "new",
+  "env_from": []
+}

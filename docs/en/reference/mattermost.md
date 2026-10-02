@@ -56,3 +56,24 @@
 Mandatory fields are marked `required`. Unknown fields, duplicate keys, duplicate IDs and overlapping specialized routes are rejected. Quote `revision` as a string. Put the complete agent instructions after the YAML.
 
 Do not store secrets in workflow files. `token_env` and [`env_from`](../configuration/secrets.md) hold variable names. [Examples](../integrations/mattermost/workflow.md) · [Apply changes](../integrations/mattermost/reload.md).
+
+## Message author and channel {#identity}
+
+Each post reaches the agent as a separate message with front matter:
+
+```yaml
+---
+kind: thread
+post_id: post-id
+root_id: root-id
+channel: {"id":"channel-id","name":"dev-test-group"}
+author: {"id":"user-id","username":"alice","nickname":"Alice","email":"alice@example.com"}
+created_at: 2026-10-01T07:00:00Z
+---
+```
+
+`channel.name` is the name in `~dev-test-group` without `~`. Direct and group channels use generated names. Linked threads carry their own authors and channels.
+
+Email comes from the Mattermost profile. Bot and webhook posts do not carry email. Empty optional fields are omitted. This lets the [Space skill](../space/cli.md) identify the author of a specific request, but does not itself establish access permissions.
+
+For email-based tools, the connector token must read other users' addresses. An ordinary bot requires Mattermost's `PrivacySettings.ShowEmailAddress` setting. Check `GET /api/v4/users/{human-user-id}` with the connector token: email on the bot's own profile is not sufficient. If the address is unavailable, the agent must not guess the schedule owner.
