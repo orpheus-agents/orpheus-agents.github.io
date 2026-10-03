@@ -1,13 +1,13 @@
 # Space configuration
 
-Space reads process environment and the execution TOML file at startup. The binary does not load `.env`. Compose reads it in the [deployment example](../space/setup.md). Restart the relevant processes after changing settings.
+Space reads process environment and the access and execution TOML file at startup. The binary does not load `.env`. Compose reads it in the [deployment example](../space/setup.md). Restart the relevant processes after changing settings.
 
 ## Service and database {#service}
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | `DATABASE_URL` | Required | Separate Space PostgreSQL DSN. Shared by API, worker and migrations |
-| `ORPHEUS_CONFIG_FILE` | `orpheus-space.toml` | Execution TOML path for API and worker |
+| `ORPHEUS_CONFIG_FILE` | `orpheus-space.toml` | Access and execution TOML path for API and worker |
 | `ORPHEUS_MIGRATIONS_DIR` | `migrations` | Image migration directory |
 | `HARNESS_ENV_ALLOWLIST` | `[]` | JSON array of permitted ENV names, identical on API and worker |
 | `ORPHEUS_HOST`, `ORPHEUS_PORT` | `0.0.0.0`, `8000` | Public API listener |
@@ -15,7 +15,7 @@ Space reads process environment and the execution TOML file at startup. The bina
 | `WORKER_POLL_SECONDS` | `1` | Positive worker polling interval in seconds, fractions allowed |
 | `MAX_REQUEST_BYTES` | `1048576` | Request body limit, from 4096 to 1048576 bytes |
 
-Every Space user can select every name in this allowlist. It does not separate access by schedule owner.
+Users with write access can select any allowlisted name for schedules they are allowed to modify. The ENV allowlist itself does not vary by owner.
 
 Base and additional ENV names must also be permitted [in Orpheus](environment.md#env-harness-env-allowlist). Supply values to the Orpheus worker, not Space.
 
@@ -26,7 +26,7 @@ Base and additional ENV names must also be permitted [in Orpheus](environment.md
 | `ORPHEUS_BASE_URL` | HTTP(S) Orpheus origin reachable from Space, without `/api/v1` |
 | `ORPHEUS_API_KEY` | Orpheus Bearer key for dispatch, status polling and result retrieval |
 
-Both are required by the worker. API can run without them, but result retrieval returns `503`. Give Space a separate key from [Orpheus's `PUBLIC_API_KEYS`](environment.md#env-public-api-keys). It differs from the key used by the CLI to access Space.
+Both are required by the worker. The API also uses them for the profile/template catalogs, schedule creation, selection changes and result retrieval. These operations return `503` when Orpheus is unavailable. Give Space a separate key from [Orpheus's `PUBLIC_API_KEYS`](environment.md#env-public-api-keys). It differs from the key used by the CLI to access Space.
 
 ## Space access {#access}
 
@@ -37,6 +37,15 @@ Both are required by the worker. API can run without them, but result retrieval 
 | `ORPHEUS_PUBLIC_URL` | None | Exact external browser origin without trailing slash. Required in `anonymous` and `saml`, HTTPS only for SAML |
 
 The API also uses `ORPHEUS_PUBLIC_URL` for the [schedule’s `url` field](space-api/schema-schedule.md), a link to its Space Web card. Without this setting, `url` is `null`. The link is computed when responding, so changing the address does not require editing schedules. Request addresses and proxy headers are not used to build it.
+
+The TOML field `access.admin_emails` contains SAML administrator emails:
+
+```toml
+[access]
+admin_emails = ["admin@example.com"]
+```
+
+The default is `[]`: no SAML administrators. Addresses are trimmed and lowercased. Invalid addresses and duplicates after normalization prevent startup. Restart the API after changes. Current sessions acquire the new role on their next request. API keys and anonymous mode retain full access.
 
 See [permissions, Origin and CSRF](../space/access.md). The worker validates the mode name but does not use browser settings or SAML files.
 
@@ -70,10 +79,10 @@ max_session_tokens = 1000000
 
 | Field | Purpose |
 | --- | --- |
-| `execution.agent.profile` | Required [Orpheus profile](../configuration/profiles.md) |
+| `execution.agent.profile` | Required default [Orpheus profile](../configuration/profiles.md) for new schedules |
 | `execution.agent.instructions` | Optional inline instructions. An empty string clears profile instructions |
 | `execution.agent.instructions_file` | Alternative UTF-8 instructions file, mounted in API and worker |
-| `execution.sandbox.template` | Required [AgentBox template](../configuration/templates.md) |
+| `execution.sandbox.template` | Required default [AgentBox template](../configuration/templates.md) for new schedules |
 | `execution.sandbox.env_from` | Base ENV names for all schedules. Default `[]` |
 | `execution.limits.run_timeout_seconds` | Positive run timeout. Default 3600 seconds |
 | `execution.limits.max_session_tokens` | Optional positive session token limit |

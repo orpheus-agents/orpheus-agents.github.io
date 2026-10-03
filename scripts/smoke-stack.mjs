@@ -67,18 +67,11 @@ try {
   const headers = { 'Content-Type': 'application/json', Origin: 'http://localhost:8086', 'X-Orpheus-CSRF': '1' }
   await request(base, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload }, 403)
   await request(base, { headers: { Authorization: 'Bearer invalid' } }, 401)
-  const schedule = await request(base, { method: 'POST', headers, body: payload }, 201)
-  if (schedule.status !== 'paused' || schedule.next_run_at !== null) throw Error('Example schedule must stay paused')
-  const filtered = await request(`${base}?owner_email=alice%40example.com`)
-  if (filtered.items.length !== 1 || filtered.items[0].id !== schedule.id) throw Error('Space owner filter failed')
-  await request(`${base}/${schedule.id}`, { method: 'PATCH', headers, body: JSON.stringify({ name: 'Edited report' }) })
-  const history = await request(`${base}/${schedule.id}/occurrences`)
-  if (history.items.length !== 0) throw Error('Paused schedule unexpectedly executed')
-  const preview = await request(`${base}/preview`, { method: 'POST', headers, body: JSON.stringify({ cron: '0 10 * * 1-5', timezone: 'Europe/Moscow' }) })
-  if (preview.times.length !== 5) throw Error('Space preview must return five occurrences')
-  await request(`${base}/${schedule.id}`, { method: 'DELETE', headers }, 204)
-  if ((await request(base)).items.length !== 0) throw Error('Deleted schedule remains in list')
-  console.log('Space published images passed migrations, readiness, nginx CRUD, preview, owner filtering and Origin/CSRF checks without core.')
+  if ((await request(base)).items.length !== 0) throw Error('Space smoke database must be empty')
+  await request(base, { method: 'POST', headers, body: payload }, 503)
+  const offlinePreview = await request(`${base}/preview`, { method: 'POST', headers, body: JSON.stringify({ cron: '0 10 * * 1-5', timezone: 'Europe/Moscow' }) })
+  if (offlinePreview.times.length !== 5) throw Error('Space preview must work without core')
+  console.log('Space published images passed readiness, reads, preview, Origin/CSRF and unavailable-catalog checks without core.')
   await run('docker', ['network', 'create', env.ORPHEUS_SPACE_CORE_NETWORK], true)
   bridgeCreated = true
   writeFileSync(join(temp, '.env'), readFileSync(join(temp, '.env'), 'utf8') + '\nCOMPOSE_FILE=compose.yaml:compose.space.yaml\n')
@@ -104,6 +97,18 @@ try {
   for (const key of ['fixture', 'space-core-fixture']) {
     if (!(await fetch(`${coreAPI}/api/v1/sessions`, { headers: { Authorization: `Bearer ${key}` } })).ok) throw Error('Core key not preserved or Space key missing')
   }
+  const schedule = await request(base, { method: 'POST', headers, body: payload }, 201)
+  if (schedule.status !== 'paused' || schedule.next_run_at !== null) throw Error('Example schedule must stay paused')
+  const filtered = await request(`${base}?owner_email=alice%40example.com`)
+  if (filtered.items.length !== 1 || filtered.items[0].id !== schedule.id) throw Error('Space owner filter failed')
+  await request(`${base}/${schedule.id}`, { method: 'PATCH', headers, body: JSON.stringify({ name: 'Edited report' }) })
+  const history = await request(`${base}/${schedule.id}/occurrences`)
+  if (history.items.length !== 0) throw Error('Paused schedule unexpectedly executed')
+  const preview = await request(`${base}/preview`, { method: 'POST', headers, body: JSON.stringify({ cron: '0 10 * * 1-5', timezone: 'Europe/Moscow' }) })
+  if (preview.times.length !== 5) throw Error('Space preview must return five occurrences')
+  await request(`${base}/${schedule.id}`, { method: 'DELETE', headers }, 204)
+  if ((await request(base)).items.length !== 0) throw Error('Deleted schedule remains in list')
+  console.log('Space published images passed nginx CRUD, catalog-backed creation, owner filtering and Origin/CSRF checks.')
   const probe = await request(base, { method: 'POST', headers, body: JSON.stringify({ name: 'Connection check', prompt: 'Reply SPACE_OK', cron: '* * * * *', timezone: 'UTC' }) }, 201)
   const deadline = Date.now() + 75000
   let occurrence
@@ -116,6 +121,10 @@ try {
   if (occurrence?.state !== 'accepted' || !occurrence.run_id) throw Error('Space did not submit to local core')
   await request(`${base}/${probe.id}`, { method: 'DELETE', headers }, 204)
   console.log('Persistent COMPOSE_FILE selection, dedicated bridge, distinct core keys and Space worker submission passed. Core worker stayed stopped.')
+} catch (error) {
+  await spaceCompose(['logs', '--no-color', '--tail', '60']).catch(() => {})
+  await compose(['logs', '--no-color', '--tail', '60']).catch(() => {})
+  throw error
 } finally {
   try { await spaceCompose(['--profile', 'execution', 'down', '-v', '--remove-orphans']) }
   finally {

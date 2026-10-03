@@ -1,3 +1,6 @@
+[templates.codex]
+description = "Codex sandbox"
+
 [profiles.default]
 harness = "codex"
 model = "gpt-6-sol"

@@ -8,7 +8,7 @@ Installation in a Linux Codex sandbox. For arm64, replace `arch=amd64` with `arc
 
 ```sh
 set -eu
-version=v0.6.0
+version=v0.9.0
 arch=amd64
 release="https://github.com/orpheus-agents/orpheus-space/releases/download/$version"
 for file in "orpheus-space_${version}_linux_${arch}.tar.gz" "orpheus-space_${version}_skill.tar.gz" checksums.txt; do

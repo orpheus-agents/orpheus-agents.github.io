@@ -4,7 +4,7 @@
 PATCH /api/v1/schedules/{id}
 ```
 
-Update selected schedule fields
+SAML non-admins can update only their own schedules and cannot change or clear the owner. Denied writes return 403 schedule_forbidden.
 
 **operationId:** `UpdateSchedule`
 
@@ -35,6 +35,6 @@ See [Space authentication](../../space/access.md) for access, browser writes and
 | Code | Description | Content |
 | --- | --- | --- |
 | 200 | Success | `application/json`: [Schedule](schema-schedule.md) |
-| default | Structured API error. 401 credentials, 403 CSRF, 404 missing, 409 conflict, 422 validation, 503 unavailable. | `application/json`: [Problem](schema-problem.md) |
+| default | Structured API error. 401 credentials, 403 CSRF or schedule_forbidden, 404 missing, 409 conflict, 422 validation, 503 unavailable. | `application/json`: [Problem](schema-problem.md) |
 
 [HTTP API](index.md)

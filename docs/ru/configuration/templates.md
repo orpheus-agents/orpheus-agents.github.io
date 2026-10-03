@@ -5,10 +5,27 @@
 1. Опишите окружение по [инструкции AgentBox](https://docs.agentbox.ru/ru/templates/).
 2. Добавьте программы, зависимости и инструкции работы с ними.
 3. Соберите шаблон в том же проекте AgentBox, ключ которого использует worker.
-4. Укажите имя в [`configuration.sandbox.template`](../reference/api/create-session.md) при создании сессии через API или в [`sandbox_template`](../reference/mattermost.md#workflow-sandbox-template) при [настройке workflow Mattermost](../integrations/mattermost/workflow.md).
-5. Создайте новую сессию и проверьте доступность инструментов.
+4. Зарегистрируйте шаблон в Orpheus по инструкции ниже.
+5. Укажите имя в [`configuration.sandbox.template`](../reference/api/create-session.md) при создании сессии через API или в [`sandbox_template`](../reference/mattermost.md#workflow-sandbox-template) при [настройке workflow Mattermost](../integrations/mattermost/workflow.md).
+6. Создайте новую сессию и проверьте доступность инструментов.
 
 Для Mattermost требуется Linux и Python 3.9 или новее. Скрипты работы с вложениями коннектор устанавливает сам.
+
+## Регистрация шаблонов в Orpheus
+
+Добавьте каждый разрешённый шаблон в [`orpheus.toml`](profiles.md) рядом с профилями агента. Нужен хотя бы один шаблон:
+
+```toml
+[templates.codex]
+description = "Песочница Codex"
+
+[templates."company-agent:stable"]
+description = "Корпоративные инструменты и навыки"
+```
+
+Ключ должен точно совпадать с именем шаблона AgentBox, включая тег. Регистрация не собирает и не проверяет шаблон в AgentBox. Необязательное описание отображается в [каталоге шаблонов](../reference/api/get-templates.md) и не должно содержать секретов. При создании сессии незарегистрированное имя приводит к HTTP 422 (`unknown_template`).
+
+API и worker должны использовать один конфиг. После изменений перезапустите оба сервиса. Удаление шаблона из конфига не меняет существующие сессии. [Space](../space/schedules.md) использует этот каталог при создании заданий и изменении их настроек выполнения.
 
 ## Изменения окружения
 

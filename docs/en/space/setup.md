@@ -1,6 +1,6 @@
 # Start Space
 
-Executing schedules requires a [running Orpheus instance](../getting-started/launch.md), an agent profile and an AgentBox template. Space uses a separate PostgreSQL database. The example uses published API, worker and web images, so no image build is needed.
+Creating and executing schedules requires a [running Orpheus instance](../getting-started/launch.md), an agent profile and an AgentBox template. Space uses a separate PostgreSQL database. The example uses published API, worker and web images, so no image build is needed.
 
 ## Local interface
 
@@ -22,7 +22,7 @@ curl -fsS http://localhost:9110/ready
 
 Open `http://localhost:8086`. The example uses [anonymous mode](access.md): the interface allows reading and writing without login, with ports bound to the local computer. Use `localhost` exactly because [`ORPHEUS_PUBLIC_URL`](../reference/space.md#access) must match the browser origin.
 
-Without the worker you can create and edit a paused schedule and preview its next occurrences. No schedules execute.
+Connect Orpheus before creating a schedule: Space validates its profile and template against the Orpheus catalogs. Without that connection, you can browse stored schedules and preview recurrence times. Without a worker, no schedules execute.
 
 ## Connect Orpheus
 

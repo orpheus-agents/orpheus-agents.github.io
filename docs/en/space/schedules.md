@@ -13,10 +13,14 @@ A new schedule starts with the interface time zone. Review the zone and the next
 | Active / Paused | Enable or suspend future occurrences |
 | New session for each run | Start each task with fresh context |
 | Continue the same session | Keep context between runs |
-| Model | Optional model name overriding the base profile's model |
-| Owner email | Filter schedules by person. Empty means shared |
+| Profile | Select the [agent configuration](../configuration/profiles.md) |
+| Sandbox template | Select the [AgentBox environment](../configuration/templates.md) |
+| Model | Optional override for the selected profile’s model |
+| Owner email | Defines ownership and filters the list. Empty means shared |
 
-When creating a schedule in the web interface, the owner is prefilled from [SSO](access.md) email when available. You can change it or clear it for a shared schedule. Creating through the API without `owner_email` leaves the schedule shared.
+The web interface fills the owner from [SSO](access.md). Ordinary users see a read-only owner field. Administrators can change it or clear it for a shared schedule. Creating through an API key without [`owner_email`](../reference/space-api/schema-createschedule.md) leaves the schedule shared. For an ordinary user’s cookie-authenticated request, omission fills the session email.
+
+Profiles and templates come from the Orpheus catalogs. New schedules use the configured defaults, while existing schedules keep their stored choices. Creating a schedule or changing these choices requires Orpheus to be reachable.
 
 [API fields and accepted values](../reference/space-api/schema-createschedule.md).
 
@@ -24,7 +28,7 @@ When creating a schedule in the web interface, the owner is prefilled from [SSO]
 
 A schedule combines base environment names with additional [`env_from`](../reference/space-api/schema-createschedule.md) names. Select from the available names. Values are neither entered in the form nor stored in Space. The additional ENV selector is hidden when there are no available choices.
 
-Every Space user can select any available name. If a name is missing, ask the administrator to [configure ENV forwarding](../reference/space.md#environment).
+When editing an allowed schedule, you can select any available name. If a name is missing, ask the administrator to [configure ENV forwarding](../reference/space.md#environment).
 
 ## Pausing and context
 

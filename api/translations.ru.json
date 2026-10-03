@@ -100,5 +100,14 @@
   "AgentBox sandbox ID, if known. Retained for diagnostics after deletion or loss; does not guarantee accessibility.": "ID песочницы AgentBox, если известен. Сохраняется для диагностики после удаления или потери песочницы и не гарантирует её доступность.",
   "Immutable policy allowing subsequent runs. False means the sandbox is deleted after the first run terminates; session history remains available.": "Неизменяемый режим сессии, разрешающий следующие запуски. При false песочница удаляется после завершения первого запуска. История сессии остаётся доступной.",
   "Create a subsequent run. Sessions created with allow_multiple_runs=false reject this operation with 409 multiple_runs_not_allowed, regardless of the first run or sandbox state. Idempotent replay of an accepted request returns the original acceptance.": "Создать следующий запуск. При allow_multiple_runs=false операция отклоняется с 409 multiple_runs_not_allowed независимо от состояния первого запуска и песочницы. Идемпотентный повтор принятого запроса возвращает исходное подтверждение.",
-  "Human-readable error message. Harness execution failures include the original harness message and additional details when available; otherwise a generic message is returned.": "Сообщение об ошибке для пользователя. Ошибки исполнения включают исходное сообщение харнеса и доступные дополнительные сведения. Если их нет, возвращается общее сообщение."
+  "Human-readable error message. Harness execution failures include the original harness message and additional details when available; otherwise a generic message is returned.": "Сообщение об ошибке для пользователя. Ошибки исполнения включают исходное сообщение харнеса и доступные дополнительные сведения. Если их нет, возвращается общее сообщение.",
+  "List configured profiles": "Список настроенных профилей",
+  "Returns the complete catalog sorted by name from local configuration. No provider or credential lookups are performed.": "Возвращает полный каталог из локальной конфигурации, упорядоченный по имени. Не обращается к провайдерам или хранилищу учётных данных.",
+  "Configured profiles": "Настроенные профили",
+  "Authentication temporarily unavailable": "Авторизация временно недоступна",
+  "List configured templates": "Список настроенных шаблонов",
+  "Configured templates": "Настроенные шаблоны",
+  "Current provider limits by configured account": "Текущие лимиты провайдера по настроенным аккаунтам",
+  "Dashboard analytics snapshot": "Сводка аналитики панели",
+  "Create Run": "Создание запуска"
 }

@@ -9,6 +9,7 @@ const contracts = [
   { file: 'space.openapi.yaml', checksum: 'space_openapi_sha256', directory: 'space-api', translations: 'space.translations.ru.json' },
 ]
 const names = {
+  get_profiles: 'Каталог профилей', get_templates: 'Каталог шаблонов',
   get_account_limits: 'Лимиты аккаунтов', get_analytics_overview: 'Обзор аналитики',
   auth_session: 'Браузерная сессия', browser_login: 'Вход через SSO', browser_callback: 'Ответ SAML',
   browser_logout: 'Выход', saml_metadata: 'Метаданные SAML', list_all_runs: 'Все запуски',

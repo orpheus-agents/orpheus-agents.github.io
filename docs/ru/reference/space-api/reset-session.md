@@ -4,7 +4,7 @@
 POST /api/v1/schedules/{id}/reset-session
 ```
 
-Сброс контекста следующего запуска
+Пользователи SAML без прав администратора сбрасывают контекст только своих заданий. Запрещённая запись возвращает 403 schedule_forbidden.
 
 **operationId:** `ResetSession`
 
@@ -25,6 +25,6 @@ bearerAuth / browserSession / Без авторизации в режиме anon
 | Код | Описание | Содержимое |
 | --- | --- | --- |
 | 200 | Успешный ответ | `application/json`: [Schedule](schema-schedule.md) |
-| default | Структурированная ошибка. 401 — авторизация, 403 — CSRF, 404 — не найдено, 409 — конфликт, 422 — валидация, 503 — сервис недоступен. | `application/json`: [Problem](schema-problem.md) |
+| default | Структурированная ошибка. 401 — авторизация, 403 — CSRF или schedule_forbidden, 404 — не найдено, 409 — конфликт, 422 — валидация, 503 — сервис недоступен. | `application/json`: [Problem](schema-problem.md) |
 
 [HTTP API](index.md)

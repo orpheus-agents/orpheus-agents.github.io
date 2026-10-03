@@ -2,6 +2,11 @@
 
 Generated from the Orpheus OpenAPI contract. Usage guidance is provided in the integration guides.
 
+- [Profile](schema-profile.md)
+- [CodexProfile](schema-codexprofile.md)
+- [Profiles](schema-profiles.md)
+- [Template](schema-template.md)
+- [Templates](schema-templates.md)
 - [AccountLimitWindow](schema-accountlimitwindow.md)
 - [AccountLimitBucket](schema-accountlimitbucket.md)
 - [AccountLimitItem](schema-accountlimititem.md)

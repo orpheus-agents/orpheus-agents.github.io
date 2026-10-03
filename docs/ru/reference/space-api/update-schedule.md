@@ -4,7 +4,7 @@
 PATCH /api/v1/schedules/{id}
 ```
 
-Изменение полей задания
+Пользователи SAML без прав администратора меняют только свои задания и не могут изменить или очистить владельца. Запрещённая запись возвращает 403 schedule_forbidden.
 
 **operationId:** `UpdateSchedule`
 
@@ -35,6 +35,6 @@ bearerAuth / browserSession / Без авторизации в режиме anon
 | Код | Описание | Содержимое |
 | --- | --- | --- |
 | 200 | Успешный ответ | `application/json`: [Schedule](schema-schedule.md) |
-| default | Структурированная ошибка. 401 — авторизация, 403 — CSRF, 404 — не найдено, 409 — конфликт, 422 — валидация, 503 — сервис недоступен. | `application/json`: [Problem](schema-problem.md) |
+| default | Структурированная ошибка. 401 — авторизация, 403 — CSRF или schedule_forbidden, 404 — не найдено, 409 — конфликт, 422 — валидация, 503 — сервис недоступен. | `application/json`: [Problem](schema-problem.md) |
 
 [HTTP API](index.md)

@@ -6,6 +6,9 @@
 
 | Поле | Обязательное | Тип | Описание и ограничения |
 | --- | --- | --- | --- |
+| `can_edit` | Да | boolean | Может ли вызывающий изменить текущее задание. Для удалённых заданий false. Вычисляется по текущему владельцу, включая повтор идемпотентного создания. Активное выполнение может запрещать сброс сессии.  |
+| `profile` | Да | string | Сохранённое имя профиля Orpheus. minLength: <code>1</code> |
+| `template` | Да | string | Сохранённое имя шаблона Orpheus. minLength: <code>1</code> |
 | `url` | Да | string / null | Абсолютная ссылка на карточку Space Web из ORPHEUS_PUBLIC_URL. Если адрес не настроен — null. Вычисляется при формировании ответа. format: <code>"uri"</code> |
 | `name` | Да | string |  minLength: <code>1</code><br>maxLength: <code>200</code> |
 | `prompt` | Да | string |  minLength: <code>1</code> |
@@ -32,12 +35,15 @@
   "required": [
     "id",
     "url",
+    "can_edit",
     "name",
     "prompt",
     "cron",
     "timezone",
     "status",
     "model",
+    "profile",
+    "template",
     "session_mode",
     "owner_email",
     "env_from",
@@ -48,6 +54,20 @@
     "last_occurrence"
   ],
   "properties": {
+    "can_edit": {
+      "type": "boolean",
+      "description": "Whether this caller may modify the current schedule. False for deleted schedules. Computed from current ownership even on an idempotent creation replay; busy state can still prevent session reset."
+    },
+    "profile": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stored Orpheus profile name."
+    },
+    "template": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stored Orpheus template name."
+    },
     "url": {
       "type": "string",
       "format": "uri",
