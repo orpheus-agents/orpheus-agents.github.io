@@ -4,7 +4,7 @@
 DELETE /api/v1/schedules/{id}
 ```
 
-Удаление задания с сохранением истории
+Пользователи SAML без прав администратора удаляют только свои задания. Запрещённая запись возвращает 403 schedule_forbidden.
 
 **operationId:** `DeleteSchedule`
 
@@ -25,6 +25,6 @@ bearerAuth / browserSession / Без авторизации в режиме anon
 | Код | Описание | Содержимое |
 | --- | --- | --- |
 | 204 | Успешный ответ |  |
-| default | Структурированная ошибка. 401 — авторизация, 403 — CSRF, 404 — не найдено, 409 — конфликт, 422 — валидация, 503 — сервис недоступен. | `application/json`: [Problem](schema-problem.md) |
+| default | Структурированная ошибка. 401 — авторизация, 403 — CSRF или schedule_forbidden, 404 — не найдено, 409 — конфликт, 422 — валидация, 503 — сервис недоступен. | `application/json`: [Problem](schema-problem.md) |
 
 [HTTP API](index.md)

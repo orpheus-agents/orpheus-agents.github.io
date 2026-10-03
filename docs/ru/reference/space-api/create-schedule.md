@@ -4,7 +4,7 @@
 POST /api/v1/schedules
 ```
 
-Создание задания
+Пользователи SAML без прав администратора создают только на свой email. Пропуск владельца подставляет email сессии. Явный null или другой владелец возвращают 403 schedule_forbidden. Bearer, anonymous и администраторы имеют полный доступ.
 
 **operationId:** `CreateSchedule`
 
@@ -35,6 +35,6 @@ bearerAuth / browserSession / Без авторизации в режиме anon
 | Код | Описание | Содержимое |
 | --- | --- | --- |
 | 201 | Успешный ответ | `application/json`: [Schedule](schema-schedule.md) |
-| default | Структурированная ошибка. 401 — авторизация, 403 — CSRF, 404 — не найдено, 409 — конфликт, 422 — валидация, 503 — сервис недоступен. | `application/json`: [Problem](schema-problem.md) |
+| default | Структурированная ошибка. 401 — авторизация, 403 — CSRF или schedule_forbidden, 404 — не найдено, 409 — конфликт, 422 — валидация, 503 — сервис недоступен. | `application/json`: [Problem](schema-problem.md) |
 
 [HTTP API](index.md)

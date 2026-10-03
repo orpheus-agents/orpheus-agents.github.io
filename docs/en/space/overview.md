@@ -13,7 +13,7 @@ The final answer is available from schedule history. Space does not send it to a
 3. Save the schedule as **Active** or **Paused**.
 4. After an occurrence, open its history and fetch the run result.
 
-Everyone with Space access can view and edit every schedule. Owner email is a list filter, not an access boundary. An empty email marks a shared schedule.
+Everyone with Space access can view every schedule. [Administrators](access.md#permissions) can change all schedules. Other users can create for themselves and change only their own schedules. An empty owner email marks a shared schedule, which ordinary users can only read.
 
 Users can also manage schedules by messaging an agent if the administrator has installed the [Space CLI and skill](cli.md). The skill instructs the agent to handle only the request author's schedules. These instructions do not enforce server permissions.
 

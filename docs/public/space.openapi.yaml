@@ -3,8 +3,7 @@ openapi: 3.0.3
 info:
   title: Orpheus Space API
   version: 0.1.0
-  description: Schedule management and stored history. Only the explicit result endpoint
-    reads the Orpheus core synchronously.
+  description: Schedule management and stored history. Catalog and result endpoints read Orpheus synchronously; writes validate new profile and template selections.
   license:
     name: MIT
     url: https://opensource.org/license/mit
@@ -44,6 +43,7 @@ paths:
     post:
       operationId: CreateSchedule
       summary: Create a schedule
+      description: SAML non-admins can create only for their own email; an omitted owner is filled from the session. Explicit null or another owner returns 403 schedule_forbidden. Bearer, anonymous and admins have full access.
       tags:
       - Schedules
       parameters:
@@ -83,6 +83,7 @@ paths:
     patch:
       operationId: UpdateSchedule
       summary: Update selected schedule fields
+      description: SAML non-admins can update only their own schedules and cannot change or clear the owner. Denied writes return 403 schedule_forbidden.
       tags:
       - Schedules
       requestBody:
@@ -103,11 +104,40 @@ paths:
     delete:
       operationId: DeleteSchedule
       summary: Soft delete a schedule
+      description: SAML non-admins can delete only their own schedules. Denied writes return 403 schedule_forbidden.
       tags:
       - Schedules
       responses:
         '204':
           description: Success
+        default:
+          "$ref": "#/components/responses/Problem"
+  "/api/v1/schedules/profiles":
+    get:
+      operationId: GetProfiles
+      summary: Get Orpheus profiles and the creation default
+      tags: [Schedules]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Profiles"
+        default:
+          "$ref": "#/components/responses/Problem"
+  "/api/v1/schedules/templates":
+    get:
+      operationId: GetTemplates
+      summary: Get Orpheus templates and the creation default
+      tags: [Schedules]
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Templates"
         default:
           "$ref": "#/components/responses/Problem"
   "/api/v1/schedules/settings":
@@ -224,6 +254,7 @@ paths:
     post:
       operationId: ResetSession
       summary: Detach the reusable session for the next occurrence
+      description: SAML non-admins can reset only their own schedules. Denied writes return 403 schedule_forbidden.
       tags:
       - Schedules
       responses:
@@ -387,7 +418,7 @@ components:
         format: uuid
   responses:
     Problem:
-      description: Structured API error. 401 credentials, 403 CSRF, 404 missing, 409
+      description: Structured API error. 401 credentials, 403 CSRF or schedule_forbidden, 404 missing, 409
         conflict, 422 validation, 503 unavailable.
       content:
         application/json:
@@ -447,6 +478,50 @@ components:
       items:
         type: string
         pattern: "^[A-Za-z_][A-Za-z0-9_]*$"
+    Profile:
+      type: object
+      additionalProperties: false
+      required: [name, description, harness, model, codex, instructions, is_default]
+      properties:
+        name: {type: string}
+        description: {type: string, nullable: true}
+        harness: {type: string, enum: [codex]}
+        model: {type: string, nullable: true}
+        codex: {$ref: '#/components/schemas/CodexProfile'}
+        instructions: {type: string}
+        is_default: {type: boolean}
+    CodexProfile:
+      type: object
+      additionalProperties: false
+      properties:
+        effort: {type: string, enum: [none, minimal, low, medium, high, xhigh, max, ultra]}
+        summary: {type: string, enum: [auto, concise, detailed, none]}
+        personality: {type: string, enum: [none, friendly, pragmatic]}
+        service_tier: {type: string, minLength: 1}
+    Profiles:
+      type: object
+      additionalProperties: false
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: {$ref: '#/components/schemas/Profile'}
+    Template:
+      type: object
+      additionalProperties: false
+      required: [name, description, is_default]
+      properties:
+        name: {type: string}
+        description: {type: string, nullable: true}
+        is_default: {type: boolean}
+    Templates:
+      type: object
+      additionalProperties: false
+      required: [items]
+      properties:
+        items:
+          type: array
+          items: {$ref: '#/components/schemas/Template'}
     CreateSchedule:
       type: object
       additionalProperties: false
@@ -456,6 +531,14 @@ components:
       - cron
       - timezone
       properties:
+        profile:
+          type: string
+          minLength: 1
+          description: Exact Orpheus profile name; creation uses the configured default when omitted.
+        template:
+          type: string
+          minLength: 1
+          description: Exact Orpheus template name; creation uses the configured default when omitted.
         name:
           type: string
           minLength: 1
@@ -481,12 +564,21 @@ components:
           type: string
           nullable: true
           minLength: 1
+          description: SAML non-admins must use their session email; omission fills it, explicit null is forbidden. Full-access callers may use any owner or null.
         env_from:
           "$ref": "#/components/schemas/EnvFrom"
     UpdateSchedule:
       type: object
       additionalProperties: false
       properties:
+        profile:
+          type: string
+          minLength: 1
+          description: Exact Orpheus profile name; omitted keeps the stored choice; a change starts a new reusable session.
+        template:
+          type: string
+          minLength: 1
+          description: Exact Orpheus template name; omitted keeps the stored choice; a change starts a new reusable session.
         name:
           type: string
           minLength: 1
@@ -520,12 +612,15 @@ components:
       required:
       - id
       - url
+      - can_edit
       - name
       - prompt
       - cron
       - timezone
       - status
       - model
+      - profile
+      - template
       - session_mode
       - owner_email
       - env_from
@@ -535,6 +630,17 @@ components:
       - deleted_at
       - last_occurrence
       properties:
+        can_edit:
+          type: boolean
+          description: Whether this caller may modify the current schedule. False for deleted schedules. Computed from current ownership even on an idempotent creation replay; busy state can still prevent session reset.
+        profile:
+          type: string
+          minLength: 1
+          description: Stored Orpheus profile name.
+        template:
+          type: string
+          minLength: 1
+          description: Stored Orpheus template name.
         url:
           type: string
           format: uri
@@ -652,6 +758,7 @@ components:
       - authenticated
       - read_access
       - write_access
+      - can_manage_all
       - user
       - expires_at
       properties:
@@ -667,6 +774,10 @@ components:
           type: boolean
         write_access:
           type: boolean
+          description: Can create schedules and modify those available to this caller. SAML users without an email cannot write.
+        can_manage_all:
+          type: boolean
+          description: Can manage all schedules and assign or clear their owners. True for configured SAML admins, valid Bearer keys and anonymous mode.
         user:
           type: object
           nullable: true

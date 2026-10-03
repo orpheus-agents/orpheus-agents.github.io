@@ -1,13 +1,13 @@
 # Конфигурация Space
 
-Space читает окружение процесса и TOML-файл исполнения при старте. Сам бинарник не загружает `.env`. В [примере запуска](../space/setup.md) его читает Compose. После изменения настроек перезапустите соответствующие процессы.
+Space читает окружение процесса и TOML-файл доступа и исполнения при старте. Сам бинарник не загружает `.env`. В [примере запуска](../space/setup.md) его читает Compose. После изменения настроек перезапустите соответствующие процессы.
 
 ## Сервис и БД {#service}
 
 | Переменная | По умолчанию | Назначение |
 | --- | --- | --- |
 | `DATABASE_URL` | Обязательна | DSN отдельной PostgreSQL БД Space. Одинаковый у API, worker и миграций |
-| `ORPHEUS_CONFIG_FILE` | `orpheus-space.toml` | Путь к TOML исполнения у API и worker |
+| `ORPHEUS_CONFIG_FILE` | `orpheus-space.toml` | Путь к TOML доступа и исполнения у API и worker |
 | `ORPHEUS_MIGRATIONS_DIR` | `migrations` | Каталог миграций из образа |
 | `HARNESS_ENV_ALLOWLIST` | `[]` | JSON-массив разрешённых имён ENV, одинаковый у API и worker |
 | `ORPHEUS_HOST`, `ORPHEUS_PORT` | `0.0.0.0`, `8000` | Адрес публичного API |
@@ -15,7 +15,7 @@ Space читает окружение процесса и TOML-файл испо
 | `WORKER_POLL_SECONDS` | `1` | Положительный интервал опроса worker в секундах, допускает дробные значения |
 | `MAX_REQUEST_BYTES` | `1048576` | Максимум тела запроса, от 4096 до 1048576 байт |
 
-Любой пользователь Space может выбрать любое имя из этого allowlist. Он не разграничивает доступ по владельцам заданий.
+Пользователь с правом записи может выбрать любое разрешённое имя для доступного ему задания. Сам allowlist ENV не зависит от владельца.
 
 Базовые и дополнительные ENV должны быть разрешены также [в Orpheus](environment.md#env-harness-env-allowlist). Значения передаются worker Orpheus, а не Space.
 
@@ -26,7 +26,7 @@ Space читает окружение процесса и TOML-файл испо
 | `ORPHEUS_BASE_URL` | HTTP(S)-origin Orpheus, доступный из Space, без `/api/v1` |
 | `ORPHEUS_API_KEY` | Bearer-ключ Orpheus для запуска, опроса статусов и чтения результатов |
 
-Обе переменные обязательны у worker. API может работать без них, но получение результата будет возвращать `503`. Выдайте Space отдельный ключ из [`PUBLIC_API_KEYS` Orpheus](environment.md#env-public-api-keys). Он отличается от ключа, которым CLI обращается к Space.
+Обе переменные обязательны у worker. API использует их для каталогов профилей и шаблонов, создания задания, смены выбранного профиля/шаблона и получения результата. Если Orpheus недоступен, эти операции возвращают `503`. Выдайте Space отдельный ключ из [`PUBLIC_API_KEYS` Orpheus](environment.md#env-public-api-keys). Он отличается от ключа, которым CLI обращается к Space.
 
 ## Доступ к Space {#access}
 
@@ -37,6 +37,15 @@ Space читает окружение процесса и TOML-файл испо
 | `ORPHEUS_PUBLIC_URL` | Нет | Точный внешний origin браузера без завершающего слеша. Обязателен в `anonymous` и `saml`, в SAML только HTTPS |
 
 API использует `ORPHEUS_PUBLIC_URL` также для [поля `url` задания](space-api/schema-schedule.md) — ссылки на его карточку в Space Web. Если адрес не задан, `url` равен `null`. Ссылка вычисляется при ответе, поэтому изменение адреса не требует редактирования заданий. Адрес запроса и заголовки прокси для неё не используются.
+
+Поле TOML `access.admin_emails` содержит email администраторов SAML:
+
+```toml
+[access]
+admin_emails = ["admin@example.com"]
+```
+
+По умолчанию `[]`: администраторов SAML нет. Пробелы по краям удаляются, регистр приводится к нижнему. Неверные адреса и дубликаты после нормализации запрещают запуск. После изменения списка перезапустите API. Действующие сессии получают новую роль на следующем запросе. API-ключи и режим anonymous сохраняют полный доступ.
 
 [Права, Origin и CSRF](../space/access.md). Worker проверяет название режима, но не использует браузерные настройки и SAML-файлы.
 
@@ -70,10 +79,10 @@ max_session_tokens = 1000000
 
 | Поле | Назначение |
 | --- | --- |
-| `execution.agent.profile` | Обязательный [профиль Orpheus](../configuration/profiles.md) |
+| `execution.agent.profile` | Обязательный [профиль Orpheus](../configuration/profiles.md) по умолчанию для новых заданий |
 | `execution.agent.instructions` | Необязательные инструкции строкой. Пустая строка очищает инструкции профиля |
 | `execution.agent.instructions_file` | Альтернатива строке: UTF-8 файл инструкций, смонтированный в API и worker |
-| `execution.sandbox.template` | Обязательный [шаблон AgentBox](../configuration/templates.md) |
+| `execution.sandbox.template` | Обязательный [шаблон AgentBox](../configuration/templates.md) по умолчанию для новых заданий |
 | `execution.sandbox.env_from` | Базовые имена ENV всех заданий. По умолчанию `[]` |
 | `execution.limits.run_timeout_seconds` | Положительный таймаут запуска. По умолчанию 3600 секунд |
 | `execution.limits.max_session_tokens` | Необязательный положительный лимит токенов сессии |

@@ -13,22 +13,22 @@ With `session_mode=reuse`:
 | Change | Context for the next run |
 | --- | --- |
 | Prompt, name, owner, cron or time zone | Preserved |
-| Model, ENV names, session mode or effective base configuration | New session |
+| Profile, template, model, ENV names, session mode or effective base configuration | New session |
 | Explicit context reset | New session. An active occurrence returns `409 schedule_busy` |
 
 Old sessions remain in Orpheus. Their namespace is `schedule`.
 
 ## Creation and edits
 
-Required [creation fields](schema-createschedule.md) are `name`, `prompt`, `cron` and `timezone`. Defaults are `status=active`, `session_mode=new`, `model=null`, `owner_email=null` and `env_from=[]`. Cron has five fields. Macros, seconds, years and inline TZ are rejected. Use an IANA time zone such as `Europe/Moscow`, not `Local`.
+Required [creation fields](schema-createschedule.md) are `name`, `prompt`, `cron` and `timezone`. Defaults are `status=active`, `session_mode=new`, `model=null` and `env_from=[]`. Omitted profile/template fields use the configured creation defaults. With full access, an omitted owner means `owner_email=null`. For an ordinary SAML user it is filled from the session email. Cron has five fields. Macros, seconds, years and inline TZ are rejected. Use an IANA time zone such as `Europe/Moscow`, not `Local`.
 
-[`PATCH`](update-schedule.md) changes only supplied fields. `null` clears model or owner, and `env_from: []` clears additional ENV names. Pausing removes the next run time. Resuming or editing cron/time zone chooses a new future time. Other edits preserve the planned time.
+[`PATCH`](update-schedule.md) changes only supplied fields. `null` clears model or owner, and `env_from: []` clears additional ENV names. Only callers with full access can change or clear ownership. Omitted profile/template fields preserve the stored selection, even if it was removed from Orpheus. Pausing removes the next run time. Resuming or editing cron/time zone chooses a new future time. Other edits preserve the planned time.
 
 [`DELETE`](delete-schedule.md) hides the schedule from lists. Its card and history remain, with `deleted_at` set on the card. Repeated deletion returns `204`.
 
 ## Retries
 
-Send a UUID [`Idempotency-Key`](create-schedule.md) when creating a schedule. Repeating the same normalized body returns the original response, even after later edits or deletion. A different body with the same key returns `409`. Keys do not expire.The [`url`](schema-schedule.md) field is recomputed from the current Space public address even in replayed responses.
+Send a UUID [`Idempotency-Key`](create-schedule.md) when creating a schedule. Repeating the same normalized body returns the original response, even after later edits or deletion. A different body with the same key returns `409`. Keys do not expire. The [`url` and `can_edit`](schema-schedule.md) fields are computed from the current public address and current ownership/deletion state even in replayed responses. Creation permissions are checked before replay.
 
 A short example using the file in `examples/space`:
 
@@ -65,7 +65,7 @@ Schedules are listed newest first. `limit` defaults to 50 and has a maximum of 2
 
 ## State and results
 
-Lists, cards, history and settings read Space data. Only [`result`](get-occurrence-result.md) synchronously calls Orpheus. The result's `fetched_at` does not replace history's status observation time `observed_at`.
+Lists, cards, history and settings read Space data. The [profile](get-profiles.md) and [template](get-templates.md) catalogs and [`result`](get-occurrence-result.md) synchronously call Orpheus. The result's `fetched_at` does not replace history's status observation time `observed_at`.
 
 A run that has not started returns `409`, a missing result returns `404`, and unavailable Orpheus returns `503`. See [diagnostics](../../space/operations.md#diagnostics).
 
@@ -98,6 +98,7 @@ Main `error.code` values in the schedules API:
 | --- | --- | --- |
 | 401 | `unauthorized` | No valid credentials |
 | 403 | `csrf_failed` | Invalid Origin or CSRF header |
+| 403 | `schedule_forbidden` | The session cannot create for this owner or change this schedule |
 | 404 | `schedule_not_found`, `occurrence_not_found`, `not_found` | Missing schedule, occurrence or route |
 | 404 | `run_result_not_found` | Result record missing from Orpheus |
 | 409 | `run_not_started` | Orpheus has not accepted the run |
@@ -114,3 +115,7 @@ These describe HTTP request failures. Stored occurrence errors such as `previous
 ## Browser authentication {#authentication}
 
 Browser writes require the exact `Origin` configured in [`ORPHEUS_PUBLIC_URL`](../space.md#access) and `X-Orpheus-CSRF: 1`. Space Web sends them automatically. The SAML callback instead validates the signed IdP response and a login started in the browser. A valid Bearer key does not require these headers. An invalid `Authorization` header returns `401` even with a valid browser session.
+
+All authenticated users can read schedules and results. [Configured administrators](../../space/access.md#permissions) have full control. Other SAML users can create only for their session email and modify only their own schedules. Explicit `null` or another owner in creation returns `403 schedule_forbidden`. They cannot transfer, clear or claim ownership through PATCH. A session without email is read-only. Bearer keys and anonymous mode retain full access.
+
+The [session response](schema-authsession.md) exposes `write_access` and `can_manage_all`. Each [schedule](schema-schedule.md) reports `can_edit`, which is false after deletion. These fields describe permissions and are not accepted in write requests.

@@ -2,6 +2,11 @@
 
 Справочник построен из OpenAPI Orpheus. Описания переведены на русский. В блоках JSON Schema сохранён исходный контракт.
 
+- [Profile](schema-profile.md)
+- [CodexProfile](schema-codexprofile.md)
+- [Profiles](schema-profiles.md)
+- [Template](schema-template.md)
+- [Templates](schema-templates.md)
 - [AccountLimitWindow](schema-accountlimitwindow.md)
 - [AccountLimitBucket](schema-accountlimitbucket.md)
 - [AccountLimitItem](schema-accountlimititem.md)

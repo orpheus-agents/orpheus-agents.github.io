@@ -8,6 +8,8 @@ Generated from the Orpheus OpenAPI contract. Usage guidance is provided in the i
 
 | Method | Path | Operation |
 | --- | --- | --- |
+| `GET` | `/api/v1/profiles` | [List configured profiles](get-profiles.md) |
+| `GET` | `/api/v1/templates` | [List configured templates](get-templates.md) |
 | `GET` | `/api/v1/accounts/limits` | [Current provider limits by configured account](get-account-limits.md) |
 | `GET` | `/api/v1/analytics/overview` | [Dashboard analytics snapshot](get-analytics-overview.md) |
 | `GET` | `/api/v1/auth/session` | [Read browser authentication state](auth-session.md) |
