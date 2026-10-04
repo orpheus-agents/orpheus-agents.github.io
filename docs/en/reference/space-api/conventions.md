@@ -13,16 +13,16 @@ With `session_mode=reuse`:
 | Change | Context for the next run |
 | --- | --- |
 | Prompt, name, owner, cron or time zone | Preserved |
-| Profile, template, model, ENV names, session mode or effective base configuration | New session |
+| Profile, template, model, service codes, session mode or effective base configuration | New session |
 | Explicit context reset | New session. An active occurrence returns `409 schedule_busy` |
 
 Old sessions remain in Orpheus. Their namespace is `schedule`.
 
 ## Creation and edits
 
-Required [creation fields](schema-createschedule.md) are `name`, `prompt`, `cron` and `timezone`. Defaults are `status=active`, `session_mode=new`, `model=null` and `env_from=[]`. Omitted profile/template fields use the configured creation defaults. With full access, an omitted owner means `owner_email=null`. For an ordinary SAML user it is filled from the session email. Cron has five fields. Macros, seconds, years and inline TZ are rejected. Use an IANA time zone such as `Europe/Moscow`, not `Local`.
+Required [creation fields](schema-createschedule.md) are `name`, `prompt`, `cron` and `timezone`. Defaults are `status=active`, `session_mode=new`, `model=null` and `services=[]`. Omitted profile/template fields use the configured creation defaults. With full access, an omitted owner means `owner_email=null`. For an ordinary SAML user it is filled from the session email. Cron has five fields. Macros, seconds, years and inline TZ are rejected. Use an IANA time zone such as `Europe/Moscow`, not `Local`.
 
-[`PATCH`](update-schedule.md) changes only supplied fields. `null` clears model or owner, and `env_from: []` clears additional ENV names. Only callers with full access can change or clear ownership. Omitted profile/template fields preserve the stored selection, even if it was removed from Orpheus. Pausing removes the next run time. Resuming or editing cron/time zone chooses a new future time. Other edits preserve the planned time.
+[`PATCH`](update-schedule.md) changes only supplied fields. `null` clears model or owner, and `services: []` clears the service selection. Only callers with full access can change or clear ownership. Omitted profile/template fields preserve the stored selection, even if it was removed from Orpheus. Pausing removes the next run time. Resuming or editing cron/time zone chooses a new future time. Other edits preserve the planned time.
 
 [`DELETE`](delete-schedule.md) hides the schedule from lists. Its card and history remain, with `deleted_at` set on the card. Repeated deletion returns `204`.
 
@@ -65,7 +65,7 @@ Schedules are listed newest first. `limit` defaults to 50 and has a maximum of 2
 
 ## State and results
 
-Lists, cards, history and settings read Space data. The [profile](get-profiles.md) and [template](get-templates.md) catalogs and [`result`](get-occurrence-result.md) synchronously call Orpheus. The result's `fetched_at` does not replace history's status observation time `observed_at`.
+Lists, cards, history and settings read Space data. The [service](get-services.md), [profile](get-profiles.md) and [template](get-templates.md) catalogs and [`result`](get-occurrence-result.md) synchronously call Orpheus. The result's `fetched_at` does not replace history's status observation time `observed_at`.
 
 A run that has not started returns `409`, a missing result returns `404`, and unavailable Orpheus returns `503`. See [diagnostics](../../space/operations.md#diagnostics).
 
@@ -119,3 +119,7 @@ Browser writes require the exact `Origin` configured in [`ORPHEUS_PUBLIC_URL`](.
 All authenticated users can read schedules and results. [Configured administrators](../../space/access.md#permissions) have full control. Other SAML users can create only for their session email and modify only their own schedules. Explicit `null` or another owner in creation returns `403 schedule_forbidden`. They cannot transfer, clear or claim ownership through PATCH. A session without email is read-only. Bearer keys and anonymous mode retain full access.
 
 The [session response](schema-authsession.md) exposes `write_access` and `can_manage_all`. Each [schedule](schema-schedule.md) reports `can_edit`, which is false after deletion. These fields describe permissions and are not accepted in write requests.
+
+## Service catalogs
+
+The root [services](get-services.md), [profiles](get-profiles.md) and [templates](get-templates.md) endpoints read Orpheus and return `{items: [...]}`. Services are selected explicitly without defaults. Every caller with read access sees the same catalog. Unknown codes return `422`, and a required catalog that is unavailable returns `503 core_unavailable`. Unchanged selections and clearing services do not require the service catalog. Resuming validates the full selection. A service definition change under the same code requires [resetting reusable context](reset-session.md). Prepared occurrence requests keep their accepted configuration.

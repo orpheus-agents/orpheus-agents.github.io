@@ -26,6 +26,7 @@
 | <span id="workflow-mattermost-base-url"></span>`mattermost.base_url` | `required` | Адрес Mattermost |
 | <span id="workflow-mattermost-token-env"></span>`mattermost.token_env` | `required` | Имя ENV токена бота |
 | <span id="workflow-env-from"></span>`env_from` | `[]` | Переменные worker для агента |
+| <span id="workflow-services"></span>`services` | `[]` | Уникальные коды сервисов, передаваемые сессии агента вместе с `env_from` |
 | <span id="workflow-include-ids"></span><span id="workflow-exclude-ids"></span>`include_ids / exclude_ids` | `[]` | ID включённых и исключённых каналов |
 | <span id="workflow-direct-messages"></span>`direct_messages` | `false` | Обрабатывать личные сообщения |
 | <span id="workflow-private-channels"></span>`private_channels` | `false` | Обрабатывать закрытые каналы |

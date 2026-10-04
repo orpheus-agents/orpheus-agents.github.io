@@ -12,11 +12,13 @@ docker compose kill -s SIGHUP mattermost
 | Change | Action |
 | --- | --- |
 | Workflow instructions or policy | Validate and send SIGHUP |
-| Profile or template changed under the same name | Increase [`revision`](../../reference/mattermost.md#workflow-revision), reload workflows |
+| Profile, template or service definition changed under the same name | Recreate API and worker with the updated configuration first, then increase [`revision`](../../reference/mattermost.md#workflow-revision) and reload workflows |
 | Environment, token or new connection | Recreate the connector container |
-| Profiles in [`orpheus.toml`](../../configuration/profiles.md) | Recreate API and worker with the same configuration |
+| Profiles, templates or services in [`orpheus.toml`](../../configuration/profiles.md) | Recreate API and worker with the same configuration |
 
-Changing instructions, profile selection or template changes the effective revision. Current work finishes. The next request starts a new session.
+Changing instructions, profile, template or service selection changes the effective revision. Reordering service codes does not. Current work finishes. The next request starts a new session.
+
+A rejected input is retained until the effective workflow revision changes. After correcting an unknown profile, template or service, increase `revision` and reload. The connector retries the rejected input without a restart. Rejection notices are deduplicated by revision, reason and input.
 
 ## Remove a workflow
 

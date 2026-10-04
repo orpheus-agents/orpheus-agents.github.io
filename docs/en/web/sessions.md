@@ -17,3 +17,7 @@ Session status describes its work. After a run finishes, the conversation can co
 Share the detail-page link with a colleague who has web access. History is shared among admitted users. The interface reconnects after interruptions. Check its connection indicator when assessing whether updates are current.
 
 [States](../reference/states.md) · [History details](history.md)
+
+## Services
+
+Session and run cards show the [accepted service snapshots](../configuration/secrets.md#changes): name, description and expandable ENV names. Values are hidden. Session services are available to the agent and session hooks. Run services apply only to `before_run` and `after_run`. The cards retain their accepted definitions even when the current catalog changes.

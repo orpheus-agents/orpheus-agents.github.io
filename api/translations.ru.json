@@ -109,5 +109,15 @@
   "Configured templates": "Настроенные шаблоны",
   "Current provider limits by configured account": "Текущие лимиты провайдера по настроенным аккаунтам",
   "Dashboard analytics snapshot": "Сводка аналитики панели",
-  "Create Run": "Создание запуска"
+  "Create Run": "Создание запуска",
+  "Unique configured service codes. Order is insignificant; an unknown code rejects the entire request.": "Уникальные коды настроенных сервисов. Порядок не важен. Неизвестный код отклоняет запрос целиком.",
+  "Sorted environment variable names; never their values.": "Отсортированные имена переменных окружения без значений.",
+  "Services available only to this run's before_run and after_run hooks, as with run env_from. Never passed to the harness, after_create, or before_remove.": "Сервисы только для хуков before_run и after_run этого запуска, как env_from запуска. Не передаются агенту, after_create и before_remove.",
+  "Immutable service descriptions and environment names resolved when accepted.": "Неизменяемые описания сервисов и имена ENV, определённые при принятии запроса.",
+  "Sorted orchestrator environment variable names for this run, including expanded services.": "Отсортированные имена переменных окружения оркестратора для запуска, включая ENV выбранных сервисов.",
+  "Sorted orchestrator environment variable names, including expanded services.": "Отсортированные имена переменных окружения оркестратора, включая ENV выбранных сервисов.",
+  "Services available to the agent and session hooks, expanded together with env_from.": "Сервисы для агента и хуков сессии. Их ENV объединяются с env_from.",
+  "List configured services": "Каталог настроенных сервисов",
+  "Returns the complete catalog sorted by code from local configuration. No provider or credential lookups are performed.": "Возвращает полный каталог из локальной конфигурации, отсортированный по коду. Не обращается к провайдеру и не запрашивает значения секретов.",
+  "Configured services": "Настроенные сервисы"
 }

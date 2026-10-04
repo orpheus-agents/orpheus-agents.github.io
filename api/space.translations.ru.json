@@ -48,5 +48,14 @@
   "Stored Orpheus profile name.": "Сохранённое имя профиля Orpheus.",
   "Stored Orpheus template name.": "Сохранённое имя шаблона Orpheus.",
   "Can create schedules and modify those available to this caller. SAML users without an email cannot write.": "Можно создавать задания и менять доступные вызывающему задания. Пользователи SAML без email не могут писать.",
-  "Can manage all schedules and assign or clear their owners. True for configured SAML admins, valid Bearer keys and anonymous mode.": "Можно управлять всеми заданиями, назначать и очищать владельцев. True для настроенных администраторов SAML, действительных Bearer-ключей и режима anonymous."
+  "Can manage all schedules and assign or clear their owners. True for configured SAML admins, valid Bearer keys and anonymous mode.": "Можно управлять всеми заданиями, назначать и очищать владельцев. True для настроенных администраторов SAML, действительных Bearer-ключей и режима anonymous.",
+  "Schedule management and stored history. Catalog and result endpoints read Orpheus synchronously; writes validate new profile, template and service selections.": "Управление заданиями и сохранённая история. Каталоги и результаты читаются из Orpheus синхронно. Запись проверяет новый выбор профиля, шаблона и сервисов.",
+  "Shared schedules, settings and cron preview.": "Задания, настройки и предварительный просмотр cron.",
+  "Available profiles, templates and services from Orpheus.": "Доступные профили, шаблоны и сервисы Orpheus.",
+  "Browser access mode.": "Режим браузерного доступа.",
+  "Get available Orpheus services": "Доступные сервисы Orpheus",
+  "All services are available to every caller with read access. Returns ENV names, never values.": "Все сервисы доступны каждому пользователю с правом чтения. Возвращаются имена ENV без значений.",
+  "Get schedule interface settings": "Настройки интерфейса заданий",
+  "Explicit selection of service codes. No defaults; empty clears the selection. Unknown codes return 422 and an unavailable catalog returns 503. Unchanged selections can be preserved without the catalog; resuming validates the full selection.": "Явный выбор кодов сервисов без значений по умолчанию. Пустой список очищает выбор. Неизвестный код возвращает 422, недоступный каталог — 503. Прежний выбор можно сохранить без каталога. Возобновление проверяет весь выбор.",
+  "Names of worker environment variables included in this service; never values.": "Имена переменных окружения worker, входящих в сервис, без значений."
 }

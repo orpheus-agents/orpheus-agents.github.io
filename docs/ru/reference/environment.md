@@ -9,7 +9,7 @@
 | <span id="env-orpheus-migrations-dir"></span>`ORPHEUS_MIGRATIONS_DIR` | `migrations` | Каталог миграций. Флаг --dir имеет приоритет |
 | <span id="env-public-api-keys"></span>`PUBLIC_API_KEYS` | `[]` | JSON-массив Bearer-ключей с одинаковым доступом |
 | <span id="env-env-encryption-key"></span>`ENV_ENCRYPTION_KEY` | `required` | 32 байта в base64url для шифрования ENV |
-| <span id="env-harness-env-allowlist"></span>`HARNESS_ENV_ALLOWLIST` | `[]` | JSON-массив разрешённых имён ENV worker |
+| <span id="env-harness-env-allowlist"></span>`HARNESS_ENV_ALLOWLIST` | `[]` | JSON-массив дополнительных разрешённых имён ENV worker. Объединяется с ENV всех [сервисов](../configuration/secrets.md#services) |
 | <span id="env-agentbox-api-key"></span>`AGENTBOX_API_KEY` | `required on worker` | Доступ worker к AgentBox |
 | <span id="env-openai-api-key"></span>`OPENAI_API_KEY` | `profile-dependent` | Ключ модели для стандартного API-key профиля |
 | <span id="env-sandbox-proxy-url"></span>`SANDBOX_PROXY_URL` | `https://sandbox-proxy.agentbox.ru:65181` | HTTP(S) proxy для агента. Пустое значение отключает |
@@ -32,6 +32,6 @@
 | <span id="env-saml-sp-key-file"></span>`SAML_SP_KEY_FILE` | `unset` | Путь к приватному ключу SP |
 | <span id="env-browser-session-ttl-seconds"></span>`BROWSER_SESSION_TTL_SECONDS` | `43200` | Время браузерной сессии, 300-86400 секунд |
 
-`required` означает обязательное значение, `unset` означает отсутствие значения. SAML-поля обязательны в режиме `saml`. Настройки пользовательских интеграций, например [`HELPDESK_TOKEN`](../configuration/secrets.md), добавляйте в окружение worker и allowlist.
+`required` означает обязательное значение, `unset` означает отсутствие значения. SAML-поля обязательны в режиме `saml`. Передайте значения переменных интеграций, например [`HELPDESK_TOKEN`](../configuration/secrets.md), worker. Опишите их имена в [сервисе](../configuration/secrets.md#services), а для имён вне каталога используйте `HARNESS_ENV_ALLOWLIST`.
 
 API и worker должны использовать одинаковую конфигурацию профилей, список разрешённых переменных и ключ шифрования. После изменения ENV пересоздайте контейнеры. [Практическая настройка](../configuration/secrets.md).

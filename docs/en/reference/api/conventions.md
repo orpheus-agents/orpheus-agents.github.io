@@ -29,3 +29,7 @@ Read [`error.code`](schema-error.md) for the exact category. Retry uncertain tra
 An explicitly invalid Authorization header does not fall back to browser authentication. Empty [`PUBLIC_API_KEYS`](../environment.md#env-public-api-keys) disables service commands in `anonymous` and `saml` modes.
 
 [Complete reference](index.md) · [Reliable integration](../../integrations/custom/reliability.md)
+
+## Service selection
+
+[Service codes](../../configuration/secrets.md#services) are order-insensitive and must be unique. An unknown code returns `422 unknown_service` before acceptance. A retry with the same idempotency key and input replays the accepted result without consulting the current catalog. Responses contain immutable service snapshots and the combined ENV names, never secret values.

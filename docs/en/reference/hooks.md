@@ -14,7 +14,7 @@ Supply each hook as script text with a shebang in [`configuration.hooks`](api/cr
 
 Run variables do not become agent environment variables. Pass necessary non-secret context through a prepared file or task text.
 
-When names overlap, top-level run [`env`](api/create-run.md) and [`env_from`](api/create-run.md) override session values for [`before_run`](../configuration/hooks.md#hook-before-run) and [`after_run`](../configuration/hooks.md#hook-after-run). They do not affect [`after_create`](../configuration/hooks.md#hook-after-create) or the agent process.
+When names overlap, top-level run [`env`](api/create-run.md), [`env_from`](api/create-run.md) and [`services`](api/create-run.md) override session values for [`before_run`](../configuration/hooks.md#hook-before-run) and [`after_run`](../configuration/hooks.md#hook-after-run). They do not affect [`after_create`](../configuration/hooks.md#hook-after-create) or the agent process.
 
 [`after_create`](../configuration/hooks.md#hook-after-create) runs after environment creation, [`before_run`](../configuration/hooks.md#hook-before-run) before an assignment and [`after_run`](../configuration/hooks.md#hook-after-run) after confirmed agent completion. [`before_remove`](api/create-session.md) is not executed.
 

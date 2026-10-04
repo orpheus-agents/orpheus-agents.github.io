@@ -1,10 +1,9 @@
 name: orpheus-space-example
 
-x-space-image: &space-image retailcrm/orpheus-space:${ORPHEUS_SPACE_VERSION:-0.9.0}
+x-space-image: &space-image retailcrm/orpheus-space:${ORPHEUS_SPACE_VERSION:-0.10.0}
 x-space-env: &space-env
   DATABASE_URL: postgres://orpheus_space:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@db:5432/orpheus_space
   ORPHEUS_CONFIG_FILE: /etc/orpheus-space/space.toml
-  HARNESS_ENV_ALLOWLIST: '[]'
   ORPHEUS_BASE_URL: ${ORPHEUS_BASE_URL:-}
   ORPHEUS_API_KEY: ${ORPHEUS_API_KEY:-}
 x-space-volumes: &space-volumes
@@ -73,7 +72,7 @@ services:
     restart: unless-stopped
 
   web:
-    image: retailcrm/orpheus-space-web:${ORPHEUS_SPACE_WEB_VERSION:-0.3.0}
+    image: retailcrm/orpheus-space-web:${ORPHEUS_SPACE_WEB_VERSION:-0.4.0}
     init: true
     environment:
       ORPHEUS_SPACE_UPSTREAM: http://api:8000

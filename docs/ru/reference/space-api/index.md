@@ -13,9 +13,10 @@
 | `GET` | `/api/v1/schedules/{id}` | [Получение задания, включая удалённое](get-schedule.md) |
 | `PATCH` | `/api/v1/schedules/{id}` | [Изменение полей задания](update-schedule.md) |
 | `DELETE` | `/api/v1/schedules/{id}` | [Удаление задания с сохранением истории](delete-schedule.md) |
-| `GET` | `/api/v1/schedules/profiles` | [Профили Orpheus и профиль по умолчанию для создания](get-profiles.md) |
-| `GET` | `/api/v1/schedules/templates` | [Шаблоны Orpheus и шаблон по умолчанию для создания](get-templates.md) |
-| `GET` | `/api/v1/schedules/settings` | [Разрешённые имена переменных окружения](get-settings.md) |
+| `GET` | `/api/v1/profiles` | [Профили Orpheus и профиль по умолчанию для создания](get-profiles.md) |
+| `GET` | `/api/v1/templates` | [Шаблоны Orpheus и шаблон по умолчанию для создания](get-templates.md) |
+| `GET` | `/api/v1/services` | [Доступные сервисы Orpheus](get-services.md) |
+| `GET` | `/api/v1/schedules/settings` | [Настройки интерфейса заданий](get-settings.md) |
 | `POST` | `/api/v1/schedules/preview` | [Пять ближайших срабатываний](preview-schedule.md) |
 | `GET` | `/api/v1/auth/session` | [Состояние браузерного доступа](get-auth-session.md) |
 | `GET` | `/api/v1/schedules/{id}/occurrences` | [Сохранённая история запусков](list-occurrences.md) |

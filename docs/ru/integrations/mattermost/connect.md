@@ -16,7 +16,9 @@ mattermost:
   token_env: MATTERMOST_BOT_TOKEN
 ```
 
-Передайте токен коннектору и worker. Разрешите `MATTERMOST_BOT_TOKEN` в [`HARNESS_ENV_ALLOWLIST`](../../reference/environment.md#env-harness-env-allowlist) на API и worker: файловые хуки используют этот доступ.
+Передайте токен коннектору и worker. Включите `MATTERMOST_BOT_TOKEN` в [сервис](../../configuration/secrets.md#services) или [`HARNESS_ENV_ALLOWLIST`](../../reference/environment.md#env-harness-env-allowlist) на API и worker: его используют файловые хуки. Каталог быстрого старта уже содержит это имя.
+
+Сервис быстрого старта можно выбрать и в Space: агент получит права токена бота на чтение и публикацию. Чтобы токен не появлялся в выборе сервисов, оставьте его имя в `HARNESS_ENV_ALLOWLIST` и не включайте в каталог. Это не ограничивает доверенные API-клиенты и workflows, явно выбирающие имена ENV. Подробнее об [областях запроса](../../configuration/secrets.md#hook-secrets).
 
 Идентификатор и имя бота определяются по токену. Workflow одного бота должны использовать одно имя переменной токена. Для разных ботов можно настроить независимые наборы workflows.
 

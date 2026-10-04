@@ -16,7 +16,9 @@ mattermost:
   token_env: MATTERMOST_BOT_TOKEN
 ```
 
-Supply the token to both connector and worker. Allow `MATTERMOST_BOT_TOKEN` in [`HARNESS_ENV_ALLOWLIST`](../../reference/environment.md#env-harness-env-allowlist) on API and worker because file hooks use it.
+Supply the token to both connector and worker. Include `MATTERMOST_BOT_TOKEN` in a [service definition](../../configuration/secrets.md#services) or [`HARNESS_ENV_ALLOWLIST`](../../reference/environment.md#env-harness-env-allowlist) on API and worker because file hooks use it. The quick-start catalog already defines this name.
+
+The quick-start service can also be selected in Space, granting that agent the bot token's read and post permissions. To keep the token out of service selectors, keep its name in `HARNESS_ENV_ALLOWLIST` and omit it from the catalog. This does not limit trusted API clients or workflows that explicitly select ENV names. See [request scopes](../../configuration/secrets.md#hook-secrets).
 
 The connector discovers the bot ID and username from its token. Workflows sharing a bot must use the same token variable name. Different bots can have independent workflow sets.
 

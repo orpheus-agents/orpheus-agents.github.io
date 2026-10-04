@@ -16,7 +16,7 @@
 | `model` | No | string / null |  minLength: <code>1</code> |
 | `session_mode` | No | [SessionMode](schema-sessionmode.md) |   |
 | `owner_email` | No | string / null |  minLength: <code>1</code> |
-| `env_from` | No | [EnvFrom](schema-envfrom.md) |   |
+| `services` | No | [ServiceCodes](schema-servicecodes.md) |   |
 
 ## JSON Schema
 
@@ -68,8 +68,8 @@
       "nullable": true,
       "minLength": 1
     },
-    "env_from": {
-      "$ref": "#/components/schemas/EnvFrom"
+    "services": {
+      "$ref": "#/components/schemas/ServiceCodes"
     }
   }
 }

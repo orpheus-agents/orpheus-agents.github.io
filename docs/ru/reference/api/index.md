@@ -10,6 +10,7 @@
 | --- | --- | --- |
 | `GET` | `/api/v1/profiles` | [Каталог профилей](get-profiles.md) |
 | `GET` | `/api/v1/templates` | [Каталог шаблонов](get-templates.md) |
+| `GET` | `/api/v1/services` | [Каталог сервисов](get-services.md) |
 | `GET` | `/api/v1/accounts/limits` | [Лимиты аккаунтов](get-account-limits.md) |
 | `GET` | `/api/v1/analytics/overview` | [Обзор аналитики](get-analytics-overview.md) |
 | `GET` | `/api/v1/auth/session` | [Браузерная сессия](auth-session.md) |

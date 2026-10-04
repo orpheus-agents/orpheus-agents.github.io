@@ -3,6 +3,9 @@
 ## Commands
 
 ```sh
+orpheus-space services --json
+orpheus-space profiles --json
+orpheus-space templates --json
 orpheus-space schedule settings --json
 orpheus-space schedule preview --cron '0 10 * * 1-5' --timezone Europe/Moscow --json
 orpheus-space schedule list --owner-email alice@example.com --json
@@ -20,7 +23,7 @@ orpheus-space schedule delete '<id>' --json
 
 [`schedule.json`](https://github.com/orpheus-agents/orpheus-agents.github.io/blob/main/examples/space/schedule.json) contains [creation fields](space-api/schema-createschedule.md). `patch.json` contains only [fields to change](space-api/schema-updateschedule.md). `--file -` reads stdin. Output is JSON, compact with `--json`. Errors go to stderr. Exit codes are `1` for failure and `0` for success.
 
-`list` and `history` return one page. Pass `next_cursor` through `--cursor` with unchanged filters. Repeated `--owner-email` flags use OR semantics. `--unowned` selects shared schedules. `result` calls Orpheus, while other read commands use stored Space data.
+`list` and `history` return one page. Pass `next_cursor` through `--cursor` with unchanged filters. Repeated `--owner-email` flags use OR semantics. `--unowned` selects shared schedules. `services`, `profiles`, `templates` and `schedule result` call Orpheus. Schedule reads and history use stored Space data.
 
 Creation generates an idempotency key. After a network error, retry **the same JSON** with the `--idempotency-key` from the diagnostic. The CLI does not retry automatically. [Retry conventions](space-api/conventions.md).
 

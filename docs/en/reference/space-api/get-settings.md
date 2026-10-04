@@ -1,10 +1,10 @@
-# Get allowed environment names
+# Get schedule interface settings
 
 ```http
 GET /api/v1/schedules/settings
 ```
 
-Get allowed environment names
+Get schedule interface settings
 
 **operationId:** `GetSettings`
 

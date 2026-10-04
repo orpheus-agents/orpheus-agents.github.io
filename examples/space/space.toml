@@ -4,7 +4,6 @@ instructions = "Complete the scheduled task. Leave the result in your final resp
 
 [execution.sandbox]
 template = "codex"
-env_from = []
 
 [execution.limits]
 run_timeout_seconds = 3600

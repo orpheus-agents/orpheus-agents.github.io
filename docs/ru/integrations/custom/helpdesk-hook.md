@@ -1,6 +1,6 @@
 # Markdown-файл и after_run
 
-Агент готовит ответ в файле, а скрипт отправляет его в хелпдеск. Токен публикации передаётся только хукам через верхнеуровневый [`env_from`](../../reference/api/create-session.md).
+Агент готовит ответ в файле, а скрипт отправляет его в хелпдеск. Токен публикации передаётся только хукам через верхнеуровневый [`services`](../../reference/api/create-session.md).
 
 ## Создание задачи
 
@@ -14,10 +14,12 @@
 
 <<< @/../examples/helpdesk/publish.py
 
-Перед запуском задайте [`ORPHEUS_URL`](../../reference/api/conventions.md) и [`ORPHEUS_API_KEY`](../../reference/environment.md#env-public-api-keys) в окружении коннектора. На worker задайте [`HELPDESK_URL`](../../configuration/secrets.md), [`HELPDESK_TOKEN`](../../configuration/secrets.md). Разрешите оба имени в [`HARNESS_ENV_ALLOWLIST`](../../reference/environment.md#env-harness-env-allowlist) API и worker. В шаблоне нужен Python 3.
+Перед запуском задайте [`ORPHEUS_URL`](../../reference/api/conventions.md) и [`ORPHEUS_API_KEY`](../../reference/environment.md#env-public-api-keys) в окружении коннектора. Опишите [сервис `helpdesk`](../../configuration/secrets.md#services) на API и worker, а значения его `HELPDESK_URL` и `HELPDESK_TOKEN` передайте worker. Пример выбирает сервис только для хуков запуска. В шаблоне нужен Python 3.
 
 Код использует условный контракт хелпдеска. Если ваша система не поддерживает `Idempotency-Key`, добавьте проверку опубликованного комментария перед повтором. Не считайте произвольный заголовок гарантией защиты от дублей.
 
 ## Проверка
 
 Проверьте обычный ответ, отсутствие файла, пустой файл и отказ API хелпдеска. При ошибке публикации изучите результат [`after_run`](../../configuration/hooks.md#hook-after-run) в карточке запуска. Не повторяйте всю задачу вслепую: сначала выясните, был ли комментарий создан.
+
+Выбор только для хуков в этом запросе не запрещает выбрать тот же сервис каталога для агента в другой сессии. Если токен публикации не должен попадать в выбор сервисов, учитывайте [области запроса и доступность каталога](../../configuration/secrets.md#hook-secrets).

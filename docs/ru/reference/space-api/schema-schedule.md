@@ -18,7 +18,7 @@
 | `model` | Да | string / null |  minLength: <code>1</code> |
 | `session_mode` | Да | [SessionMode](schema-sessionmode.md) |   |
 | `owner_email` | Да | string / null |  minLength: <code>1</code> |
-| `env_from` | Да | [EnvFrom](schema-envfrom.md) |   |
+| `services` | Да | [ServiceCodes](schema-servicecodes.md) |   |
 | `id` | Да | string |  format: <code>"uuid"</code> |
 | `created_at` | Да | string |  format: <code>"date-time"</code> |
 | `updated_at` | Да | string |  format: <code>"date-time"</code> |
@@ -46,7 +46,7 @@
     "template",
     "session_mode",
     "owner_email",
-    "env_from",
+    "services",
     "created_at",
     "updated_at",
     "next_run_at",
@@ -107,8 +107,8 @@
       "nullable": true,
       "minLength": 1
     },
-    "env_from": {
-      "$ref": "#/components/schemas/EnvFrom"
+    "services": {
+      "$ref": "#/components/schemas/ServiceCodes"
     },
     "id": {
       "type": "string",

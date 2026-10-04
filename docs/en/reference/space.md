@@ -9,15 +9,12 @@ Space reads process environment and the access and execution TOML file at startu
 | `DATABASE_URL` | Required | Separate Space PostgreSQL DSN. Shared by API, worker and migrations |
 | `ORPHEUS_CONFIG_FILE` | `orpheus-space.toml` | Access and execution TOML path for API and worker |
 | `ORPHEUS_MIGRATIONS_DIR` | `migrations` | Image migration directory |
-| `HARNESS_ENV_ALLOWLIST` | `[]` | JSON array of permitted ENV names, identical on API and worker |
 | `ORPHEUS_HOST`, `ORPHEUS_PORT` | `0.0.0.0`, `8000` | Public API listener |
 | `ORPHEUS_SYSTEM_HOST`, `ORPHEUS_SYSTEM_PORT` | `0.0.0.0`, `9100` | Each process's system listener |
 | `WORKER_POLL_SECONDS` | `1` | Positive worker polling interval in seconds, fractions allowed |
 | `MAX_REQUEST_BYTES` | `1048576` | Request body limit, from 4096 to 1048576 bytes |
 
-Users with write access can select any allowlisted name for schedules they are allowed to modify. The ENV allowlist itself does not vary by owner.
-
-Base and additional ENV names must also be permitted [in Orpheus](environment.md#env-harness-env-allowlist). Supply values to the Orpheus worker, not Space.
+All [services in the Orpheus catalog](../configuration/secrets.md#services) are available to users who can edit a schedule. Supply secret values to the Orpheus worker. Space stores only the selected service codes.
 
 ## Orpheus connection {#core}
 
@@ -26,7 +23,7 @@ Base and additional ENV names must also be permitted [in Orpheus](environment.md
 | `ORPHEUS_BASE_URL` | HTTP(S) Orpheus origin reachable from Space, without `/api/v1` |
 | `ORPHEUS_API_KEY` | Orpheus Bearer key for dispatch, status polling and result retrieval |
 
-Both are required by the worker. The API also uses them for the profile/template catalogs, schedule creation, selection changes and result retrieval. These operations return `503` when Orpheus is unavailable. Give Space a separate key from [Orpheus's `PUBLIC_API_KEYS`](environment.md#env-public-api-keys). It differs from the key used by the CLI to access Space.
+Both are required by the worker. The API also uses them for the profile/template/service catalogs, schedule creation, selection validation and result retrieval. These operations return `503` when Orpheus is unavailable. Unchanged service selections and clearing all services do not require that catalog. Give Space a separate key from [Orpheus's `PUBLIC_API_KEYS`](environment.md#env-public-api-keys). It differs from the key used by the CLI to access Space.
 
 ## Space access {#access}
 
@@ -70,7 +67,6 @@ instructions_file = "/etc/orpheus-space/instructions.md"
 
 [execution.sandbox]
 template = "codex"
-env_from = ["HELPDESK_TOKEN"]
 
 [execution.limits]
 run_timeout_seconds = 3600
@@ -83,23 +79,22 @@ max_session_tokens = 1000000
 | `execution.agent.instructions` | Optional inline instructions. An empty string clears profile instructions |
 | `execution.agent.instructions_file` | Alternative UTF-8 instructions file, mounted in API and worker |
 | `execution.sandbox.template` | Required default [AgentBox template](../configuration/templates.md) for new schedules |
-| `execution.sandbox.env_from` | Base ENV names for all schedules. Default `[]` |
 | `execution.limits.run_timeout_seconds` | Positive run timeout. Default 3600 seconds |
 | `execution.limits.max_session_tokens` | Optional positive session token limit |
 
 `instructions` and `instructions_file` are mutually exclusive. Omitting both preserves Orpheus profile instructions. Space accepts only the TOML fields listed here.
 
-Schedule [`env_from`](space-api/schema-createschedule.md) adds to the base list. Names must be unique within each list. Empty additions do not remove base names. Changing the effective base configuration starts fresh context on the next execution of a reusable-session schedule.
+Changing the effective base configuration starts fresh context on the next execution of a reusable-session schedule.
 
-## Forward ENV {#environment}
+## Select services {#environment}
 
-For example, to provide helpdesk access, the administrator:
+1. Define a [service](../configuration/secrets.md#services) in the Orpheus catalog.
+2. Supply its ENV values to the **Orpheus worker**.
+3. Select its code in the schedule's [`services`](space-api/schema-createschedule.md).
 
-1. Allows `HELPDESK_TOKEN` in `HARNESS_ENV_ALLOWLIST` on Space and [Orpheus API/worker](environment.md#env-harness-env-allowlist).
-2. Supplies the `HELPDESK_TOKEN` value to the **Orpheus** worker.
-3. Adds its name to base `execution.sandbox.env_from` or lets users select it for individual schedules.
+There are no default services or ENV lists in Space configuration. An omitted selection on creation is `[]`. An empty selection removes all selected services. Unknown codes return `422`. Catalog failures return `503` when validation is needed. Unchanged selections and clearing services can be saved without catalog access. Resuming a paused schedule validates its complete selection.
 
-Additional names are combined with the base list. Clearing additions does not remove base variables. The [settings API](space-api/get-settings.md) returns `base_env_from` and `allowed_env_from`, the names shown in the interface and CLI.
+The root [services](space-api/get-services.md), [profiles](space-api/get-profiles.md) and [templates](space-api/get-templates.md) endpoints return `{items: [...]}`. The [schedule settings endpoint](space-api/get-settings.md) returns only `browser_auth`.
 
 ## Web interface {#web}
 

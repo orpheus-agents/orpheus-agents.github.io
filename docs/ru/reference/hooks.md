@@ -14,7 +14,7 @@
 
 Переменные запуска не становятся переменными агента. Передайте нужный несекретный контекст через подготовленный файл или текст задачи.
 
-При совпадении имён верхнеуровневые [`env`](api/create-run.md) и [`env_from`](api/create-run.md) запроса запуска перекрывают сессионные значения для [`before_run`](../configuration/hooks.md#hook-before-run) и [`after_run`](../configuration/hooks.md#hook-after-run). Они не влияют на [`after_create`](../configuration/hooks.md#hook-after-create) и процесс агента.
+При совпадении имён поля [`env`](api/create-run.md), [`env_from`](api/create-run.md) и [`services`](api/create-run.md) на верхнем уровне запроса запуска перекрывают сессионные значения для [`before_run`](../configuration/hooks.md#hook-before-run) и [`after_run`](../configuration/hooks.md#hook-after-run). Они не влияют на [`after_create`](../configuration/hooks.md#hook-after-create) и процесс агента.
 
 Хуки: [`after_create`](../configuration/hooks.md#hook-after-create) выполняется после создания окружения, [`before_run`](../configuration/hooks.md#hook-before-run) перед задачей, [`after_run`](../configuration/hooks.md#hook-after-run) после подтверждённого завершения. [`before_remove`](api/create-session.md) не выполняется.
 

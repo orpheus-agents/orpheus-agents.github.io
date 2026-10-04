@@ -24,11 +24,13 @@ Profiles and templates come from the Orpheus catalogs. New schedules use the con
 
 [API fields and accepted values](../reference/space-api/schema-createschedule.md).
 
-## Environment variables {#environment}
+## Services {#environment}
 
-A schedule combines base environment names with additional [`env_from`](../reference/space-api/schema-createschedule.md) names. Select from the available names. Values are neither entered in the form nor stored in Space. The additional ENV selector is hidden when there are no available choices.
+Select the systems the agent needs in the schedule's [`services`](../reference/space-api/schema-createschedule.md). Each card shows a name and description. Expand it to inspect ENV names. Values are never shown or stored in Space. The schedule details show the same service cards.
 
-When editing an allowed schedule, you can select any available name. If a name is missing, ask the administrator to [configure ENV forwarding](../reference/space.md#environment).
+All catalog entries are selectable for a schedule you can edit. There are no automatic selections. Empty means no services. If a required system is absent, ask the administrator to [configure a service](../configuration/secrets.md#services).
+
+Unavailable or removed selections remain visible by code so you can preserve or remove them. You can preserve the selection or clear all services without the catalog. Any changed nonempty selection, including removal of only some codes, requires validation against Orpheus. Resuming a paused schedule also validates its full selection. Unrelated fields remain editable without the service catalog. A changed selection starts a new reusable session on the next eligible execution. If the administrator changes a service's ENV list under the same code, use **Reset context** to apply it to a reused session.
 
 ## Pausing and context
 

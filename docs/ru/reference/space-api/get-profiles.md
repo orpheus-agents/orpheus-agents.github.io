@@ -1,7 +1,7 @@
 # Профили Orpheus и профиль по умолчанию для создания
 
 ```http
-GET /api/v1/schedules/profiles
+GET /api/v1/profiles
 ```
 
 Профили Orpheus и профиль по умолчанию для создания

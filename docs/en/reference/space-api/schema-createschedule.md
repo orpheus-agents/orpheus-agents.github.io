@@ -16,7 +16,7 @@
 | `model` | No | string / null |  minLength: <code>1</code> |
 | `session_mode` | No | [SessionMode](schema-sessionmode.md) |   |
 | `owner_email` | No | string / null | SAML non-admins must use their session email; omission fills it, explicit null is forbidden. Full-access callers may use any owner or null. minLength: <code>1</code> |
-| `env_from` | No | [EnvFrom](schema-envfrom.md) |   |
+| `services` | No | [ServiceCodes](schema-servicecodes.md) |   |
 
 ## JSON Schema
 
@@ -75,8 +75,8 @@
       "minLength": 1,
       "description": "SAML non-admins must use their session email; omission fills it, explicit null is forbidden. Full-access callers may use any owner or null."
     },
-    "env_from": {
-      "$ref": "#/components/schemas/EnvFrom"
+    "services": {
+      "$ref": "#/components/schemas/ServiceCodes"
     }
   }
 }

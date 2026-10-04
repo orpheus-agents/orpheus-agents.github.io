@@ -26,6 +26,7 @@
 | <span id="workflow-mattermost-base-url"></span>`mattermost.base_url` | `required` | Mattermost URL |
 | <span id="workflow-mattermost-token-env"></span>`mattermost.token_env` | `required` | Bot token ENV name |
 | <span id="workflow-env-from"></span>`env_from` | `[]` | Worker variables selected for the agent |
+| <span id="workflow-services"></span>`services` | `[]` | Unique service codes passed to the agent session alongside `env_from` |
 | <span id="workflow-include-ids"></span><span id="workflow-exclude-ids"></span>`include_ids / exclude_ids` | `[]` | Included and excluded channel IDs |
 | <span id="workflow-direct-messages"></span>`direct_messages` | `false` | Handle direct messages |
 | <span id="workflow-private-channels"></span>`private_channels` | `false` | Handle private channels |
