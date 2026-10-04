@@ -13,6 +13,7 @@
 | `configuration` | Yes | [ConfigurationInput](schema-configurationinput.md) |   |
 | `messages` | Yes | array&lt;[TextMessage](schema-textmessage.md)&gt; | Ordered user messages accepted atomically. The last starts the run; earlier messages are injected into the agent context first. minItems: <code>1</code><br>maxItems: <code>256</code> |
 | `env` | No | object | Explicit environment variables for the first run's before_run and after_run hooks only. Override session sources with the same names; never passed to the harness, after_create, or before_remove. additionalProperties: <code>{"type":"string"}</code> |
+| `services` | No | [ServiceCodes](schema-servicecodes.md) | Services available only to this run's before_run and after_run hooks, as with run env_from. Never passed to the harness, after_create, or before_remove.  |
 | `env_from` | No | array&lt;string&gt; | Allowlisted orchestrator environment variable names for the first run's before_run and after_run hooks only. Resolved before each hook; override session sources and are never passed to the harness, after_create, or before_remove.  |
 
 ## JSON Schema
@@ -62,6 +63,10 @@
       "additionalProperties": {
         "type": "string"
       }
+    },
+    "services": {
+      "description": "Services available only to this run's before_run and after_run hooks, as with run env_from. Never passed to the harness, after_create, or before_remove.",
+      "$ref": "#/components/schemas/ServiceCodes"
     },
     "env_from": {
       "description": "Allowlisted orchestrator environment variable names for the first run's before_run and after_run hooks only. Resolved before each hook; override session sources and are never passed to the harness, after_create, or before_remove.",

@@ -97,7 +97,18 @@ try {
   for (const key of ['fixture', 'space-core-fixture']) {
     if (!(await fetch(`${coreAPI}/api/v1/sessions`, { headers: { Authorization: `Bearer ${key}` } })).ok) throw Error('Core key not preserved or Space key missing')
   }
+  const coreServices = await fetch(`${coreAPI}/api/v1/services`, { headers: { Authorization: 'Bearer fixture' } }).then(r => r.json())
+  const services = await request('/api/v1/services')
+  if (JSON.stringify(services) !== JSON.stringify(coreServices) || services.items.length !== 1 || services.items[0].code !== 'mattermost' || services.items[0].env_from.join() !== 'MATTERMOST_BOT_TOKEN') throw Error('Root service catalog differs from the runnable example')
+  for (const catalog of ['profiles', 'templates']) if (!(await request(`/api/v1/${catalog}`)).items.length) throw Error(`Empty ${catalog} catalog`)
+  if (Object.keys(await request(`${base}/settings`)).join() !== 'browser_auth') throw Error('Unexpected Space settings')
+  await request(base, { method: 'POST', headers, body: JSON.stringify({ ...JSON.parse(payload), services: ['missing'] }) }, 422)
   const schedule = await request(base, { method: 'POST', headers, body: payload }, 201)
+  if (schedule.services.length || 'env_from' in schedule) throw Error('Example schedule must have explicit empty services')
+  const selected = await request(`${base}/${schedule.id}`, { method: 'PATCH', headers, body: JSON.stringify({ services: ['mattermost'] }) })
+  if (selected.services.join() !== 'mattermost') throw Error('Service selection was not stored')
+  const cleared = await request(`${base}/${schedule.id}`, { method: 'PATCH', headers, body: JSON.stringify({ services: [] }) })
+  if (cleared.services.length) throw Error('Service selection was not cleared')
   if (schedule.status !== 'paused' || schedule.next_run_at !== null) throw Error('Example schedule must stay paused')
   const filtered = await request(`${base}?owner_email=alice%40example.com`)
   if (filtered.items.length !== 1 || filtered.items[0].id !== schedule.id) throw Error('Space owner filter failed')
@@ -108,8 +119,8 @@ try {
   if (preview.times.length !== 5) throw Error('Space preview must return five occurrences')
   await request(`${base}/${schedule.id}`, { method: 'DELETE', headers }, 204)
   if ((await request(base)).items.length !== 0) throw Error('Deleted schedule remains in list')
-  console.log('Space published images passed nginx CRUD, catalog-backed creation, owner filtering and Origin/CSRF checks.')
-  const probe = await request(base, { method: 'POST', headers, body: JSON.stringify({ name: 'Connection check', prompt: 'Reply SPACE_OK', cron: '* * * * *', timezone: 'UTC' }) }, 201)
+  console.log('Space published images passed nginx CRUD, service catalogs, explicit selection, owner filtering and Origin/CSRF checks.')
+  const probe = await request(base, { method: 'POST', headers, body: JSON.stringify({ name: 'Connection check', prompt: 'Reply SPACE_OK', services: ['mattermost'], cron: '* * * * *', timezone: 'UTC' }) }, 201)
   const deadline = Date.now() + 75000
   let occurrence
   while (Date.now() < deadline) {
@@ -119,6 +130,8 @@ try {
     await new Promise(resolve => setTimeout(resolve, 500))
   }
   if (occurrence?.state !== 'accepted' || !occurrence.run_id) throw Error('Space did not submit to local core')
+  const session = await fetch(`${coreAPI}/api/v1/sessions/${occurrence.session_id}`, { headers: { Authorization: 'Bearer fixture' } }).then(r => r.json())
+  if (JSON.stringify(session.configuration.sandbox.services) !== JSON.stringify(coreServices.items) || session.configuration.sandbox.env_from.join() !== 'MATTERMOST_BOT_TOKEN') throw Error('Space did not forward session service access to core')
   await request(`${base}/${probe.id}`, { method: 'DELETE', headers }, 204)
   console.log('Persistent COMPOSE_FILE selection, dedicated bridge, distinct core keys and Space worker submission passed. Core worker stayed stopped.')
 } catch (error) {

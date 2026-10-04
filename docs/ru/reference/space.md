@@ -9,15 +9,12 @@ Space читает окружение процесса и TOML-файл дост
 | `DATABASE_URL` | Обязательна | DSN отдельной PostgreSQL БД Space. Одинаковый у API, worker и миграций |
 | `ORPHEUS_CONFIG_FILE` | `orpheus-space.toml` | Путь к TOML доступа и исполнения у API и worker |
 | `ORPHEUS_MIGRATIONS_DIR` | `migrations` | Каталог миграций из образа |
-| `HARNESS_ENV_ALLOWLIST` | `[]` | JSON-массив разрешённых имён ENV, одинаковый у API и worker |
 | `ORPHEUS_HOST`, `ORPHEUS_PORT` | `0.0.0.0`, `8000` | Адрес публичного API |
 | `ORPHEUS_SYSTEM_HOST`, `ORPHEUS_SYSTEM_PORT` | `0.0.0.0`, `9100` | Системный адрес каждого процесса |
 | `WORKER_POLL_SECONDS` | `1` | Положительный интервал опроса worker в секундах, допускает дробные значения |
 | `MAX_REQUEST_BYTES` | `1048576` | Максимум тела запроса, от 4096 до 1048576 байт |
 
-Пользователь с правом записи может выбрать любое разрешённое имя для доступного ему задания. Сам allowlist ENV не зависит от владельца.
-
-Базовые и дополнительные ENV должны быть разрешены также [в Orpheus](environment.md#env-harness-env-allowlist). Значения передаются worker Orpheus, а не Space.
+Все [сервисы каталога Orpheus](../configuration/secrets.md#services) доступны пользователю с правом редактирования задания. Значения секретов передаются worker Orpheus. Space хранит только выбранные коды сервисов.
 
 ## Подключение Orpheus {#core}
 
@@ -26,7 +23,7 @@ Space читает окружение процесса и TOML-файл дост
 | `ORPHEUS_BASE_URL` | HTTP(S)-origin Orpheus, доступный из Space, без `/api/v1` |
 | `ORPHEUS_API_KEY` | Bearer-ключ Orpheus для запуска, опроса статусов и чтения результатов |
 
-Обе переменные обязательны у worker. API использует их для каталогов профилей и шаблонов, создания задания, смены выбранного профиля/шаблона и получения результата. Если Orpheus недоступен, эти операции возвращают `503`. Выдайте Space отдельный ключ из [`PUBLIC_API_KEYS` Orpheus](environment.md#env-public-api-keys). Он отличается от ключа, которым CLI обращается к Space.
+Обе переменные обязательны у worker. API использует их для каталогов профилей, шаблонов и сервисов, создания задания, проверки выбора и получения результата. Если Orpheus недоступен, эти операции возвращают `503`. Сохранение прежнего выбора сервисов и очистка всего списка не требуют этого каталога. Выдайте Space отдельный ключ из [`PUBLIC_API_KEYS` Orpheus](environment.md#env-public-api-keys). Он отличается от ключа, которым CLI обращается к Space.
 
 ## Доступ к Space {#access}
 
@@ -70,7 +67,6 @@ instructions_file = "/etc/orpheus-space/instructions.md"
 
 [execution.sandbox]
 template = "codex"
-env_from = ["HELPDESK_TOKEN"]
 
 [execution.limits]
 run_timeout_seconds = 3600
@@ -83,23 +79,22 @@ max_session_tokens = 1000000
 | `execution.agent.instructions` | Необязательные инструкции строкой. Пустая строка очищает инструкции профиля |
 | `execution.agent.instructions_file` | Альтернатива строке: UTF-8 файл инструкций, смонтированный в API и worker |
 | `execution.sandbox.template` | Обязательный [шаблон AgentBox](../configuration/templates.md) по умолчанию для новых заданий |
-| `execution.sandbox.env_from` | Базовые имена ENV всех заданий. По умолчанию `[]` |
 | `execution.limits.run_timeout_seconds` | Положительный таймаут запуска. По умолчанию 3600 секунд |
 | `execution.limits.max_session_tokens` | Необязательный положительный лимит токенов сессии |
 
 `instructions` и `instructions_file` взаимоисключающие. Если оба отсутствуют, сохраняются инструкции профиля Orpheus. Space принимает только перечисленные поля TOML.
 
-[`env_from` задания](space-api/schema-createschedule.md) дополняет базовый список. Имена должны быть уникальными внутри каждого списка. Пустой список дополнений не удаляет базовые имена. Изменение эффективной базовой конфигурации начинает новый контекст при следующем исполнении задания с повторным использованием сессии.
+Изменение эффективной базовой конфигурации начинает новый контекст при следующем исполнении задания с повторным использованием сессии.
 
-## Передача ENV {#environment}
+## Выбор сервисов {#environment}
 
-Например, для доступа к хелпдеску администратор:
+1. Опишите [сервис](../configuration/secrets.md#services) в каталоге Orpheus.
+2. Передайте значения его ENV **worker Orpheus**.
+3. Выберите код в поле [`services`](space-api/schema-createschedule.md) задания.
 
-1. Разрешает `HELPDESK_TOKEN` в `HARNESS_ENV_ALLOWLIST` Space и [API/worker Orpheus](environment.md#env-harness-env-allowlist).
-2. Передаёт значение `HELPDESK_TOKEN` worker **Orpheus**.
-3. Добавляет имя в базовый `execution.sandbox.env_from` или позволяет выбрать его в конкретном задании.
+В конфигурации Space нет сервисов по умолчанию или списков ENV. Пропущенный выбор при создании равен `[]`. Пустой список удаляет все выбранные сервисы. Неизвестный код возвращает `422`. Недоступный каталог возвращает `503`, когда требуется проверка выбора. Прежний выбор и очистку сервисов можно сохранить без каталога. Возобновление задания с паузы проверяет весь выбор.
 
-Дополнения объединяются с базовым списком. Очистка дополнений не удаляет базовые переменные. [Settings API](space-api/get-settings.md) возвращает `base_env_from` и `allowed_env_from` — имена, которые видят интерфейс и CLI.
+Корневые методы [сервисов](space-api/get-services.md), [профилей](space-api/get-profiles.md) и [шаблонов](space-api/get-templates.md) возвращают `{items: [...]}`. [Настройки интерфейса заданий](space-api/get-settings.md) возвращают только `browser_auth`.
 
 ## Веб-интерфейс {#web}
 

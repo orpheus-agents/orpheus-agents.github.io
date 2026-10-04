@@ -1,10 +1,10 @@
 {
-  "name": "Morning report",
-  "prompt": "Summarize the open support tickets using the available helpdesk tool. Include ticket links and recommended next actions. Leave the report in the final response.",
+  "name": "Morning planning checklist",
+  "prompt": "Suggest a short checklist for planning the workday: review priorities, choose one focus task, and reserve time for follow-up. Leave the checklist in the final response. No external systems are needed.",
   "cron": "0 10 * * 1-5",
   "timezone": "Europe/Moscow",
   "status": "paused",
   "owner_email": "alice@example.com",
   "session_mode": "new",
-  "env_from": []
+  "services": []
 }

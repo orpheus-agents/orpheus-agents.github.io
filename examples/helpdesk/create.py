@@ -19,7 +19,7 @@ body = {
         },
     },
     "env": {"TICKET_ID": "4821"},
-    "env_from": ["HELPDESK_URL", "HELPDESK_TOKEN"],
+    "services": ["helpdesk"],
     "messages": [{"text": "Ticket 4821: export permission denied. Suggest what the operator should check."}],
 }
 request = Request(

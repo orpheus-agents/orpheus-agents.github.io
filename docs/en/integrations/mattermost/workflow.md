@@ -13,3 +13,11 @@ Add [`direct_messages: true`](../../reference/mattermost.md#workflow-direct-mess
 The file body is the assistant's complete instruction set. The example includes attachment reading and file delivery rules. Adapt them to the assistant's role.
 
 [Channel workflows](channels.md) · [All settings](../../reference/mattermost.md)
+
+Select [services](../../configuration/secrets.md#services) from the Orpheus catalog for the agent:
+
+```yaml
+services: [helpdesk]
+```
+
+The catalog must contain `helpdesk`, and its ENV values must be supplied to the Orpheus worker. You can combine `services` with [`env_from`](../../reference/mattermost.md#workflow-env-from). The bot token used by file hooks remains run-scoped unless you explicitly select it for the session.

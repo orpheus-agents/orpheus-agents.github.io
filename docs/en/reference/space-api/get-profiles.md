@@ -1,7 +1,7 @@
 # Get Orpheus profiles and the creation default
 
 ```http
-GET /api/v1/schedules/profiles
+GET /api/v1/profiles
 ```
 
 Get Orpheus profiles and the creation default

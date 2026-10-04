@@ -1,7 +1,7 @@
 # Шаблоны Orpheus и шаблон по умолчанию для создания
 
 ```http
-GET /api/v1/schedules/templates
+GET /api/v1/templates
 ```
 
 Шаблоны Orpheus и шаблон по умолчанию для создания

@@ -3,6 +3,9 @@
 ## Команды
 
 ```sh
+orpheus-space services --json
+orpheus-space profiles --json
+orpheus-space templates --json
 orpheus-space schedule settings --json
 orpheus-space schedule preview --cron '0 10 * * 1-5' --timezone Europe/Moscow --json
 orpheus-space schedule list --owner-email alice@example.com --json
@@ -20,7 +23,7 @@ orpheus-space schedule delete '<id>' --json
 
 [`schedule.json`](https://github.com/orpheus-agents/orpheus-agents.github.io/blob/main/examples/space/schedule.json) содержит [поля создания](space-api/schema-createschedule.md), `patch.json` — только [изменяемые поля](space-api/schema-updateschedule.md). `--file -` читает stdin. Вывод — JSON, с `--json` он компактный. Ошибки идут в stderr, код выхода — `1`, успех — `0`.
 
-`list` и `history` возвращают одну страницу. Передавайте `next_cursor` через `--cursor` с прежними фильтрами. Повторяемый `--owner-email` означает ИЛИ, `--unowned` выбирает общие задания. `result` обращается к Orpheus, остальные команды чтения используют данные Space.
+`list` и `history` возвращают одну страницу. Передавайте `next_cursor` через `--cursor` с прежними фильтрами. Повторяемый `--owner-email` означает ИЛИ, `--unowned` выбирает общие задания. `services`, `profiles`, `templates` и `schedule result` обращаются к Orpheus. Чтение заданий и истории использует данные Space.
 
 Создание генерирует ключ идемпотентности. После сетевой ошибки повторите **тот же JSON** с `--idempotency-key`, указанным в диагностике. Автоматических повторов CLI нет. [Подробнее о повторах](space-api/conventions.md).
 

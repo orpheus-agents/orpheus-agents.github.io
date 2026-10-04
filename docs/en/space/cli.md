@@ -8,7 +8,7 @@ Installation in a Linux Codex sandbox. For arm64, replace `arch=amd64` with `arc
 
 ```sh
 set -eu
-version=v0.9.0
+version=v0.10.0
 arch=amd64
 release="https://github.com/orpheus-agents/orpheus-space/releases/download/$version"
 for file in "orpheus-space_${version}_linux_${arch}.tar.gz" "orpheus-space_${version}_skill.tar.gz" checksums.txt; do
@@ -29,12 +29,14 @@ ORPHEUS_SPACE_HOST=https://space.example.com
 ORPHEUS_SPACE_API_KEY=<space-api-key>
 ```
 
-Use a key from Space's [`PUBLIC_API_KEYS`](../reference/space.md#access). The host has no `/api/v1` suffix. To use [`env_from`](../configuration/secrets.md), allow both names on Orpheus API/worker, supply their values to the Orpheus worker and select them in the workflow or session configuration. The agent managing schedules needs these variables. Ordinary scheduled tasks do not need them.
+Use a key from Space's [`PUBLIC_API_KEYS`](../reference/space.md#access). The host has no `/api/v1` suffix. Define a [service](../configuration/secrets.md#services) with both ENV names, supply their values to the Orpheus worker and select the service in the workflow or session. This grants the agent the API key's full schedule permissions. Select it only when the task needs to manage schedules.
 
 ## Verify
 
 ```sh
-orpheus-space schedule settings --json
+orpheus-space services --json
+orpheus-space profiles --json
+orpheus-space templates --json
 orpheus-space schedule list --owner-email alice@example.com --json
 ```
 

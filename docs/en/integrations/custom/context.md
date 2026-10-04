@@ -19,13 +19,15 @@ This is a fragment of a [session creation](../../reference/api/create-session.md
 The public Orpheus API accepts text rather than binary attachments. The sandbox does not yet exist when you send the session creation request. Prepare files through [`before_run`](../../configuration/hooks.md#hook-before-run): this hook runs inside the prepared sandbox before each agent run.
 
 1. Set the script in [`configuration.hooks.before_run`](../../reference/api/create-session.md) when creating the session. The script should download attachments from your system and save them in the workspace.
-2. Pass the ticket ID or file URL through top-level [`env`](../../reference/api/create-session.md), and the access token through [`env_from`](../../reference/api/create-session.md). For another assignment, you can supply these in the [create run request](../../reference/api/create-run.md).
+2. Pass the ticket ID or file URL through top-level [`env`](../../reference/api/create-session.md), and select the access service through top-level [`services`](../../reference/api/create-session.md). For another assignment, you can supply these in the [create run request](../../reference/api/create-run.md).
 3. In the task message, tell the agent where the hook will save the files. For example: “Review the attachments in `attachments/` and prepare a reply for the operator.”
 
 The first run follows this order: Orpheus creates the sandbox → the hook downloads files → the agent starts with the attachments ready.
 
 ## Access
 
-Select only the required names in [`configuration.sandbox.env_from`](../../reference/api/create-session.md). If a hook owns publication, use top-level [`env_from`](../../reference/api/create-session.md) for its token.
+Select only the required [services](../../configuration/secrets.md#services) in [`configuration.sandbox.services`](../../reference/api/create-session.md). If a hook owns publication, select its service in top-level [`services`](../../reference/api/create-session.md). You can add individual names through `env_from`, with `HARNESS_ENV_ALLOWLIST` permitting names outside the catalog.
 
 Do not place credentials in message text or [`metadata`](../../reference/api/create-session.md), which are retained in history. See [secret configuration](../../configuration/secrets.md) for worker-based delivery.
+
+The hook-only selection in this request does not prevent selecting the same catalog service for an agent elsewhere. See [request scopes and catalog visibility](../../configuration/secrets.md#hook-secrets) when a publication token should stay outside service selectors.

@@ -13,6 +13,7 @@
 | `configuration` | Да | [ConfigurationInput](schema-configurationinput.md) |   |
 | `messages` | Да | array&lt;[TextMessage](schema-textmessage.md)&gt; | Упорядоченные сообщения пользователя, принимаемые атомарно. Последнее запускает задачу. Предыдущие сначала добавляются в контекст агента. minItems: <code>1</code><br>maxItems: <code>256</code> |
 | `env` | Нет | object | Явные переменные только для before_run и after_run первого запуска. Перекрывают одноимённые значения сессии. Не передаются агенту, after_create и before_remove. additionalProperties: <code>{"type":"string"}</code> |
+| `services` | Нет | [ServiceCodes](schema-servicecodes.md) | Сервисы только для хуков before_run и after_run этого запуска, как env_from запуска. Не передаются агенту, after_create и before_remove.  |
 | `env_from` | Нет | array&lt;string&gt; | Разрешённые имена ENV оркестратора только для before_run и after_run первого запуска. Значения определяются перед каждым хуком и перекрывают сессионные. Не передаются агенту, after_create и before_remove.  |
 
 ## JSON Schema
@@ -62,6 +63,10 @@
       "additionalProperties": {
         "type": "string"
       }
+    },
+    "services": {
+      "description": "Services available only to this run's before_run and after_run hooks, as with run env_from. Never passed to the harness, after_create, or before_remove.",
+      "$ref": "#/components/schemas/ServiceCodes"
     },
     "env_from": {
       "description": "Allowlisted orchestrator environment variable names for the first run's before_run and after_run hooks only. Resolved before each hook; override session sources and are never passed to the harness, after_create, or before_remove.",

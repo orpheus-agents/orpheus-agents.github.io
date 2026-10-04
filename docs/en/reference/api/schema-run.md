@@ -12,7 +12,8 @@
 | `agent_error` | Yes | [Error](schema-error.md) / null |   |
 | `hooks` | Yes | array&lt;[HookResult](schema-hookresult.md)&gt; |   |
 | `env_names` | Yes | array&lt;string&gt; | Sorted names of explicit variables supplied for this run; values are never returned.  |
-| `env_from` | Yes | array&lt;string&gt; | Sorted orchestrator environment variable names supplied for this run.  |
+| `services` | Yes | array&lt;[Service](schema-service.md)&gt; | Immutable service descriptions and environment names resolved when accepted.  |
+| `env_from` | Yes | array&lt;string&gt; | Sorted orchestrator environment variable names for this run, including expanded services.  |
 | `input_fingerprint` | Yes | string / null | Input snapshot version supplied when the run was accepted. Opaque identifier, 1–256 UTF-8 bytes; no NUL or whitespace-only value. Compared exactly, without normalization.  |
 | `cancel_requested_at` | Yes | string / null |   |
 | `created_at` | Yes | string |  format: <code>"date-time"</code> |
@@ -92,8 +93,15 @@
         "type": "string"
       }
     },
+    "services": {
+      "description": "Immutable service descriptions and environment names resolved when accepted.",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Service"
+      }
+    },
     "env_from": {
-      "description": "Sorted orchestrator environment variable names supplied for this run.",
+      "description": "Sorted orchestrator environment variable names for this run, including expanded services.",
       "type": "array",
       "items": {
         "type": "string"
@@ -258,6 +266,7 @@
     "input_fingerprint",
     "env_names",
     "env_from",
+    "services",
     "id",
     "session_id",
     "number",

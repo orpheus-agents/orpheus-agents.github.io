@@ -16,7 +16,7 @@
 | `model` | Нет | string / null |  minLength: <code>1</code> |
 | `session_mode` | Нет | [SessionMode](schema-sessionmode.md) |   |
 | `owner_email` | Нет | string / null | Пользователь SAML без прав администратора использует email своей сессии. Пропуск поля подставляет его, явный null запрещён. При полном доступе допустим любой владелец или null. minLength: <code>1</code> |
-| `env_from` | Нет | [EnvFrom](schema-envfrom.md) |   |
+| `services` | Нет | [ServiceCodes](schema-servicecodes.md) |   |
 
 ## JSON Schema
 
@@ -75,8 +75,8 @@
       "minLength": 1,
       "description": "SAML non-admins must use their session email; omission fills it, explicit null is forbidden. Full-access callers may use any owner or null."
     },
-    "env_from": {
-      "$ref": "#/components/schemas/EnvFrom"
+    "services": {
+      "$ref": "#/components/schemas/ServiceCodes"
     }
   }
 }

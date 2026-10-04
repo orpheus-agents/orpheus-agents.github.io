@@ -58,8 +58,8 @@ In the occurrence card, [`observed_at`](../reference/space-api/schema-occurrence
 | `run_not_found` / `session_not_found` | Check the Orpheus address and restore access to the original run. A missing record does not prove completion, so further execution remains blocked |
 | Result returns `503` | Check the [Orpheus URL and key](../reference/space.md#core) on Space API. Stored history remains available |
 | Saving returns `403` | Match the browser origin to the [public URL](../reference/space.md#access) and ensure the proxy passes the CSRF header |
-| Saving ENV returns `422` | The name is not permitted by Space. Select an available name or update the Space allowlist |
-| Submission is `failed` with `validation_error` | Orpheus rejected the request. For an ENV rejection, allow the name on Orpheus API/worker |
+| Saving services returns `422` | A code is absent from the [core service catalog](../configuration/secrets.md#services). Select an available service or update the catalog |
+| Submission is `failed` with `unknown_service` | The selected service was removed before submission. Correct the selection or restore the catalog entry |
 | Run accepted, then failed due to ENV | Supply the variable value to the Orpheus worker and inspect the run error |
 | Context reset returns `409` | Wait for the active run to finish or its synchronization to recover |
 

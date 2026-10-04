@@ -7,6 +7,7 @@
 | Field | Required | Type | Description and constraints |
 | --- | --- | --- | --- |
 | `env` | No | object |  additionalProperties: <code>{"type":"string"}</code> |
+| `services` | No | [ServiceCodes](schema-servicecodes.md) | Services available to the agent and session hooks, expanded together with env_from.  |
 | `env_from` | No | array&lt;string&gt; |   |
 | `template` | Yes | string |  minLength: <code>1</code> |
 
@@ -22,6 +23,10 @@
       },
       "title": "Env",
       "type": "object"
+    },
+    "services": {
+      "description": "Services available to the agent and session hooks, expanded together with env_from.",
+      "$ref": "#/components/schemas/ServiceCodes"
     },
     "env_from": {
       "items": {

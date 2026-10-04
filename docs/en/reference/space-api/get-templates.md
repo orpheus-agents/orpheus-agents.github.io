@@ -1,7 +1,7 @@
 # Get Orpheus templates and the creation default
 
 ```http
-GET /api/v1/schedules/templates
+GET /api/v1/templates
 ```
 
 Get Orpheus templates and the creation default

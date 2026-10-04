@@ -1,29 +1,29 @@
 {
   "orpheus": {
     "repository": "https://github.com/orpheus-agents/orpheus",
-    "tag": "v0.5.0",
-    "commit": "0b8c886cc51b40d4db025565c7e23aaf4606c50d"
+    "tag": "v0.6.0",
+    "commit": "3a5bdc0fdca1dc9fd3e19c162846f2cc01c56d2a"
   },
   "orpheus-mattermost": {
     "repository": "https://github.com/orpheus-agents/orpheus-mattermost",
-    "tag": "v0.5.0",
-    "commit": "24d83cd390e4a455d244ff1f3c6bb25cd6d24d32"
+    "tag": "v0.6.0",
+    "commit": "a0a31ac40397b7f8924959c9919875cad70cb8c2"
   },
   "orpheus-web": {
     "repository": "https://github.com/orpheus-agents/orpheus-web",
-    "tag": "v0.3.0",
-    "commit": "e0515f349a0eaaf0d3cd912e2c5408e8d17a8baa"
+    "tag": "v0.6.0",
+    "commit": "72229b7b6479312d41561a26e99b5cdb1b46dda3"
   },
-  "openapi_sha256": "cdfc6b952ff5842f196c663bb43fd44a88628c841327d4a6dc9a6edd7fc1cbe5",
+  "openapi_sha256": "dc1621d1a9eb8d3bf3612de814326a66026cadfcb1c9d3a98e565553e9476a24",
   "orpheus-space": {
     "repository": "https://github.com/orpheus-agents/orpheus-space",
-    "tag": "v0.9.0",
-    "commit": "8734dec30f2e0bc96ca9352092b7b3ba9d2ced2c"
+    "tag": "v0.10.0",
+    "commit": "c379ce58706a9ff79d5ff6e526304c86c78ab1fa"
   },
-  "space_openapi_sha256": "b275296c40fcf60548a8a72be38d4d5e3951d75909789f9a9335ed36afd8beb1",
+  "space_openapi_sha256": "e875c74df7cc1234c4cf0e63bc6c5c8bb5fccd4ae062d1421dd3cd8f954f8ca3",
   "orpheus-space-web": {
     "repository": "https://github.com/orpheus-agents/orpheus-space-web",
-    "tag": "v0.3.0",
-    "commit": "da0bd9e945b36889d96760ca92f19535979c7a25"
+    "tag": "v0.4.0",
+    "commit": "1bc52696027c9d91aef0f89ce088e65bb9af4300"
   }
 }

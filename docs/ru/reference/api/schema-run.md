@@ -12,7 +12,8 @@
 | `agent_error` | Да | [Error](schema-error.md) / null |   |
 | `hooks` | Да | array&lt;[HookResult](schema-hookresult.md)&gt; |   |
 | `env_names` | Да | array&lt;string&gt; | Отсортированные имена явных переменных запуска. Значения не возвращаются.  |
-| `env_from` | Да | array&lt;string&gt; | Отсортированные имена ENV оркестратора, выбранные для запуска.  |
+| `services` | Да | array&lt;[Service](schema-service.md)&gt; | Неизменяемые описания сервисов и имена ENV, определённые при принятии запроса.  |
+| `env_from` | Да | array&lt;string&gt; | Отсортированные имена переменных окружения оркестратора для запуска, включая ENV выбранных сервисов.  |
 | `input_fingerprint` | Да | string / null | Версия входных данных при приёме запуска. От 1 до 256 байт UTF-8. NUL и строки только из пробелов запрещены. Точное сравнение.  |
 | `cancel_requested_at` | Да | string / null |   |
 | `created_at` | Да | string |  format: <code>"date-time"</code> |
@@ -92,8 +93,15 @@
         "type": "string"
       }
     },
+    "services": {
+      "description": "Immutable service descriptions and environment names resolved when accepted.",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Service"
+      }
+    },
     "env_from": {
-      "description": "Sorted orchestrator environment variable names supplied for this run.",
+      "description": "Sorted orchestrator environment variable names for this run, including expanded services.",
       "type": "array",
       "items": {
         "type": "string"
@@ -258,6 +266,7 @@
     "input_fingerprint",
     "env_names",
     "env_from",
+    "services",
     "id",
     "session_id",
     "number",

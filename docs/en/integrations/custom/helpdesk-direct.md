@@ -2,7 +2,7 @@
 
 The connector creates a session for a new ticket. The agent receives helpdesk credentials and publication instructions.
 
-Set [`HELPDESK_URL`](../../configuration/secrets.md) and [`HELPDESK_TOKEN`](../../configuration/secrets.md) on the worker and allow their names on API and worker. Select them in the request:
+Configure the [`helpdesk` service](../../configuration/secrets.md#services) on API and worker, and supply its `HELPDESK_URL` and `HELPDESK_TOKEN` values to the worker. Select it in the request:
 
 ```json
 {
@@ -12,7 +12,7 @@ Set [`HELPDESK_URL`](../../configuration/secrets.md) and [`HELPDESK_TOKEN`](../.
   },
   "sandbox": {
     "template": "codex",
-    "env_from": ["HELPDESK_URL", "HELPDESK_TOKEN"]
+    "services": ["helpdesk"]
   }
 }
 ```
