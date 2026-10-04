@@ -20,4 +20,4 @@ Share the detail-page link with a colleague who has web access. History is share
 
 ## Services
 
-Session and run cards show the [accepted service snapshots](../configuration/secrets.md#changes): name, description and expandable ENV names. Values are hidden. Session services are available to the agent and session hooks. Run services apply only to `before_run` and `after_run`. The cards retain their accepted definitions even when the current catalog changes.
+Session and run cards show the [accepted service snapshots](../configuration/secrets.md#changes): service names in one row. Hover, keyboard focus or tap reveals the description and ENV names. Values are hidden. Session services are available to the agent and session hooks. Run services apply only to `before_run` and `after_run`. The cards retain their accepted definitions even when the current catalog changes.

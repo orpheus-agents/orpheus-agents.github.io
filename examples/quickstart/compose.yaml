@@ -100,7 +100,7 @@ services:
     restart: unless-stopped
 
   web:
-    image: retailcrm/orpheus-web:${ORPHEUS_WEB_VERSION:-0.6.0}
+    image: retailcrm/orpheus-web:${ORPHEUS_WEB_VERSION:-0.6.1}
     init: true
     environment:
       ORPHEUS_UPSTREAM: http://api:8000
