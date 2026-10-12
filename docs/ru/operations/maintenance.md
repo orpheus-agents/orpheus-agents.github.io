@@ -14,10 +14,11 @@ docker compose up -d
 ## Обновление
 
 1. Включите [`draining: true`](../reference/mattermost.md#workflow-draining) в workflows и примените их.
-2. Дождитесь завершения задач и доставки результатов. Остановите приём задач своими коннекторами.
-3. Сделайте резервную копию БД и конфигурации.
-4. Измените версии образов в [`.env`](../getting-started/launch.md#заполните-настроики).
-5. Остановите прикладные сервисы, скачайте образы, выполните миграции и запустите сервисы:
+2. Остановите приём задач своими коннекторами. Если используете [ревью GitLab](../integrations/gitlab/operations.md), выполните `docker compose stop review` из каталога его примера. Принятые запуски продолжатся в Orpheus, публикация в GitLab возобновится после старта коннектора.
+3. Дождитесь завершения активных задач Orpheus и доставки результатов Mattermost.
+4. Сделайте резервную копию БД и конфигурации.
+5. Измените версии образов в [`.env`](../getting-started/launch.md#заполните-настроики).
+6. Остановите прикладные сервисы, скачайте образы, выполните миграции и запустите сервисы:
 
 ```sh
 docker compose stop mattermost web worker api
@@ -26,7 +27,7 @@ docker compose run --rm migrate
 docker compose up -d --force-recreate api worker mattermost web
 ```
 
-6. Проверьте [`/ready`](monitoring.md), [`/readyz`](monitoring.md), вход в web и тестовую задачу. Снимите [`draining`](../reference/mattermost.md#workflow-draining) и возобновите приём событий.
+7. Проверьте [`/ready`](monitoring.md), [`/readyz`](monitoring.md), вход в web и тестовую задачу. Снимите [`draining`](../reference/mattermost.md#workflow-draining) и возобновите приём событий. Если используете коннектор GitLab, запустите его командой `docker compose up -d review` из каталога его примера.
 
 Обычный `restart` не перечитывает изменённое окружение Compose. Для этого пересоздайте контейнеры. При обновлении настроек профиля или шаблона учтите [ревизию workflow](../integrations/mattermost/reload.md).
 

@@ -7,6 +7,7 @@
 | [`MAX_CONCURRENT_SESSIONS`](../reference/environment.md#env-max-concurrent-sessions) | Общая ёмкость исполнения Orpheus |
 | [`max_concurrent_runs`](../reference/mattermost.md#workflow-max-concurrent-runs) | Одновременные запуски Mattermost workflow |
 | [`MAX_PARALLEL_THREADS`](../reference/mattermost.md#env-max-parallel-threads) | Параллельная обработка тредов коннектором |
+| [`MAX_CONCURRENT_REVIEWS`](../reference/gitlab-review.md#env-max-concurrent-reviews) | Одновременные ревью GitLab MR |
 | [`message_batch_window`](../reference/mattermost.md#workflow-message-batch-window) | Объединение близких сообщений перед запуском |
 
 В одной сессии выполняется один запуск. Независимые сессии могут работать параллельно.
@@ -14,5 +15,7 @@
 Несколько API и worker должны использовать одну БД, одинаковые профили, allowlist и ключ шифрования. Системные настройки, влияющие на приём задач, должны совпадать. Не применяйте разные лимиты к экземплярам одной инсталляции.
 
 Mattermost-коннектор запускайте в одном экземпляре на источник (сервер и бот). Для независимых источников возможны отдельные процессы. Не увеличивайте число реплик одного источника как способ ускорения.
+
+[Коннектор ревью GitLab](../integrations/gitlab/operations.md) тоже работает в одном экземпляре на инсталляцию GitLab и бота. Меняйте его лимит параллельности, не добавляя реплики для того же бота.
 
 При росте задержки проверьте активные задачи, квоты аккаунтов, ошибки подготовки песочниц и время ответа корпоративных API. Отдельно контролируйте рост истории Mattermost после [`reconcile_from`](../reference/mattermost.md#workflow-reconcile-from): периодическая сверка читает этот диапазон.

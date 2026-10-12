@@ -6,6 +6,7 @@ Orpheus brings company AI agents, business data and work tools together. A colle
 
 - **Work across sources.** An agent can combine a ticket, documentation and CRM data when you provide the required tools and access.
 - **A familiar entry point.** The Mattermost integration supports conversations, clarifications and files.
+- **Merge request review.** Assign the [GitLab bot](../integrations/gitlab/connect.md) as reviewer to receive findings directly in the MR.
 - **Task-specific setup.** Choose instructions, models and tools for different workflows.
 - **Recurring tasks.** In [Orpheus Space](../space/overview.md), employees schedule agent work and read the results.
 - **Visibility.** The web interface shows execution history, tool calls, errors and token usage.

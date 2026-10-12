@@ -32,6 +32,8 @@ store = "main"
 key = "codex/support/auth.json"
 ```
 
-For a custom S3 service, set the store's [`endpoint_url`](../reference/profiles.md#store-endpoint-url). Supply worker access through standard AWS credentials such as [`AWS_ACCESS_KEY_ID`](../reference/profiles.md#store-access) and [`AWS_SECRET_ACCESS_KEY`](../reference/profiles.md#store-access). Update the authorization file when credentials change.
+For a custom S3 service, set the store's [`endpoint_url`](../reference/profiles.md#store-endpoint-url). Supply worker access through standard AWS credentials such as [`AWS_ACCESS_KEY_ID`](../reference/profiles.md#store-access) and [`AWS_SECRET_ACCESS_KEY`](../reference/profiles.md#store-access). Grant read and write access to the authorization object. The S3 service must return an `ETag` and support conditional writes with `If-Match` so an older sandbox cannot overwrite newer credentials.
+
+Orpheus synchronizes refreshed account credentials back to S3. When starting a replacement agent process after a pause or disconnection, it reads the current authorization file from S3. Upload a fresh valid file if you reauthorize the account manually. A running agent does not automatically reload a manually replaced file.
 
 Profiles sharing an account must use the same [`account_id`](../reference/profiles.md#profile-auth-account-id) and credential source. The ID appears in [account limits](../web/limits.md). Assign a new ID when replacing the underlying account.

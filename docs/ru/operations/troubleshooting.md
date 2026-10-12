@@ -8,7 +8,9 @@
 | Workflow не загружается | [`validate`](../integrations/mattermost/reload.md), YAML, строковую [`revision`](../reference/mattermost.md#workflow-revision), пересечения маршрутов |
 | [`unknown_profile`](../configuration/profiles.md) | Совпадение имени профиля и конфигурации API/worker |
 | [`validation_error`](../reference/api/schema-error.md) | [`error.details`](../reference/api/schema-error.md) с путём некорректного поля |
-| [`capacity_exhausted`](../configuration/limits.md) | Активные задачи и лимит параллельности |
+| [`capacity_exhausted`](../configuration/limits.md) | Активные задачи, песочницы в ожидании удаления и лимит параллельности |
+| `sandbox_provision_timeout` | Доступность AgentBox и логи worker. [Дедлайн первоначальной подготовки](../reference/environment.md#env-sandbox-provision-timeout-seconds) действует отдельно от таймаута запуска |
+| `sandbox_cleanup_pending` / `sandbox_provision_conflict` | Проверьте [`sandbox.error`](../reference/api/get-session.md), логи worker и ресурсы в AgentBox. Пустой поиск не доказывает отсутствие ресурса. Слот занят до подтверждения удаления. Состояние песочницы остаётся `unavailable` и после удаления |
 | Ошибка авторизации модели | Credentials worker, режим профиля и доступ к модели |
 | Ошибка подготовки файлов | Доступ к Mattermost из AgentBox, Python, размер файлов |
 | Ответ есть, файла нет | Инструкцию outbox, ошибки [`after_run`](../configuration/hooks.md#hook-after-run), ограничения файлов |

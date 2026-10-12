@@ -1,10 +1,10 @@
 // Systems of a company that connect to Orpheus. A label names the ready way to connect.
-// Mattermost has a connector of Orpheus. A command line tool or an MCP server gives
+// Mattermost and GitLab MR review have Orpheus connectors. A command line tool or an MCP server gives
 // an agent access to a system. Messengers offer a Bot API for a connector of your own.
 // Any other system connects through the HTTP API. Logos are files in /brand/systems.
 
 /** Ready way to connect. `community` means MCP servers made by the community. */
-export type Way = 'connector' | 'cli' | 'mcp' | 'both' | 'community' | 'bot'
+export type Way = 'review' | 'connector' | 'cli' | 'mcp' | 'both' | 'community' | 'bot'
 
 export interface System {
   name: string
@@ -68,7 +68,7 @@ const groups = (names: Names): Group[] => [
   {
     title: names.engineering,
     systems: [
-      { name: 'GitLab', logo: 'gitlab', way: 'both' },
+      { name: 'GitLab', logo: 'gitlab', way: 'review' },
       { name: 'GitHub', logo: 'github', way: 'both' },
       { name: 'Sentry', logo: 'sentry', way: 'both' },
       { name: 'Grafana', logo: 'grafana', way: 'mcp' },
@@ -81,6 +81,7 @@ const ru: SystemsCopy = {
   lead: 'Запускайте задачи прямо из мессенджеров и рабочих систем. Давайте агентам доступ к их данным.',
   ways: {
     connector: 'готовый коннектор',
+    review: 'Ревью MR, CLI и MCP',
     cli: 'CLI',
     mcp: 'MCP',
     both: 'CLI и MCP',
@@ -113,6 +114,7 @@ const en: SystemsCopy = {
   lead: 'Start tasks directly from messengers and business systems. Give agents access to their data.',
   ways: {
     connector: 'ready-made connector',
+    review: 'MR review, CLI and MCP',
     cli: 'CLI',
     mcp: 'MCP',
     both: 'CLI and MCP',

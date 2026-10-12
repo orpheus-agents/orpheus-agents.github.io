@@ -8,9 +8,10 @@ Start with a process that has clear inputs, a defined result and someone respons
 | Investigate an error | Compare the reported problem with documentation and available logs | Log-reading tool and documentation |
 | Prepare a report | Process a spreadsheet, calculate metrics and return a file | Attachment or source API |
 | Help a developer | Inspect a repository, prepare changes and explain the result | Git, repository access and instructions |
+| Review a merge request | Check changes and publish findings in GitLab | [GitLab MR connector](../integrations/gitlab/connect.md), a review profile and read-only repository access |
 | Prepare a recurring summary | Collect data on a schedule and prepare a summary | [Space](../space/overview.md) and source API |
 
-These are agent configuration examples. Supply access to each system through an API, CLI or MCP. The ready-made Mattermost connector receives tasks and delivers results.
+These are agent configuration examples. Supply access to each system through an API, CLI or MCP. The ready-made Mattermost connector receives tasks and delivers results. The GitLab connector starts reviews when assigned as reviewer.
 
 ## Run a pilot
 

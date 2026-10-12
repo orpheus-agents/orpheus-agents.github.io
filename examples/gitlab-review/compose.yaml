@@ -1,0 +1,19 @@
+name: orpheus-gitlab-review
+
+services:
+  review:
+    image: retailcrm/orpheus-gitlab-mr-review:${ORPHEUS_GITLAB_REVIEW_VERSION:-0.1.1}
+    platform: linux/amd64
+    restart: unless-stopped
+    stop_grace_period: 30s
+    environment:
+      APP_MODE: prod
+      LOG_LEVEL: info
+      GITLAB_BASE_URL: ${GITLAB_BASE_URL:?Set GITLAB_BASE_URL}
+      GITLAB_TOKEN: ${GITLAB_TOKEN:?Set the connector bot token}
+      ORPHEUS_BASE_URL: ${ORPHEUS_BASE_URL:?Set ORPHEUS_BASE_URL}
+      ORPHEUS_WEB_BASE_URL: ${ORPHEUS_WEB_BASE_URL:-}
+      ORPHEUS_API_KEY: ${ORPHEUS_API_KEY:?Set ORPHEUS_API_KEY}
+      WORKFLOWS_DIR: /var/app/workflows
+    volumes:
+      - ./workflows:/var/app/workflows:ro

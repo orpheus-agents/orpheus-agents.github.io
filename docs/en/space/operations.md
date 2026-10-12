@@ -2,14 +2,16 @@
 
 ## Processes and probes
 
-The Space image runs `serve`, `worker` and `migrate up`. Scale API replicas independently. Run one worker: a second process exits if another worker already owns execution. In Kubernetes use one worker replica with the `Recreate` strategy.
+The Space image runs `serve`, `worker` and `migrate up`. Scale API replicas independently. Run one worker. If another worker already owns execution, the new process waits for it to release the lock without dispatching schedules. In Kubernetes use one worker replica with the `Recreate` strategy.
 
 API and worker have separate system HTTP listeners, defaulting to port [`9100`](../reference/space.md#service):
 
 | Probe | Purpose |
 | --- | --- |
 | `/health` | The process responds |
-| `/ready` | Process and database readiness with migrations applied |
+| `/ready` | Process and database readiness with migrations applied. A worker also needs the execution lock |
+
+While waiting for the lock, the worker answers `200` on `/health` and `503` on `/ready`. It logs `reason=lock_busy` once and `reason=lock_acquired` when it can start. If the wait persists, check whether the previous worker is still running. Keep one replica and let the supervisor restart a process that fails because of a database error.
 
 Keep probes on the internal network. Do not expose the system port with the public API. Readiness alone does not confirm Orpheus or model-provider availability.
 
@@ -37,6 +39,8 @@ docker compose up -d api web worker
 Take a backup before updating. Afterwards, check readiness, login and an upcoming occurrence. Following downtime, only the latest due occurrence is considered. See [schedule behavior](schedules.md).
 
 ## Diagnostics {#diagnostics}
+
+For startup or process failures, inspect `phase`, `reason` and `error_type` in the logs. Database errors can also include `sqlstate`. These fields identify the failing stage without exposing connection strings or credentials.
 
 Distinguish submission [`state`](../reference/space-api/schema-occurrencestate.md) from Orpheus execution [`run_status`](../reference/space-api/schema-occurrence.md).
 

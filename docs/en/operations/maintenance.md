@@ -14,10 +14,11 @@ docker compose up -d
 ## Update
 
 1. Set [`draining: true`](../reference/mattermost.md#workflow-draining) on workflows and reload them.
-2. Wait for active work and delivery to finish. Stop admission from custom connectors.
-3. Back up the database and configuration.
-4. Change image versions in [`.env`](../getting-started/launch.md#fill-in-the-settings).
-5. Stop application services, pull images, migrate and start again:
+2. Stop admission from custom connectors. If you use [GitLab review](../integrations/gitlab/operations.md), run `docker compose stop review` in its example directory. Accepted runs continue in Orpheus, and GitLab publication resumes after the connector restarts.
+3. Wait for active Orpheus work and Mattermost delivery to finish.
+4. Back up the database and configuration.
+5. Change image versions in [`.env`](../getting-started/launch.md#fill-in-the-settings).
+6. Stop application services, pull images, migrate and start again:
 
 ```sh
 docker compose stop mattermost web worker api
@@ -26,7 +27,7 @@ docker compose run --rm migrate
 docker compose up -d --force-recreate api worker mattermost web
 ```
 
-6. Verify [`/ready`](monitoring.md), [`/readyz`](monitoring.md), web sign-in and a test task. Disable draining and resume event admission.
+7. Verify [`/ready`](monitoring.md), [`/readyz`](monitoring.md), web sign-in and a test task. Disable draining and resume event admission. Restart the GitLab connector from its example directory with `docker compose up -d review` when used.
 
 A plain `restart` does not apply changed Compose environment settings. Recreate containers instead. When updating a profile or template, account for the [workflow revision](../integrations/mattermost/reload.md).
 

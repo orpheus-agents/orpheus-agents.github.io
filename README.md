@@ -9,7 +9,7 @@
 
 # Orpheus documentation
 
-Bilingual documentation for the company AI agent platform, built with VitePress. It covers evaluation, deployment, agent configuration, Mattermost, custom integrations, web inspection, Space schedules and operations. The helpdesk guide demonstrates direct agent publication and Markdown delivery through `after_run`.
+Bilingual documentation for the company AI agent platform, built with VitePress. It covers evaluation, deployment, agent configuration, Mattermost, GitLab MR review, custom integrations, web inspection, Space schedules and operations. The helpdesk guide demonstrates direct agent publication and Markdown delivery through `after_run`.
 
 ## Work locally
 
@@ -31,7 +31,7 @@ npm run test:stack
 
 - `check` audits dependencies for moderate or higher vulnerabilities and verifies OpenAPI checksums and generated content, language parity, code blocks, request schemas, initializer behavior, hook publication, Compose configuration, production build, local links and anchors.
 - `test:browser` checks both languages on desktop and mobile: the project site and its interactive sections, navigation, theme, search, API links and language switching.
-- `test:stack` starts isolated, disposable Orpheus and Space PostgreSQL/API/web stacks from the documented published images. It validates the Mattermost workflow offline and verifies readiness, web proxying, Space CRUD and browser-write protection. It checks the local connection with a Space worker and confirms submission to Orpheus. It does not start the Orpheus worker or call model providers, AgentBox or Mattermost. It removes its own containers and volumes on exit.
+- `test:stack` starts isolated, disposable Orpheus and Space PostgreSQL/API/web stacks from the documented published images. It loads the GitLab review workflow with networking disabled, validates the Mattermost workflow offline and verifies readiness, web proxying, Space CRUD and browser-write protection. It checks the local connection with a Space worker and confirms submission to Orpheus. It does not start the Orpheus worker or call model providers, AgentBox or Mattermost. It removes its own containers and volumes on exit.
 
 To inspect the static build:
 
@@ -49,6 +49,7 @@ The preview binds to `127.0.0.1`. Production assets are in `docs/.vitepress/dist
 - `docs/.vitepress/theme/` extends VitePress with the Orpheus visual identity. Brand assets come from Orpheus Web. The bundled fonts are distributed under their included SIL OFL licenses.
 - `docs/.vitepress/theme/home/` is the project site shown on the home pages. See [Project site](#project-site).
 - `examples/quickstart/` contains the minimal runnable deployment.
+- `examples/gitlab-review/` contains a connector deployment and a project-specific review workflow.
 - `examples/space/` contains a separate Space deployment and a paused schedule payload.
 - `examples/helpdesk/` contains short illustrative Python scripts, not a production connector. Adapt the hypothetical helpdesk API before use.
 - `api/openapi.yaml` and `api/space.openapi.yaml` are the reviewed Orpheus and Space contracts. `api/upstream.json` records released revisions and checksums. The corresponding `translations.ru.json` and `space.translations.ru.json` translate descriptions. Literal JSON Schema retains the original contracts.
@@ -115,7 +116,7 @@ Every system in `systems.ts` carries a label with the ready way to connect. Chec
 | --- | --- | --- |
 | Ready-made connector | Mattermost | [orpheus-mattermost](https://github.com/orpheus-agents/orpheus-mattermost) |
 | CLI | Redmine | [muxx/redmine-cli](https://github.com/muxx/redmine-cli) |
-| CLI and MCP | GitLab | [glab](https://docs.gitlab.com/cli/), [GitLab MCP server](https://docs.gitlab.com/user/model_context_protocol/mcp_server/) |
+| MR review, CLI and MCP | GitLab | [Orpheus connector](https://github.com/orpheus-agents/orpheus-gitlab-mr-review), [glab](https://docs.gitlab.com/cli/), [GitLab MCP server](https://docs.gitlab.com/user/model_context_protocol/mcp_server/) |
 | CLI and MCP | GitHub | [gh](https://cli.github.com), [github-mcp-server](https://github.com/github/github-mcp-server) |
 | CLI and MCP | Sentry | [sentry-cli](https://docs.sentry.io/cli/), [Sentry MCP](https://docs.sentry.io/product/mcp-servers/getting-started/) |
 | MCP | Grafana | [mcp-grafana](https://github.com/grafana/mcp-grafana) |
@@ -129,8 +130,8 @@ Every system in `systems.ts` carries a label with the ready way to connect. Chec
 Read each contract from an explicit Orpheus or Space release. Do not copy uncommitted work from neighboring repositories. Review the contract, image versions and examples together.
 
 ```sh
-node scripts/sync-api.mjs ../orpheus v0.6.0
-node scripts/sync-api.mjs ../orpheus-space v0.10.0 orpheus-space
+node scripts/sync-api.mjs ../orpheus v0.6.4
+node scripts/sync-api.mjs ../orpheus-space v0.10.2 orpheus-space
 npm run api:generate
 npm run check
 ```

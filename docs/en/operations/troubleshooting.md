@@ -8,7 +8,9 @@ Start with `docker compose ps -a`, run details and the relevant service logs.
 | Workflow fails to load | [`validate`](../integrations/mattermost/reload.md), YAML, string [`revision`](../reference/mattermost.md#workflow-revision), overlapping routes |
 | [`unknown_profile`](../configuration/profiles.md) | Profile name and matching API/worker configuration |
 | [`validation_error`](../reference/api/schema-error.md) | [`error.details`](../reference/api/schema-error.md) for the invalid field path |
-| [`capacity_exhausted`](../configuration/limits.md) | Active work and concurrency limit |
+| [`capacity_exhausted`](../configuration/limits.md) | Active work, pending sandbox cleanup and concurrency limit |
+| `sandbox_provision_timeout` | AgentBox availability and worker logs. The [initial provisioning deadline](../reference/environment.md#env-sandbox-provision-timeout-seconds) expires separately from the run timeout |
+| `sandbox_cleanup_pending` / `sandbox_provision_conflict` | Check [`sandbox.error`](../reference/api/get-session.md), worker logs and resources in AgentBox. An empty search does not prove absence. The execution slot stays occupied until deletion is confirmed. The sandbox state remains `unavailable` afterwards |
 | Model authentication error | Worker credentials, profile mode and model access |
 | File preparation error | Mattermost access from AgentBox, Python and file size |
 | Answer arrives without file | Outbox instructions, [`after_run`](../configuration/hooks.md#hook-after-run) errors and file limits |
