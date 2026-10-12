@@ -29,7 +29,7 @@ npm run test:browser
 npm run test:stack
 ```
 
-- `check` verifies OpenAPI checksums and generated content, language parity, code blocks, request schemas, initializer behavior, hook publication, Compose configuration, production build, local links and anchors.
+- `check` audits dependencies for moderate or higher vulnerabilities and verifies OpenAPI checksums and generated content, language parity, code blocks, request schemas, initializer behavior, hook publication, Compose configuration, production build, local links and anchors.
 - `test:browser` checks both languages on desktop and mobile: the project site and its interactive sections, navigation, theme, search, API links and language switching.
 - `test:stack` starts isolated, disposable Orpheus and Space PostgreSQL/API/web stacks from the documented published images. It validates the Mattermost workflow offline and verifies readiness, web proxying, Space CRUD and browser-write protection. It checks the local connection with a Space worker and confirms submission to Orpheus. It does not start the Orpheus worker or call model providers, AgentBox or Mattermost. It removes its own containers and volumes on exit.
 

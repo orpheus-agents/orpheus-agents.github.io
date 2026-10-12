@@ -13,13 +13,14 @@
     "api:generate": "node scripts/generate-api.mjs",
     "api:check": "node scripts/generate-api.mjs --check",
     "examples:check": "node scripts/check-examples.mjs",
-    "check": "npm run api:check && npm run examples:check && npm run build && python3 scripts/check-site.py",
+    "audit": "npm audit --audit-level=moderate",
+    "check": "npm run audit && npm run api:check && npm run examples:check && npm run build && python3 scripts/check-site.py",
     "test:browser": "playwright test",
     "test:stack": "node scripts/smoke-stack.mjs"
   },
   "devDependencies": {
     "vitepress": "1.6.4",
-    "vue": "3.5.30",
+    "vue": "3.5.43",
     "yaml": "2.8.3",
     "ajv": "8.18.0",
     "ajv-formats": "3.0.1",
