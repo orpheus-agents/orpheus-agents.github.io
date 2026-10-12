@@ -6,7 +6,8 @@
 | --- | --- |
 | PostgreSQL | История сессий, запусков и принятых сообщений |
 | [`ENV_ENCRYPTION_KEY`](../reference/environment.md#env-env-encryption-key) | Расшифровка сохранённых переменных |
-| [`orpheus.toml`](../configuration/profiles.md) и [workflows](../integrations/mattermost/workflow.md) | Воспроизведение настроек |
+| [`orpheus.toml`](../configuration/profiles.md) и [workflows Mattermost](../integrations/mattermost/workflow.md) | Воспроизведение настроек |
+| [Workflows ревью GitLab](../integrations/gitlab/workflows.md) и настройки коннектора | Восстановление маршрутов проектов, правил ревью и подключений |
 | Секреты и файлы SAML | Подключение сервисов и вход пользователей |
 | S3 credentials store | Авторизация профилей аккаунтов |
 

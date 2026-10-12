@@ -116,7 +116,7 @@ Every system in `systems.ts` carries a label with the ready way to connect. Chec
 | --- | --- | --- |
 | Ready-made connector | Mattermost | [orpheus-mattermost](https://github.com/orpheus-agents/orpheus-mattermost) |
 | CLI | Redmine | [muxx/redmine-cli](https://github.com/muxx/redmine-cli) |
-| MR review connector, CLI and MCP | GitLab | [Orpheus connector](https://github.com/orpheus-agents/orpheus-gitlab-mr-review), [glab](https://docs.gitlab.com/cli/), [GitLab MCP server](https://docs.gitlab.com/user/model_context_protocol/mcp_server/) |
+| MR review, CLI and MCP | GitLab | [Orpheus connector](https://github.com/orpheus-agents/orpheus-gitlab-mr-review), [glab](https://docs.gitlab.com/cli/), [GitLab MCP server](https://docs.gitlab.com/user/model_context_protocol/mcp_server/) |
 | CLI and MCP | GitHub | [gh](https://cli.github.com), [github-mcp-server](https://github.com/github/github-mcp-server) |
 | CLI and MCP | Sentry | [sentry-cli](https://docs.sentry.io/cli/), [Sentry MCP](https://docs.sentry.io/product/mcp-servers/getting-started/) |
 | MCP | Grafana | [mcp-grafana](https://github.com/grafana/mcp-grafana) |

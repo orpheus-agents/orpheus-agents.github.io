@@ -25,4 +25,4 @@ Enable Docker on boot. The stack uses `restart: unless-stopped` for long-running
 
 To use an external PostgreSQL instance, set [`DATABASE_URL`](../reference/environment.md#env-database-url) for API, worker and migrations. Keep profile TOML, encryption key and environment allowlist consistent across API and worker.
 
-Run one Mattermost connector per server and bot identity. Preserve this rule, the separate migration step and SSE proxy settings when deploying to Kubernetes.
+Run one Mattermost connector per server and bot identity. The [GitLab review connector](../integrations/gitlab/connect.md) runs separately and also requires one instance per GitLab installation and bot identity. Preserve these rules, the separate migration step and SSE proxy settings when deploying to Kubernetes.

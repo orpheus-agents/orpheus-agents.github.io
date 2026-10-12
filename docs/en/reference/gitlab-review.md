@@ -58,6 +58,6 @@ Functions, conditions and other expressions are not supported. Explicitly blank 
 
 ## File validation {#validation}
 
-The connector reads regular UTF-8 `.md` files at the directory root. Subdirectories, hidden files, names beginning with `#` and other extensions are skipped. IDs must be unique, project routes must not overlap, and at most one fallback is allowed. Unknown fields, invalid YAML, an empty directory or an oversized file prevent the entire service from starting.
+The connector reads regular UTF-8 `.md` files at the directory root. Subdirectories, hidden files, names beginning with `#` and other extensions are skipped. IDs must be unique, project routes must not overlap, and at most one fallback is allowed. Nonregular or non-UTF-8 `.md` files, unknown fields, invalid YAML, an empty directory or an oversized file prevent the entire service from starting.
 
 Workflows are loaded at startup. See [how to apply changes](../integrations/gitlab/workflows.md).

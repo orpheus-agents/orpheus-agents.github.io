@@ -6,7 +6,8 @@ Back up the database and configuration. Sandbox files and source-system data are
 | --- | --- |
 | PostgreSQL | Sessions, runs and accepted message history |
 | [`ENV_ENCRYPTION_KEY`](../reference/environment.md#env-env-encryption-key) | Decrypt stored environment values |
-| [`orpheus.toml`](../configuration/profiles.md) and [workflows](../integrations/mattermost/workflow.md) | Reproduce configuration |
+| [`orpheus.toml`](../configuration/profiles.md) and [Mattermost workflows](../integrations/mattermost/workflow.md) | Reproduce configuration |
+| [GitLab review workflows](../integrations/gitlab/workflows.md) and connector settings | Restore project routing, review policies and connection settings |
 | Secrets and SAML files | Service connections and user sign-in |
 | S3 credential store | Account-profile authentication |
 

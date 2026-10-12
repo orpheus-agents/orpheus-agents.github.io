@@ -17,6 +17,19 @@ Give the connector its own GitLab bot token with API access to the projects, per
 
 Give the **sandbox** separate read-only repository and GitLab API credentials through an Orpheus [service](../../configuration/secrets.md#services) or the template. The connector's [`GITLAB_TOKEN`](../../reference/gitlab-review.md#env-gitlab-token) is not copied to the agent. Selecting a service passes its variables to the sandbox but does not configure Git authentication. Configure and test HTTPS Git access in your template as well.
 
+GitLab must be reachable over HTTPS from both the connector and AgentBox sandboxes. Check clone, fetch and `glab` access from the sandbox network, especially for a private GitLab installation.
+
+For example, add this service to [`orpheus.toml`](../../configuration/profiles.md) on API and worker:
+
+```toml
+[services.gitlab]
+name = "GitLab read access"
+description = "Read repositories, merge requests and discussions."
+env_from = ["GITLAB_HOST", "GITLAB_TOKEN"]
+```
+
+Set these variables on the **Orpheus worker** for the sandbox tools. Here `GITLAB_TOKEN` must hold the read-only token, separate from the connector bot token. Configure the template to use these credentials for HTTPS Git access too.
+
 ## Start the connector
 
 In your documentation repository clone:
@@ -36,6 +49,8 @@ docker compose pull
 docker compose up -d
 docker compose logs --tail=100 review
 ```
+
+To override other [process settings](../../reference/gitlab-review.md#process), add them to `review.environment` in `compose.yaml`. The Compose `.env` file supplies only variables referenced by the Compose configuration.
 
 The example pins a published image and mounts workflows read-only. The connector image is published for `linux/amd64`. The example selects that platform explicitly. On an ARM machine, Docker needs amd64 emulation.
 

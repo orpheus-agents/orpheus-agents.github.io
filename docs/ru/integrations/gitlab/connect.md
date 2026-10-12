@@ -17,6 +17,19 @@
 
 Передайте **песочнице** отдельные учётные данные только для чтения репозитория и API GitLab через [сервис Orpheus](../../configuration/secrets.md#services) или шаблон. [`GITLAB_TOKEN`](../../reference/gitlab-review.md#env-gitlab-token) коннектора не копируется агенту. Выбор сервиса передаёт переменные в песочницу, но не настраивает авторизацию Git. Настройте и проверьте доступ Git по HTTPS в шаблоне.
 
+GitLab должен быть доступен по HTTPS как из коннектора, так и из песочниц AgentBox. Проверьте clone, fetch и `glab` из сети песочниц, особенно если GitLab развёрнут в закрытой сети.
+
+Например, добавьте такой сервис в [`orpheus.toml`](../../configuration/profiles.md) на API и worker:
+
+```toml
+[services.gitlab]
+name = "Чтение GitLab"
+description = "Чтение репозиториев, merge request и обсуждений."
+env_from = ["GITLAB_HOST", "GITLAB_TOKEN"]
+```
+
+Задайте эти переменные на **worker Orpheus** для инструментов песочницы. Здесь `GITLAB_TOKEN` должен содержать токен только для чтения, отдельный от токена бота коннектора. Настройте шаблон, чтобы Git также использовал эти данные для доступа по HTTPS.
+
 ## Запустите коннектор
 
 В клоне репозитория документации:
@@ -36,6 +49,8 @@ docker compose pull
 docker compose up -d
 docker compose logs --tail=100 review
 ```
+
+Чтобы изменить другие [настройки процесса](../../reference/gitlab-review.md#process), добавьте их в `review.environment` файла `compose.yaml`. Файл `.env` Compose подставляет только переменные, на которые ссылается конфигурация Compose.
 
 Пример закрепляет опубликованный образ и монтирует workflows только для чтения. Образ коннектора опубликован для `linux/amd64`. Пример явно выбирает эту платформу. На ARM-машине Docker потребуется эмуляция amd64.
 

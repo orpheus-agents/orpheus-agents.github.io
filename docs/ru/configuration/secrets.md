@@ -26,9 +26,7 @@ JSON показывает значение [`configuration.sandbox`](../referenc
 
 [`GET /api/v1/services`](../reference/api/get-services.md) возвращает коды, названия, описания и имена ENV с сортировкой по коду. В списке выбора коды не повторяются. Неизвестный код отклоняет запрос целиком с `422 unknown_service`.
 
-[Workflows Mattermost](../reference/mattermost.md#workflow-services) выбирают коды через `services`. В [Space](../space/schedules.md#environment) сервисы явно задаются в каждом задании. Пользователю с правом редактирования задания доступен весь каталог, в том числе сервис с API-ключом Space. Права внешнего токена при этом сохраняются.
-
-[Workflows ревью GitLab](../reference/gitlab-review.md#workflow-services) также выбирают сервисы явно.
+[Workflows Mattermost](../reference/mattermost.md#workflow-services) выбирают коды через `services`. [Workflows ревью GitLab](../reference/gitlab-review.md#workflow-services) также выбирают сервисы явно. В [Space](../space/schedules.md#environment) сервисы явно задаются в каждом задании. Пользователю с правом редактирования задания доступен весь каталог, в том числе сервис с API-ключом Space. Права внешнего токена при этом сохраняются.
 
 ## Отдельные переменные {#individual-variables}
 
