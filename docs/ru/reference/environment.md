@@ -21,6 +21,7 @@
 | <span id="env-database-ping-timeout"></span>`DATABASE_PING_TIMEOUT` | `2` | Таймаут проверки БД, секунды |
 | <span id="env-cancel-grace-seconds"></span>`CANCEL_GRACE_SECONDS` | `30` | Ожидание мягкой отмены |
 | <span id="env-worker-poll-seconds"></span>`WORKER_POLL_SECONDS` | `1` | Интервал опроса worker |
+| <span id="env-sandbox-provision-timeout-seconds"></span>`SANDBOX_PROVISION_TIMEOUT_SECONDS` | `120` | Дедлайн первоначального создания и подключения песочницы, секунды. Применяется к новым попыткам |
 | <span id="env-rpc-timeout-seconds"></span>`RPC_TIMEOUT_SECONDS` | `30` | Таймаут отдельного RPC агента |
 | <span id="env-orpheus-host"></span><span id="env-orpheus-port"></span>`ORPHEUS_HOST / ORPHEUS_PORT` | `0.0.0.0 / 8000` | Адрес API |
 | <span id="env-orpheus-system-host"></span><span id="env-orpheus-system-port"></span>`ORPHEUS_SYSTEM_HOST / ORPHEUS_SYSTEM_PORT` | `0.0.0.0 / 9100` | Проверки процесса и [сервисные метрики](../operations/monitoring.md#service-metrics). Доступ только из доверенной сети |

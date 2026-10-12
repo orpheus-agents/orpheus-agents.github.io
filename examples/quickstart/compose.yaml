@@ -1,9 +1,10 @@
 name: orpheus-quickstart
 
-x-core-image: &core-image retailcrm/orpheus:${ORPHEUS_VERSION:-0.6.0}
+x-core-image: &core-image retailcrm/orpheus:${ORPHEUS_VERSION:-0.6.4}
 x-core-env: &core-env
   DATABASE_URL: postgres://orpheus:${POSTGRES_PASSWORD:?Run init.py first}@db:5432/orpheus
   ORPHEUS_CONFIG_FILE: /etc/orpheus/orpheus.toml
+  SANDBOX_PROVISION_TIMEOUT_SECONDS: ${SANDBOX_PROVISION_TIMEOUT_SECONDS:-120}
   ENV_ENCRYPTION_KEY: ${ENV_ENCRYPTION_KEY:?Run init.py first}
 x-core-volumes: &core-volumes
   - ./orpheus.toml:/etc/orpheus/orpheus.toml:ro

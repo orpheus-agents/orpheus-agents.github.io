@@ -21,6 +21,7 @@ Process settings are supplied through ENV. The application does not load [`.env`
 | <span id="env-database-ping-timeout"></span>`DATABASE_PING_TIMEOUT` | `2` | Database probe timeout, seconds |
 | <span id="env-cancel-grace-seconds"></span>`CANCEL_GRACE_SECONDS` | `30` | Graceful cancellation wait, seconds |
 | <span id="env-worker-poll-seconds"></span>`WORKER_POLL_SECONDS` | `1` | Worker polling interval, seconds |
+| <span id="env-sandbox-provision-timeout-seconds"></span>`SANDBOX_PROVISION_TIMEOUT_SECONDS` | `120` | Initial sandbox creation and connection deadline, seconds. Applies to new attempts |
 | <span id="env-rpc-timeout-seconds"></span>`RPC_TIMEOUT_SECONDS` | `30` | Individual agent RPC timeout, seconds |
 | <span id="env-orpheus-host"></span><span id="env-orpheus-port"></span>`ORPHEUS_HOST / ORPHEUS_PORT` | `0.0.0.0 / 8000` | API listener |
 | <span id="env-orpheus-system-host"></span><span id="env-orpheus-system-port"></span>`ORPHEUS_SYSTEM_HOST / ORPHEUS_SYSTEM_PORT` | `0.0.0.0 / 9100` | Process probes and [service metrics](../operations/monitoring.md#service-metrics). Keep access within a trusted network |
