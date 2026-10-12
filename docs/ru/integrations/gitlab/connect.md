@@ -30,6 +30,15 @@ env_from = ["GITLAB_HOST", "GITLAB_TOKEN"]
 
 Задайте эти переменные на **worker Orpheus** для инструментов песочницы. Здесь `GITLAB_TOKEN` должен содержать токен только для чтения, отдельный от токена бота коннектора. Настройте шаблон, чтобы Git также использовал эти данные для доступа по HTTPS.
 
+В [Compose-комплекте быстрого старта](../../getting-started/launch.md) добавьте эти строки в существующий блок `services.worker.environment`, сохранив остальные строки:
+
+```yaml
+GITLAB_HOST: ${GITLAB_HOST:?Set GITLAB_HOST}
+GITLAB_TOKEN: ${GITLAB_READ_TOKEN:?Set a read-only GitLab token}
+```
+
+Задайте `GITLAB_HOST` и `GITLAB_READ_TOKEN` в `.env` этого комплекта. Второе имя — отдельная переменная Compose для токена только для чтения. Примените [изменения каталога](../../configuration/secrets.md#changes) и [пересоздайте контейнер worker](../../operations/maintenance.md), чтобы он получил новое окружение.
+
 ## Запустите коннектор
 
 В клоне репозитория документации:

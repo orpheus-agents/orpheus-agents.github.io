@@ -30,6 +30,15 @@ env_from = ["GITLAB_HOST", "GITLAB_TOKEN"]
 
 Set these variables on the **Orpheus worker** for the sandbox tools. Here `GITLAB_TOKEN` must hold the read-only token, separate from the connector bot token. Configure the template to use these credentials for HTTPS Git access too.
 
+In the [quick-start Compose stack](../../getting-started/launch.md), add these entries to the existing `services.worker.environment` block, preserving its other entries:
+
+```yaml
+GITLAB_HOST: ${GITLAB_HOST:?Set GITLAB_HOST}
+GITLAB_TOKEN: ${GITLAB_READ_TOKEN:?Set a read-only GitLab token}
+```
+
+Set `GITLAB_HOST` and `GITLAB_READ_TOKEN` in that stack’s `.env`. The latter is a separate Compose input for the read-only token. Apply the [catalog changes](../../configuration/secrets.md#changes) and [recreate the worker container](../../operations/maintenance.md) so it receives the new environment.
+
 ## Start the connector
 
 In your documentation repository clone:
