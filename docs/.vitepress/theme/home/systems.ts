@@ -1,5 +1,5 @@
 // Systems of a company that connect to Orpheus. A label names the ready way to connect.
-// Mattermost has a connector of Orpheus. A command line tool or an MCP server gives
+// Mattermost and GitLab MR review have Orpheus connectors. A command line tool or an MCP server gives
 // an agent access to a system. Messengers offer a Bot API for a connector of your own.
 // Any other system connects through the HTTP API. Logos are files in /brand/systems.
 
@@ -68,7 +68,7 @@ const groups = (names: Names): Group[] => [
   {
     title: names.engineering,
     systems: [
-      { name: 'GitLab', logo: 'gitlab', way: 'both' },
+      { name: 'GitLab', logo: 'gitlab', way: 'connector' },
       { name: 'GitHub', logo: 'github', way: 'both' },
       { name: 'Sentry', logo: 'sentry', way: 'both' },
       { name: 'Grafana', logo: 'grafana', way: 'mcp' },

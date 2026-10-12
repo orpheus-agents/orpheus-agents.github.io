@@ -26,7 +26,7 @@ This JSON is the value of [`configuration.sandbox`](../reference/api/create-sess
 
 [`GET /api/v1/services`](../reference/api/get-services.md) returns codes, names, descriptions and ENV names, sorted by code. Selection lists contain unique codes. An unknown code rejects the whole request with `422 unknown_service`.
 
-[Mattermost workflows](../reference/mattermost.md#workflow-services) select codes through `services`. In [Space](../space/schedules.md#environment), select services explicitly for each schedule. All catalog entries are available to users who can edit that schedule, including any service containing a Space API key. The external token keeps its own permissions.
+[Mattermost workflows](../reference/mattermost.md#workflow-services) select codes through `services`. [GitLab review workflows](../reference/gitlab-review.md#workflow-services) also select services explicitly. In [Space](../space/schedules.md#environment), select services explicitly for each schedule. All catalog entries are available to users who can edit that schedule, including any service containing a Space API key. The external token keeps its own permissions.
 
 ## Individual variables {#individual-variables}
 

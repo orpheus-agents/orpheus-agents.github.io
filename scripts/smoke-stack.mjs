@@ -1,7 +1,7 @@
 import { mkdtempSync, cpSync, readFileSync, writeFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { spawn } from 'node:child_process'
+import { spawn, spawnSync } from 'node:child_process'
 import { parse, stringify } from 'yaml'
 
 const temp = mkdtempSync(join(tmpdir(), 'orpheus-docs-smoke-'))
@@ -33,6 +33,21 @@ try {
   const stack = parse(readFileSync(join(temp,'compose.yaml'),'utf8'))
   for (const service of Object.values(stack.services)) if (service.ports) service.ports = service.ports.map(p => '127.0.0.1::' + p.split(':').at(-1))
   writeFileSync(join(temp,'compose.yaml'), stringify(stack))
+  // Load the GitLab example with the released connector. Network isolation makes
+  // the first GitLab request fail only after configuration and workflows load.
+  const reviewImage = `retailcrm/orpheus-gitlab-mr-review:${upstream['orpheus-gitlab-mr-review'].tag.slice(1)}`
+  await run('docker', ['pull', '--platform', 'linux/amd64', reviewImage])
+  cpSync('examples/gitlab-review/workflows', join(temp, 'gitlab-workflows'), { recursive: true })
+  const review = spawnSync('docker', ['run', '--rm', '--network', 'none', '--platform', 'linux/amd64',
+    '-e', 'GITLAB_BASE_URL=http://127.0.0.1:1', '-e', 'GITLAB_TOKEN=fixture',
+    '-e', 'ORPHEUS_BASE_URL=http://127.0.0.1:1', '-e', 'ORPHEUS_API_KEY=fixture',
+    '-e', 'WORKFLOWS_DIR=/var/app/workflows', '-e', 'HTTP_TIMEOUT_SECONDS=1',
+    '-v', `${join(temp, 'gitlab-workflows')}:/var/app/workflows:ro`, reviewImage,
+  ], { encoding: 'utf8', timeout: 30000 })
+  if (review.status !== 1 || !review.stdout.includes('resolve authenticated GitLab reviewer')) {
+    throw Error(`GitLab workflow did not pass startup validation: ${review.error ?? review.stdout + review.stderr}`)
+  }
+  console.log('Published GitLab connector accepted the example workflow with networking disabled.')
   // No worker, connector server or model calls. Only local schema validation and read requests.
   await compose(['run','--rm','--no-deps','mattermost','validate'])
   await compose(['up','-d','--wait','--wait-timeout','90','db','api','web'])

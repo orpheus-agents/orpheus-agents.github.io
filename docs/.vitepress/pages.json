@@ -115,6 +115,21 @@
     "Apply configuration changes"
   ],
   [
+    "integrations/gitlab/connect",
+    "Подключение ревью GitLab MR",
+    "Connect GitLab MR review"
+  ],
+  [
+    "integrations/gitlab/workflows",
+    "Правила и проекты для ревью",
+    "Review rules and projects"
+  ],
+  [
+    "integrations/gitlab/operations",
+    "Результаты и эксплуатация",
+    "Results and operations"
+  ],
+  [
     "integrations/custom/overview",
     "Подключение своей системы",
     "Connect your own system"
@@ -273,6 +288,11 @@
     "reference/mattermost",
     "Конфигурация Mattermost",
     "Mattermost configuration"
+  ],
+  [
+    "reference/gitlab-review",
+    "Конфигурация ревью GitLab MR",
+    "GitLab MR review configuration"
   ],
   [
     "reference/space",

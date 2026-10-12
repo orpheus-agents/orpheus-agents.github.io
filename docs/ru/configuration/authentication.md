@@ -32,6 +32,8 @@ store = "main"
 key = "codex/support/auth.json"
 ```
 
-Для своего S3 задайте [`endpoint_url`](../reference/profiles.md#store-endpoint-url) в хранилище. Передайте worker доступ к бакету через стандартные AWS credentials, например [`AWS_ACCESS_KEY_ID`](../reference/profiles.md#store-access) и [`AWS_SECRET_ACCESS_KEY`](../reference/profiles.md#store-access). Обновляйте файл авторизации при смене учётных данных.
+Для своего S3 задайте [`endpoint_url`](../reference/profiles.md#store-endpoint-url) в хранилище. Передайте worker доступ к бакету через стандартные AWS credentials, например [`AWS_ACCESS_KEY_ID`](../reference/profiles.md#store-access) и [`AWS_SECRET_ACCESS_KEY`](../reference/profiles.md#store-access). Выдайте права на чтение и запись объекта авторизации. S3 должен возвращать `ETag` и поддерживать условную запись с `If-Match`, чтобы старая песочница не перезаписала более свежие учётные данные.
+
+Orpheus сохраняет обновлённые учётные данные аккаунта обратно в S3. При запуске нового процесса агента после паузы или потери связи он читает актуальный файл из S3. Если вы повторно авторизовали аккаунт вручную, загрузите действующий файл. Уже работающий агент не перечитывает вручную заменённый файл автоматически.
 
 Один аккаунт должен иметь одинаковый [`account_id`](../reference/profiles.md#profile-auth-account-id) и источник credentials во всех профилях. Этот идентификатор появляется в [лимитах аккаунтов](../web/limits.md). При смене самого аккаунта задайте новый ID.

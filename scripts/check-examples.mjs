@@ -25,6 +25,8 @@ const spaceEnv = Object.fromEntries(readFileSync('examples/space/.env.example', 
 for (const [name, key] of [['orpheus-space', 'ORPHEUS_SPACE_VERSION'], ['orpheus-space-web', 'ORPHEUS_SPACE_WEB_VERSION']]) {
   if (spaceEnv[key] !== upstream[name].tag.slice(1)) throw Error(`Space example image differs from documentation source: ${name}`)
 }
+const reviewEnv = Object.fromEntries(readFileSync('examples/gitlab-review/.env.example', 'utf8').trim().split('\n').map(line => line.split('=')))
+if (reviewEnv.ORPHEUS_GITLAB_REVIEW_VERSION !== upstream['orpheus-gitlab-mr-review'].tag.slice(1)) throw Error('GitLab review example image differs from documentation source')
 function walk(dir) { return readdirSync(dir, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(`${dir}/${e.name}`) : [`${dir}/${e.name}`]) }
 const ru = walk('docs/ru').filter(p => p.endsWith('.md')).map(p => p.slice(8)).sort()
 const en = walk('docs/en').filter(p => p.endsWith('.md')).map(p => p.slice(8)).sort()
@@ -73,4 +75,9 @@ const spaceCompose = spawnSync('docker', ['compose', '--env-file', '.env.example
   env: { ...process.env, POSTGRES_PASSWORD: 'fixture-password', ORPHEUS_SPACE_API_KEY: 'space-fixture' },
 })
 if (spaceCompose.status !== 0) throw Error(spaceCompose.stderr)
+const reviewCompose = spawnSync('docker', ['compose', '--env-file', '.env.example', 'config', '--quiet'], {
+  cwd: 'examples/gitlab-review', encoding: 'utf8',
+  env: { ...process.env, GITLAB_TOKEN: 'gitlab-fixture', ORPHEUS_API_KEY: 'fixture' },
+})
+if (reviewCompose.status !== 0) throw Error(reviewCompose.stderr)
 console.log(`Validated API payloads, code blocks, Compose and ${ru.length} translated page pairs.`)

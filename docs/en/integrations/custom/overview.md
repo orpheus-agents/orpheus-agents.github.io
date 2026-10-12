@@ -1,5 +1,7 @@
 # Connect your own system
 
+For chat tasks, use the [Mattermost connector](../mattermost/connect.md). For merge request reviews, use the [GitLab connector](../gitlab/connect.md).
+
 A connector turns events from your system into Orpheus assignments. It can be a small service, webhook handler or scheduled job.
 
 ```text

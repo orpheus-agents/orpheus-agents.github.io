@@ -28,6 +28,8 @@ JSON показывает значение [`configuration.sandbox`](../referenc
 
 [Workflows Mattermost](../reference/mattermost.md#workflow-services) выбирают коды через `services`. В [Space](../space/schedules.md#environment) сервисы явно задаются в каждом задании. Пользователю с правом редактирования задания доступен весь каталог, в том числе сервис с API-ключом Space. Права внешнего токена при этом сохраняются.
 
+[Workflows ревью GitLab](../reference/gitlab-review.md#workflow-services) также выбирают сервисы явно.
+
 ## Отдельные переменные {#individual-variables}
 
 Сервисы можно сочетать с [`env_from`](../reference/api/create-session.md). Разрешённые имена — объединение [`HARNESS_ENV_ALLOWLIST`](../reference/environment.md#env-harness-env-allowlist) и ENV всех сервисов. Конфигурация API и worker должна совпадать. Отдельные имена вне каталога добавьте в `HARNESS_ENV_ALLOWLIST`.

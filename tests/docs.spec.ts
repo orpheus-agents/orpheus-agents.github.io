@@ -95,9 +95,9 @@ for (const lang of ['ru', 'en']) {
 
     const systems = page.locator('#systems')
     await expect(systems.locator('.systems-group')).toHaveCount(4)
-    await expect(systems.locator('.systems-group li.connector')).toContainText('Mattermost')
+    await expect(systems.locator('.systems-group li.connector', { hasText: 'Mattermost' })).toContainText('Mattermost')
     await expect(systems.locator('.systems-group li', { hasText: 'Redmine' })).toContainText('CLI')
-    await expect(systems.locator('.systems-group li', { hasText: 'GitLab' })).toContainText(ru ? 'CLI и MCP' : 'CLI and MCP')
+    await expect(systems.locator('.systems-group li', { hasText: 'GitLab' })).toContainText(ru ? 'готовый коннектор' : 'ready-made connector')
     await expect(systems.locator('.systems-group li', { hasText: 'Telegram' })).toContainText('Bot API')
     await expect(systems.locator('.systems-group img')).toHaveCount(16)
     await expect(systems.locator('.systems-api a')).toHaveAttribute('href', `/${lang}/integrations/custom/overview.html`)
