@@ -81,7 +81,7 @@ const ru: SystemsCopy = {
   lead: 'Запускайте задачи прямо из мессенджеров и рабочих систем. Давайте агентам доступ к их данным.',
   ways: {
     connector: 'готовый коннектор',
-    review: 'Ревью MR, CLI и MCP',
+    review: 'ревью MR, CLI и MCP',
     cli: 'CLI',
     mcp: 'MCP',
     both: 'CLI и MCP',

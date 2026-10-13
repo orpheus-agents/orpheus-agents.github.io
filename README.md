@@ -63,7 +63,7 @@ The home pages `/`, `/ru/` and `/en/` present Orpheus as a project site. `/` sho
 | Section | Component | Content |
 | --- | --- | --- |
 | First screen | `HomeHero.vue` | Title, actions and the strings field with the relief of the mark |
-| The path of a task | `HomeFlow.vue`, `flow.ts` | Score of a task for five use cases with a thread and an agent console. The last one starts from a schedule in Orpheus Space |
+| The path of a task | `HomeFlow.vue`, `flow.ts` | Score of a task for six use cases with a thread and an agent console. The review starts from a reviewer assignment in GitLab, the last one from a schedule in Orpheus Space |
 | Recurring work | `HomeSpace.vue`, `space.ts` | A week of example schedules in Orpheus Space: runs by day and the latest answers |
 | Connect your systems | `HomeSystems.vue`, `systems.ts` | Systems by group with the ready way to connect, and the HTTP API for any other system |
 | Web interface | `HomeObserve.vue`, `observe.ts` | Session, analytics and limits with example data |

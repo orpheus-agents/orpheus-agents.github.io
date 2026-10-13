@@ -70,6 +70,11 @@ for (const lang of ['ru', 'en']) {
     await flow.getByRole('tab', { name: ru ? 'Разбор ошибки' : 'Error investigation' }).click()
     await expect(flow.locator('.thread-place')).toHaveText(ru ? 'Mattermost · Дежурство' : 'Mattermost · On-call')
     await expect(flow.locator('.score-name').first()).toHaveText('Mattermost')
+    // A reviewer assignment in GitLab starts the review scenario.
+    await flow.getByRole('tab', { name: ru ? 'Ревью merge request' : 'Merge request review' }).click()
+    await expect(flow.locator('.score-name').first()).toHaveText('GitLab')
+    await expect(flow.locator('.thread-place')).toHaveText('GitLab · merge request !517')
+    await expect(flow.locator('.thread-post.agent').last()).toContainText(ru ? 'Подтверждено замечаний: 1' : 'Confirmed findings: 1')
     // A schedule in Space starts the last scenario instead of a message.
     await flow.getByRole('tab', { name: ru ? 'Сводка по расписанию' : 'Scheduled summary' }).click()
     await expect(flow.locator('.score-name').first()).toHaveText('Space')
@@ -97,7 +102,7 @@ for (const lang of ['ru', 'en']) {
     await expect(systems.locator('.systems-group')).toHaveCount(4)
     await expect(systems.locator('.systems-group li.connector', { hasText: 'Mattermost' })).toContainText('Mattermost')
     await expect(systems.locator('.systems-group li', { hasText: 'Redmine' })).toContainText('CLI')
-    await expect(systems.locator('.systems-group li', { hasText: 'GitLab' })).toContainText(ru ? 'Ревью MR, CLI и MCP' : 'MR review, CLI and MCP')
+    await expect(systems.locator('.systems-group li.review', { hasText: 'GitLab' })).toContainText(ru ? 'ревью MR, CLI и MCP' : 'MR review, CLI and MCP')
     await expect(systems.locator('.systems-group li', { hasText: 'Telegram' })).toContainText('Bot API')
     await expect(systems.locator('.systems-group img')).toHaveCount(16)
     await expect(systems.locator('.systems-api a')).toHaveAttribute('href', `/${lang}/integrations/custom/overview.html`)
@@ -115,8 +120,10 @@ for (const lang of ['ru', 'en']) {
     await expect(observe.locator('.observe-windows > div')).toHaveCount(2)
 
     const deploy = page.locator('#deploy')
-    await expect(deploy.locator('tbody tr')).toHaveCount(6)
+    await expect(deploy.locator('tbody tr')).toHaveCount(7)
     await expect(deploy.locator('tbody tr', { hasText: 'Orpheus Space' })).toHaveCount(1)
+    await expect(deploy.locator('tbody tr', { hasText: ru ? 'Коннектор GitLab' : 'GitLab connector' })).toHaveCount(1)
+    await expect(deploy.locator('.home-links a', { hasText: ru ? 'Ревью GitLab MR' : 'GitLab MR review' })).toHaveAttribute('href', `/${lang}/integrations/gitlab/connect.html`)
     await expect(deploy.locator('.home-links a').first()).toHaveAttribute('href', `/${lang}/getting-started/requirements.html`)
 
     const start = page.locator('#start')

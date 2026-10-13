@@ -1,6 +1,7 @@
-// The score of a task: who takes part and when. Five scenarios follow the use cases
+// The score of a task: who takes part and when. Six scenarios follow the use cases
 // of the guide. Helpdesk, log and knowledge base tools are examples of company tools.
-// The last scenario starts from a schedule in Orpheus Space instead of a message.
+// The review scenario starts from a reviewer assignment in GitLab and the last one
+// from a schedule in Orpheus Space instead of a message.
 
 export type Lane = 'source' | 'orpheus' | 'sandbox' | 'model' | 'systems'
 export type RunState = 'accepted' | 'starting' | 'running' | 'finalizing' | 'completed'
@@ -72,7 +73,7 @@ export interface FlowCopy {
 
 const ru: FlowCopy = {
   title: 'Как проходит задача',
-  sub: 'Сотрудник пишет в чат, событие приходит из вашей системы или наступает время регулярного задания. Агент собирает контекст, выполняет действия и возвращает результат.',
+  sub: 'Сотрудник пишет в чат или назначает бота ревьюером в GitLab, событие приходит из вашей системы или наступает время регулярного задания. Агент собирает контекст, выполняет действия и возвращает результат.',
   scenarios: 'Сценарии',
   access: 'Что подключить',
   lanes: { orpheus: 'Orpheus', sandbox: 'Песочница', model: 'AI-модель', systems: 'Системы компании' },
@@ -370,6 +371,79 @@ const ru: FlowCopy = {
       ],
     },
     {
+      id: 'review',
+      tab: 'Ревью merge request',
+      source: 'GitLab',
+      place: 'GitLab · merge request !517',
+      access: 'Коннектор GitLab и доступ на чтение репозитория',
+      template: 'gitlab-review',
+      length: 20,
+      pace: 12,
+      beats: [
+        {
+          at: 0.6, lane: 'source',
+          caption: 'Разработчик открывает merge request и назначает бота ревьюером.',
+          post: { from: 'person', name: 'Тимур Галеев', mark: 'автор MR', text: 'Экспорт заказов в CSV. Новый endpoint /api/orders/export и кнопка в списке заказов.' },
+        },
+        {
+          at: 2.4, lane: 'source', to: 'orpheus', state: 'accepted',
+          caption: 'Коннектор видит назначение при опросе GitLab и создаёт сессию.',
+          post: { from: 'service', name: 'Коннектор', text: 'POST /api/v1/sessions · 202 Accepted' },
+        },
+        {
+          at: 4.2, lane: 'orpheus', to: 'sandbox', state: 'starting',
+          caption: 'Orpheus создаёт песочницу из шаблона с Git и glab.',
+          lines: [{ kind: 'hook', text: 'песочница готова · шаблон gitlab-review' }],
+        },
+        {
+          at: 5.8, lane: 'sandbox', to: 'systems',
+          caption: 'Хук before_run клонирует репозиторий по HTTPS и фиксирует ревизию MR.',
+          lines: [{ kind: 'hook', text: 'before_run · shop/backend · !517 · 3 файла' }],
+        },
+        {
+          at: 7.4, lane: 'sandbox', to: 'model', state: 'running',
+          caption: 'Агент получает контекст MR и правила ревью проекта.',
+          lines: [{ kind: 'agent', text: 'Читаю изменения и правила проекта. Начинаю с прав доступа.' }],
+        },
+        {
+          at: 9.2, lane: 'sandbox',
+          caption: 'Изучает изменения.',
+          lines: [
+            { kind: 'command', text: 'git diff origin/main...HEAD -- src/orders/export.py' },
+            { kind: 'output', text: '+@router.get("/api/orders/export")\n+def export_orders(user):\n+    return csv(Order.for_account(user.account))' },
+          ],
+        },
+        {
+          at: 11.4, lane: 'sandbox',
+          caption: 'Сверяет с похожим местом в коде.',
+          lines: [
+            { kind: 'command', text: 'rg -n "reports.export" src/' },
+            { kind: 'output', text: 'src/reports/export.py:31: @require_permission("reports.export")' },
+          ],
+        },
+        {
+          at: 13.4, lane: 'sandbox', to: 'model',
+          caption: 'Проверяет находку тестами и записывает подтверждённое замечание.',
+          lines: [
+            { kind: 'command', text: 'pytest tests/orders -q -k export' },
+            { kind: 'output', text: '12 passed in 2.4s' },
+            { kind: 'agent', text: 'Тесты проходят, но право на экспорт не проверяется ни в коде, ни в тестах. Записываю замечание.' },
+          ],
+        },
+        {
+          at: 15.8, lane: 'sandbox', to: 'source', state: 'finalizing',
+          caption: 'Хук after_run передаёт подтверждённые замечания коннектору. Тот публикует их в обсуждениях MR.',
+          lines: [{ kind: 'hook', text: 'after_run · 1 подтверждённое замечание' }],
+          post: { from: 'agent', name: 'orpheus', mark: 'обсуждение к строке', text: 'src/orders/export.py:14. Endpoint экспорта не проверяет право «Экспорт отчётов», в отличие от src/reports/export.py:31. Любой сотрудник клиента сможет выгрузить все заказы.\nДобавьте @require_permission("reports.export") и тест на отказ в доступе.' },
+        },
+        {
+          at: 18.2, lane: 'orpheus', to: 'source', state: 'completed',
+          caption: 'Итоговый комментарий появляется в MR. Бот снимает себя с ревью. Решение остаётся за людьми.',
+          post: { from: 'agent', name: 'orpheus', mark: 'итог ревью', text: '✅ Ревью завершено. Подтверждено замечаний: 1.' },
+        },
+      ],
+    },
+    {
       id: 'schedule',
       tab: 'Сводка по расписанию',
       source: 'Space',
@@ -435,7 +509,7 @@ const ru: FlowCopy = {
 
 const en: FlowCopy = {
   title: 'The path of a task',
-  sub: 'A colleague asks in chat, an event arrives from your system, or a scheduled time comes. An agent gathers context, performs actions and returns a result.',
+  sub: 'A colleague asks in chat or assigns the bot as a reviewer in GitLab, an event arrives from your system, or a scheduled time comes. An agent gathers context, performs actions and returns a result.',
   scenarios: 'Scenarios',
   access: 'Required access',
   lanes: { orpheus: 'Orpheus', sandbox: 'Sandbox', model: 'AI model', systems: 'Company systems' },
@@ -729,6 +803,79 @@ const en: FlowCopy = {
           at: 18.4, lane: 'orpheus', to: 'source', state: 'completed',
           caption: 'The explanation of the result arrives in the thread.',
           post: { from: 'agent', name: 'orpheus', mark: 'bot', text: 'The first page skipped records: the offset was page × page_size. The fix and a regression test are in the fix/pagination-482 branch. Tests pass: 41 of 41.' },
+        },
+      ],
+    },
+    {
+      id: 'review',
+      tab: 'Merge request review',
+      source: 'GitLab',
+      place: 'GitLab · merge request !517',
+      access: 'GitLab connector and read access to the repository',
+      template: 'gitlab-review',
+      length: 20,
+      pace: 12,
+      beats: [
+        {
+          at: 0.6, lane: 'source',
+          caption: 'A developer opens a merge request and assigns the bot as a reviewer.',
+          post: { from: 'person', name: 'Lena Fischer', mark: 'MR author', text: 'Export orders to CSV. A new /api/orders/export endpoint and a button in the order list.' },
+        },
+        {
+          at: 2.4, lane: 'source', to: 'orpheus', state: 'accepted',
+          caption: 'The connector sees the assignment on its next poll of GitLab and creates a session.',
+          post: { from: 'service', name: 'Connector', text: 'POST /api/v1/sessions · 202 Accepted' },
+        },
+        {
+          at: 4.2, lane: 'orpheus', to: 'sandbox', state: 'starting',
+          caption: 'Orpheus creates a sandbox from a template with Git and glab.',
+          lines: [{ kind: 'hook', text: 'sandbox ready · template gitlab-review' }],
+        },
+        {
+          at: 5.8, lane: 'sandbox', to: 'systems',
+          caption: 'The before_run hook clones the repository over HTTPS and pins the MR revision.',
+          lines: [{ kind: 'hook', text: 'before_run · shop/backend · !517 · 3 files' }],
+        },
+        {
+          at: 7.4, lane: 'sandbox', to: 'model', state: 'running',
+          caption: 'The agent receives the MR context and the review rules of the project.',
+          lines: [{ kind: 'agent', text: 'Reading the changes and the project rules. Starting with access control.' }],
+        },
+        {
+          at: 9.2, lane: 'sandbox',
+          caption: 'It inspects the changes.',
+          lines: [
+            { kind: 'command', text: 'git diff origin/main...HEAD -- src/orders/export.py' },
+            { kind: 'output', text: '+@router.get("/api/orders/export")\n+def export_orders(user):\n+    return csv(Order.for_account(user.account))' },
+          ],
+        },
+        {
+          at: 11.4, lane: 'sandbox',
+          caption: 'It compares with a similar place in the code.',
+          lines: [
+            { kind: 'command', text: 'rg -n "reports.export" src/' },
+            { kind: 'output', text: 'src/reports/export.py:31: @require_permission("reports.export")' },
+          ],
+        },
+        {
+          at: 13.4, lane: 'sandbox', to: 'model',
+          caption: 'It verifies the finding with tests and records it as confirmed.',
+          lines: [
+            { kind: 'command', text: 'pytest tests/orders -q -k export' },
+            { kind: 'output', text: '12 passed in 2.4s' },
+            { kind: 'agent', text: 'Tests pass, but neither the code nor the tests check the export permission. Recording the finding.' },
+          ],
+        },
+        {
+          at: 15.8, lane: 'sandbox', to: 'source', state: 'finalizing',
+          caption: 'The after_run hook hands the confirmed findings to the connector. It publishes them as MR discussions.',
+          lines: [{ kind: 'hook', text: 'after_run · 1 confirmed finding' }],
+          post: { from: 'agent', name: 'orpheus', mark: 'discussion on a line', text: 'src/orders/export.py:14. The export endpoint does not check the “Export reports” permission, unlike src/reports/export.py:31. Any customer employee could download all orders.\nAdd @require_permission("reports.export") and a test for the refusal.' },
+        },
+        {
+          at: 18.2, lane: 'orpheus', to: 'source', state: 'completed',
+          caption: 'The completion note appears in the MR. The bot removes itself from the reviewers. The decision stays with people.',
+          post: { from: 'agent', name: 'orpheus', mark: 'completion note', text: '✅ Review completed. Confirmed findings: 1.' },
         },
       ],
     },
