@@ -63,8 +63,8 @@ const copy = computed(() => lang.value === 'ru' ? systemsCopy.ru : systemsCopy.e
 }
 .systems-group img { flex: none; width: 32px; height: 28px; object-fit: contain; }
 .systems-group small { display: flex; align-items: center; gap: 6px; margin-top: 3px; font-size: 12px; font-weight: 400; color: var(--muted); }
-.systems-group .connector small { color: var(--accent-ink); }
-.systems-group .connector small::before { content: ''; width: 6px; height: 6px; background: var(--accent); }
+.systems-group .connector small, .systems-group .review small { color: var(--accent-ink); }
+.systems-group .connector small::before, .systems-group .review small::before { content: ''; width: 6px; height: 6px; background: var(--accent); }
 .systems-more {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

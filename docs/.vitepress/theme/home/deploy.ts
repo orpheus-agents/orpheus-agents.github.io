@@ -18,6 +18,7 @@ const ru: DeployCopy = {
   parts: [
     ['Orpheus, PostgreSQL, веб-интерфейс', 'Запуск задач, история и просмотр результатов', 'Ваша команда'],
     ['Mattermost и коннектор', 'Общение с агентом', 'Ваша команда'],
+    ['Коннектор GitLab', 'Ревью merge request, если нужно', 'Ваша команда'],
     ['Orpheus Space', 'Регулярные задания сотрудников, если нужны расписания', 'Ваша команда'],
     ['AgentBox', 'Окружение исполнения агентов', 'Ваш проект AgentBox'],
     ['Доступ к AI-модели', 'Выполнение задач агентом', 'Владелец ключа или аккаунта'],
@@ -28,6 +29,7 @@ const ru: DeployCopy = {
     { text: 'Быстрый старт', link: '/getting-started/requirements' },
     { text: 'Развёртывание на сервере', link: '/operations/deployment' },
     { text: 'Запуск Space', link: '/space/setup' },
+    { text: 'Ревью GitLab MR', link: '/integrations/gitlab/connect' },
     { text: 'Вход через SSO', link: '/operations/sso' },
     { text: 'Домен и HTTPS', link: '/operations/network' },
     { text: 'Резервное копирование', link: '/operations/backup' },
@@ -44,6 +46,7 @@ const en: DeployCopy = {
   parts: [
     ['Orpheus, PostgreSQL and web interface', 'Run tasks, keep history and inspect results', 'Your team'],
     ['Mattermost and its connector', 'Converse with agents', 'Your team'],
+    ['GitLab connector', 'Merge request review, when needed', 'Your team'],
     ['Orpheus Space', 'Recurring tasks for colleagues, when scheduling is needed', 'Your team'],
     ['AgentBox', 'Execute agents in sandboxes', 'Your AgentBox project'],
     ['AI model access', 'Power the agent', 'API key or account owner'],
@@ -54,6 +57,7 @@ const en: DeployCopy = {
     { text: 'Quick start', link: '/getting-started/requirements' },
     { text: 'Server deployment', link: '/operations/deployment' },
     { text: 'Start Space', link: '/space/setup' },
+    { text: 'GitLab MR review', link: '/integrations/gitlab/connect' },
     { text: 'Single sign-on', link: '/operations/sso' },
     { text: 'Domain and HTTPS', link: '/operations/network' },
     { text: 'Backup', link: '/operations/backup' },
