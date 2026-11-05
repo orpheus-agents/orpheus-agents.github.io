@@ -26,3 +26,5 @@ Initial provisioning has its own deadline. If it expires, the run fails with `sa
 Orpheus renews sandbox activity time during execution. You do not need to manually add hook timeouts to the run timeout. Maximum uninterrupted sandbox lifetime is set by the [AgentBox plan](https://docs.agentbox.ru/en/billing/).
 
 [Account limits](../web/limits.md) show provider quotas separately from these settings.
+
+[Paused sandbox retention](sandbox-retention.md) explains expiration, cleanup and continuation.

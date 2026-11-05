@@ -61,6 +61,8 @@ State can change between checking and sending a message. Read [`error.code`](../
 
 Give each operation its own [`Idempotency-Key`](../../reference/api/conventions.md#requests), stable across retries. After a network timeout, repeat the same request with the same body and key to determine whether it was accepted. See [retries and recovery](reliability.md).
 
+Paused reusable sandboxes have a [retention period](../../configuration/sandbox-retention.md). If external sandbox loss is detected after acceptance, the run can fail asynchronously with `sandbox_lost`. Preserve that outcome rather than automatically repeating actions in another session. An accepted idempotency replay remains valid even after deletion.
+
 ## Stopping a run
 
 To stop execution, call [cancel run](../../reference/api/cancel-run.md). Cancellation does not roll back changes already made in an external system.

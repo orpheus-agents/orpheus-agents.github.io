@@ -130,8 +130,8 @@ Every system in `systems.ts` carries a label with the ready way to connect. Chec
 Read each contract from an explicit Orpheus or Space release. Do not copy uncommitted work from neighboring repositories. Review the contract, image versions and examples together.
 
 ```sh
-node scripts/sync-api.mjs ../orpheus v0.6.4
-node scripts/sync-api.mjs ../orpheus-space v0.10.2 orpheus-space
+node scripts/sync-api.mjs ../orpheus v0.7.0
+node scripts/sync-api.mjs ../orpheus-space v0.10.3 orpheus-space
 npm run api:generate
 npm run check
 ```
@@ -146,4 +146,4 @@ This repository includes publishing configuration. Creating files locally does n
 
 ## Dependencies
 
-VitePress is pinned to its stable release. The Vite override selects patched Vite 6.4.3, compatible with the bundled Vue plugin, instead of VitePress's vulnerable Vite 5 dependency. Validate builds, browser behavior and `npm audit` when updating either dependency.
+VitePress is pinned to its stable release. The Vite override selects patched Vite 6.4.5, compatible with the bundled Vue plugin, instead of VitePress's vulnerable Vite 5 dependency. Validate builds, browser behavior and `npm audit` when updating either dependency.

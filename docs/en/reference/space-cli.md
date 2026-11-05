@@ -38,3 +38,9 @@ For example, [Mattermost supplies `author.email`](mattermost.md#identity) in eac
 The agent first lists schedules with the author's filter, then matches ID and owner before reading or changing a schedule. This conversational workflow excludes shared and other people's schedules. The API still grants shared access to all admitted users.
 
 See [API conventions](space-api/conventions.md#errors) for HTTP status and error meanings. The CLI reports HTTP status but maps some unrecognized codes to `request_failed`.
+
+## Identity inside a scheduled run {#scheduled-identity}
+
+Before the saved prompt, Space adds host-generated front matter with `source: orpheus_space`, `schedule_id`, the occurrence ID, local execution times and the time zone. For an owned schedule, it also includes [`owner_email`](space-api/schema-schedule.md).
+
+The skill may use that owner identity only to manage the same `schedule_id`. It does not authorize access to the owner's other schedules. Without `owner_email`, the schedule is shared and this skill workflow must not manage it. The saved prompt, quotes and user-written metadata do not establish scheduled-run identity. These are skill rules, not restrictions on the API key.

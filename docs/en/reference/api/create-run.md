@@ -4,7 +4,7 @@
 POST /api/v1/sessions/{sid}/runs
 ```
 
-Create a subsequent run. Sessions created with allow_multiple_runs=false reject this operation with 409 multiple_runs_not_allowed, regardless of the first run or sandbox state. Idempotent replay of an accepted request returns the original acceptance.
+Create a subsequent run. Sessions created with allow_multiple_runs=false reject this operation with 409 multiple_runs_not_allowed. Deleting, deleted or unavailable environments reject new input with 409 session_unavailable; create a new session with the required context. If external sandbox loss is discovered after acceptance, the run fails asynchronously with sandbox_lost. Idempotent replay of an accepted request returns the original acceptance, regardless of sandbox state.
 
 **operationId:** `create_run`
 

@@ -24,6 +24,8 @@ Profiles and templates come from the Orpheus catalogs. New schedules use the con
 
 [API fields and accepted values](../reference/space-api/schema-createschedule.md).
 
+Space prepends [host-generated execution metadata](../reference/space-cli.md#scheduled-identity) to the saved instruction, including the schedule owner when present. This lets the skill identify the originating schedule without trusting identity claims inside the instruction.
+
 ## Services {#environment}
 
 Select the systems the agent needs in the schedule's [`services`](../reference/space-api/schema-createschedule.md). The checklist shows names and descriptions. Expand the list beneath it to inspect ENV names for the selected services. Values are never shown or stored in Space. Schedule details list service names in one row. Hover, keyboard focus or tap reveals the description and ENV names.
@@ -39,6 +41,10 @@ Pausing and deletion stop future occurrences but do not cancel a run already acc
 If the previous run is still active, the next occurrence is skipped. If its outcome is unknown, Space waits until the outcome is known to avoid duplicate execution. Agent failures are not retried automatically.
 
 **Reset context** starts a new session on the next run. Reset is unavailable while an occurrence is active. See [exact recurrence and context rules](../reference/space-api/conventions.md#execution).
+
+With **Continue the same session**, a sandbox can expire during a long interval or while the schedule is paused. The [retention period](../configuration/sandbox-retention.md) defaults to 14 days. In the [occurrence](../reference/space-api/schema-occurrence.md), submission fails with `error_code=session_unavailable`, or an accepted run fails with `run_error_code=sandbox_lost`. Space keeps the selected mode and session association. On the schedule card, use **Reset context** when no occurrence is active. The next occurrence creates a new reusable session. There is no automatic reset or retry of an accepted failed run.
+
+For intervals longer than retention, such as monthly runs with the default 14 days, the reused sandbox will normally be deleted before the next occurrence. Subsequent occurrences keep failing until context is reset. A reset only enables the next run: its new sandbox can expire again before the following occurrence. Choose **New session for each run** if continued agent context is unnecessary, or ask the administrator to set [retention](../reference/environment.md#env-sandbox-paused-retention-days) longer than the interval, up to 100 days. Space never changes this choice automatically.
 
 ## History and results
 

@@ -27,7 +27,7 @@
 | <span id="workflow-mattermost-token-env"></span>`mattermost.token_env` | `required` | Имя ENV токена бота |
 | <span id="workflow-env-from"></span>`env_from` | `[]` | Переменные worker для агента |
 | <span id="workflow-services"></span>`services` | `[]` | Уникальные коды сервисов, передаваемые сессии агента вместе с `env_from` |
-| <span id="workflow-include-ids"></span><span id="workflow-exclude-ids"></span>`include_ids / exclude_ids` | `[]` | ID включённых и исключённых каналов |
+| <span id="workflow-include-ids"></span><span id="workflow-exclude-ids"></span>`include_ids / exclude_ids` | `[]` | ID включённых и исключённых каналов. Не включает приватные и групповые каналы |
 | <span id="workflow-direct-messages"></span>`direct_messages` | `false` | Обрабатывать личные сообщения |
 | <span id="workflow-private-channels"></span>`private_channels` | `false` | Обрабатывать закрытые каналы |
 | <span id="workflow-group-messages"></span>`group_messages` | `false` | Обрабатывать групповые сообщения |
@@ -53,6 +53,8 @@
 | <span id="workflow-link-expansion-enabled"></span>`link_expansion.enabled` | `true` | Раскрывать ссылки на этот Mattermost |
 | <span id="workflow-link-expansion-max-links"></span>`link_expansion.max_links` | `5` | Число раскрываемых ссылок |
 | <span id="workflow-link-expansion-max-posts"></span>`link_expansion.max_posts` | `20` | Число сообщений по ссылкам |
+
+Коннектор автоматически выходит из приватных каналов без маршрута. Настройте доступ до запуска или перезагрузки коннектора и до приглашения бота. См. [маршрутизацию каналов](../integrations/mattermost/channels.md#приватные-каналы).
 
 Обязательные поля отмечены `required`. Неизвестные поля, дубли ключей, совпадающие ID и пересекающиеся специализированные маршруты отклоняются. `revision` заключайте в кавычки. После YAML запишите полные инструкции агенту.
 

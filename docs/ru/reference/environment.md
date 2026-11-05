@@ -12,7 +12,7 @@
 | <span id="env-harness-env-allowlist"></span>`HARNESS_ENV_ALLOWLIST` | `[]` | JSON-массив дополнительных разрешённых имён ENV worker. Объединяется с ENV всех [сервисов](../configuration/secrets.md#services) |
 | <span id="env-agentbox-api-key"></span>`AGENTBOX_API_KEY` | `required on worker` | Доступ worker к AgentBox |
 | <span id="env-openai-api-key"></span>`OPENAI_API_KEY` | `profile-dependent` | Ключ модели для стандартного API-key профиля |
-| <span id="env-sandbox-proxy-url"></span>`SANDBOX_PROXY_URL` | `https://sandbox-proxy.agentbox.ru:65181` | HTTP(S) proxy для агента. Пустое значение отключает |
+| <span id="env-sandbox-proxy-url"></span>`SANDBOX_PROXY_URL` | `https://sandbox-proxy.agentbox.ru:65181` | Прокси агента: HTTP, HTTPS, SOCKS5 или SOCKS5H. Пустое значение отключает подстановку. [Совместимость с авторизацией](../configuration/authentication.md#network-proxy) |
 | <span id="env-max-concurrent-sessions"></span>`MAX_CONCURRENT_SESSIONS` | `50` | Занятые слоты исполнения, включая подготовку и завершение |
 | <span id="env-default-max-session-tokens"></span>`DEFAULT_MAX_SESSION_TOKENS` | `100000000` | Бюджет токенов новой сессии |
 | <span id="env-max-tool-result-bytes"></span>`MAX_TOOL_RESULT_BYTES` | `524288` | Объём сохраняемого вывода инструмента |
@@ -22,6 +22,8 @@
 | <span id="env-cancel-grace-seconds"></span>`CANCEL_GRACE_SECONDS` | `30` | Ожидание мягкой отмены |
 | <span id="env-worker-poll-seconds"></span>`WORKER_POLL_SECONDS` | `1` | Интервал опроса worker |
 | <span id="env-sandbox-provision-timeout-seconds"></span>`SANDBOX_PROVISION_TIMEOUT_SECONDS` | `120` | Дедлайн первоначального создания и подключения песочницы, секунды. Применяется к новым попыткам |
+| <span id="env-sandbox-paused-retention-days"></span>`SANDBOX_PAUSED_RETENTION_DAYS` | `14` | [Хранение песочниц на паузе](../configuration/sandbox-retention.md) после завершения последнего запуска, целое число 1–100 дней. Настройка worker |
+| <span id="env-sandbox-cleanup-batch-size"></span>`SANDBOX_CLEANUP_BATCH_SIZE` | `1000` | [Число сессий за проход уборки worker](../configuration/sandbox-retention.md), включая повторы. Положительное целое число |
 | <span id="env-rpc-timeout-seconds"></span>`RPC_TIMEOUT_SECONDS` | `30` | Таймаут отдельного RPC агента |
 | <span id="env-orpheus-host"></span><span id="env-orpheus-port"></span>`ORPHEUS_HOST / ORPHEUS_PORT` | `0.0.0.0 / 8000` | Адрес API |
 | <span id="env-orpheus-system-host"></span><span id="env-orpheus-system-port"></span>`ORPHEUS_SYSTEM_HOST / ORPHEUS_SYSTEM_PORT` | `0.0.0.0 / 9100` | Проверки процесса и [сервисные метрики](../operations/monitoring.md#service-metrics). Доступ только из доверенной сети |

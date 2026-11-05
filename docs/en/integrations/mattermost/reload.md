@@ -22,6 +22,6 @@ A rejected input is retained until the effective workflow revision changes. Afte
 
 ## Remove a workflow
 
-First set [`draining: true`](../../reference/mattermost.md#workflow-draining). The connector stops admitting new work and delivers accepted results. Wait for completion, then remove the file and reload. Immediate removal can cancel active work.
+First set [`draining: true`](../../reference/mattermost.md#workflow-draining). The connector stops admitting new work and delivers accepted results. Wait for completion, then remove the file and reload. Immediate removal can cancel active work. The bot leaves private channels that no longer have a matching workflow. Disabling private-channel access has the same effect.
 
 Run one connector instance for each Mattermost server and bot identity. Replace it sequentially during updates.

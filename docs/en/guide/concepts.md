@@ -19,4 +19,6 @@
 
 A session allows one run by default. For conversations, set [`allow_multiple_runs: true`](../reference/api/create-session.md) at creation so subsequent runs retain context. Runs execute sequentially, and clarifications during execution work in either mode. Configuration is captured when a session is created. Editing a profile does not reconfigure an existing conversation.
 
+Reusable sandbox context remains available until the paused sandbox is deleted after its [retention period](../configuration/sandbox-retention.md). Session history remains readable after deletion.
+
 [Lifecycle and states](../reference/states.md) · [Continue a task](../integrations/custom/continuation.md)

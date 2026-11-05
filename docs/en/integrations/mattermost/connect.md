@@ -7,8 +7,8 @@ The connector maps Mattermost threads to Orpheus sessions and returns messages a
 1. Enable bot account creation in Mattermost integration settings.
 2. Open Integrations → Bot Accounts and create a bot with a recognizable username, such as `orpheus`.
 3. Save the generated token in [`.env`](../../getting-started/launch.md#fill-in-the-settings) as `MATTERMOST_BOT_TOKEN`.
-4. Add the bot to the relevant team and channels.
-5. Set the Mattermost address and token variable name in the workflow.
+4. Set the Mattermost address and token variable name in the workflow.
+5. Add the bot to the relevant team and channels. For private channels, first configure and load a [matching workflow](channels.md#private-channels).
 
 ```yaml
 mattermost:

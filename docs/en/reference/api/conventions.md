@@ -33,3 +33,7 @@ An explicitly invalid Authorization header does not fall back to browser authent
 ## Service selection
 
 [Service codes](../../configuration/secrets.md#services) are order-insensitive and must be unique. An unknown code returns `422 unknown_service` before acceptance. A retry with the same idempotency key and input replays the accepted result without consulting the current catalog. Responses contain immutable service snapshots and the combined ENV names, never secret values.
+
+## Stored agent output
+
+Actual NUL characters in stored agent messages and tool JSON inputs/results are replaced with Unicode `U+FFFD` (`�`). This lets history remain readable when agent output contains such characters. Literal text containing a backslash followed by `u0000` is preserved.
