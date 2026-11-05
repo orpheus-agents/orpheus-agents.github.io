@@ -12,7 +12,7 @@ Process settings are supplied through ENV. The application does not load [`.env`
 | <span id="env-harness-env-allowlist"></span>`HARNESS_ENV_ALLOWLIST` | `[]` | JSON array of extra permitted worker ENV names. Combined with all [service ENV names](../configuration/secrets.md#services) |
 | <span id="env-agentbox-api-key"></span>`AGENTBOX_API_KEY` | `required on worker` | Worker access to AgentBox |
 | <span id="env-openai-api-key"></span>`OPENAI_API_KEY` | `profile-dependent` | Model key for the example API-key profile |
-| <span id="env-sandbox-proxy-url"></span>`SANDBOX_PROXY_URL` | `https://sandbox-proxy.agentbox.ru:65181` | Agent HTTP(S) proxy. Empty disables injection |
+| <span id="env-sandbox-proxy-url"></span>`SANDBOX_PROXY_URL` | `https://sandbox-proxy.agentbox.ru:65181` | Agent proxy: HTTP, HTTPS, SOCKS5 or SOCKS5H. Empty disables injection. See [proxy and authentication compatibility](../configuration/authentication.md#network-proxy) |
 | <span id="env-max-concurrent-sessions"></span>`MAX_CONCURRENT_SESSIONS` | `50` | Occupied execution slots, including preparation and finalization |
 | <span id="env-default-max-session-tokens"></span>`DEFAULT_MAX_SESSION_TOKENS` | `100000000` | Default token budget for new sessions |
 | <span id="env-max-tool-result-bytes"></span>`MAX_TOOL_RESULT_BYTES` | `524288` | Retained tool output bytes |
@@ -22,6 +22,8 @@ Process settings are supplied through ENV. The application does not load [`.env`
 | <span id="env-cancel-grace-seconds"></span>`CANCEL_GRACE_SECONDS` | `30` | Graceful cancellation wait, seconds |
 | <span id="env-worker-poll-seconds"></span>`WORKER_POLL_SECONDS` | `1` | Worker polling interval, seconds |
 | <span id="env-sandbox-provision-timeout-seconds"></span>`SANDBOX_PROVISION_TIMEOUT_SECONDS` | `120` | Initial sandbox creation and connection deadline, seconds. Applies to new attempts |
+| <span id="env-sandbox-paused-retention-days"></span>`SANDBOX_PAUSED_RETENTION_DAYS` | `14` | Worker setting: [paused reusable sandbox retention](../configuration/sandbox-retention.md) after the latest run finishes, integer 1–100 days |
+| <span id="env-sandbox-cleanup-batch-size"></span>`SANDBOX_CLEANUP_BATCH_SIZE` | `1000` | [Sessions selected per worker cleanup pass](../configuration/sandbox-retention.md), including retries. Positive integer |
 | <span id="env-rpc-timeout-seconds"></span>`RPC_TIMEOUT_SECONDS` | `30` | Individual agent RPC timeout, seconds |
 | <span id="env-orpheus-host"></span><span id="env-orpheus-port"></span>`ORPHEUS_HOST / ORPHEUS_PORT` | `0.0.0.0 / 8000` | API listener |
 | <span id="env-orpheus-system-host"></span><span id="env-orpheus-system-port"></span>`ORPHEUS_SYSTEM_HOST / ORPHEUS_SYSTEM_PORT` | `0.0.0.0 / 9100` | Process probes and [service metrics](../operations/monitoring.md#service-metrics). Keep access within a trusted network |

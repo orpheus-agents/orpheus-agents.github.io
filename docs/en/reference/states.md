@@ -20,3 +20,5 @@ Errors contain [`code`](api/schema-error.md), [`message`](api/schema-error.md), 
 With [`allow_multiple_runs: false`](api/create-session.md), the sandbox is deleted after its only run completes, fails or is cancelled. Session history remains available. With `true`, the sandbox is paused, and the session can accept another run when context and budget remain available. If context is lost, create a new session with the necessary history from your system.
 
 A sandbox whose initial provisioning was cancelled or timed out is deleted even for a reusable session. The [sandbox state](api/get-session.md) remains `unavailable`, and session history stays readable. Resource cleanup can finish after the run is terminal. See [provisioning limits](../configuration/limits.md) and [troubleshooting](../operations/troubleshooting.md).
+
+Paused reusable sandboxes expire under the [retention policy](../configuration/sandbox-retention.md), by default after 14 days since the latest run finished. Deletion preserves the run result. Check the sandbox state before choosing a continuation target and still handle `409 session_unavailable`: it can change before the request.

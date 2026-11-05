@@ -8,6 +8,10 @@ On later reviews, the connector can update its own discussions, resolve addresse
 
 If the MR diff changes, the MR closes or the bot is removed from reviewers during analysis, the connector cancels or discards obsolete work. When the diff changes, it also removes itself from reviewers without posting a note. Assign the bot again to review the new revision. It does not publish the old review against the changed diff. For another review after completion or failure, assign the bot again. An unsuccessful analysis is not retried automatically.
 
+Failure notes show the public Orpheus error message when available, or a safe application failure description. Public error text can include the original harness message. To omit it, use a template without the [Reason placeholder](../../reference/gitlab-review.md#note-placeholders). The default note has no session link. To include one, use a [custom failure template](workflows.md#customize-completion-and-failure-notes).
+
+Discussion status distinguishes a finding explicitly resolved by a participant from one made outdated by a push. A recorded resolver is enough to recognize explicit resolution when GitLab omits its cause.
+
 ## Run one instance
 
 Run exactly one connector for each GitLab installation and bot identity. Stop the old process before starting its replacement. Increasing replicas does not increase supported review capacity. Use [`MAX_CONCURRENT_REVIEWS`](../../reference/gitlab-review.md#env-max-concurrent-reviews) instead, within the capacity of Orpheus and your providers.
@@ -35,6 +39,6 @@ docker compose logs --tail=100 review
 | Session creation fails | Existing profile, template and service codes, API key and both request-size limits: the [connector limit](../../reference/gitlab-review.md#env-max-session-request-bytes) and Orpheus [`MAX_REQUEST_BYTES`](../../reference/environment.md#env-max-request-bytes) |
 | `before_run` fails | HTTPS clone/fetch access, required sandbox tools and whether the MR changed during preparation |
 | Agent completed, publication failed | Inspect `after_run`, connector logs and GitLab API permissions. A final answer alone is not a publishable review |
-| No session link in a failure note | Set the public [web URL](../../reference/gitlab-review.md#env-orpheus-web-base-url). A failure before session creation has no session URL |
+| No session link in a failure note | The default failure note omits the link. To include one, configure the [public web URL](../../reference/gitlab-review.md#env-orpheus-web-base-url) and a custom `notes.fail` using the [SessionURL placeholder](../../reference/gitlab-review.md#note-placeholders). Before session creation the URL is empty |
 
 [Workflow settings](workflows.md) · [Configuration reference](../../reference/gitlab-review.md)

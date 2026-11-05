@@ -8,7 +8,7 @@ CLI позволяет управлять заданиями через API Spac
 
 ```sh
 set -eu
-version=v0.10.2
+version=v0.10.3
 arch=amd64
 release="https://github.com/orpheus-agents/orpheus-space/releases/download/$version"
 for file in "orpheus-space_${version}_linux_${arch}.tar.gz" "orpheus-space_${version}_skill.tar.gz" checksums.txt; do
@@ -41,3 +41,5 @@ orpheus-space schedule list --owner-email alice@example.com --json
 ```
 
 Навык определяет автора просьбы по подтверждённым метаданным коннектора и работает только с его заданиями. Без подтверждённого email он не должен угадывать владельца. Это инструкции агенту, а не ограничения общего API. [Команды, повторы и правила выбора заданий](../reference/space-cli.md).
+
+В запуске по расписанию Space передаёт личность владельца только для управления исходным заданием. [Автор запуска по расписанию](../reference/space-cli.md#scheduled-identity). У общих заданий нет личности владельца для этого сценария навыка.

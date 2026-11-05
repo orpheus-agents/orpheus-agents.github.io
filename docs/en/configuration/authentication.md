@@ -37,3 +37,9 @@ For a custom S3 service, set the store's [`endpoint_url`](../reference/profiles.
 Orpheus synchronizes refreshed account credentials back to S3. When starting a replacement agent process after a pause or disconnection, it reads the current authorization file from S3. Upload a fresh valid file if you reauthorize the account manually. A running agent does not automatically reload a manually replaced file.
 
 Profiles sharing an account must use the same [`account_id`](../reference/profiles.md#profile-auth-account-id) and credential source. The ID appears in [account limits](../web/limits.md). Assign a new ID when replacing the underlying account.
+
+## Network proxy {#network-proxy}
+
+[`SANDBOX_PROXY_URL`](../reference/environment.md#env-sandbox-proxy-url) configures the agent process proxy. HTTP and HTTPS URLs populate `HTTP_PROXY` and `HTTPS_PROXY`. SOCKS5 and SOCKS5H URLs populate `ALL_PROXY`. `NO_PROXY` keeps `localhost` and `127.0.0.1` direct. An empty setting disables Orpheus proxy injection.
+
+The default is AgentBox's HTTPS proxy. For SOCKS5 with proxy-side DNS resolution, use `socks5h://sandbox-proxy.agentbox.ru:65180`. SOCKS support depends on the installed harness and its authentication mode. Keep HTTPS for ChatGPT account authentication unless you have verified that combination: in a compatibility check, Codex 0.164.0 worked with an API key over SOCKS5, but account authentication failed with `workspace routing discovery failed`.

@@ -34,7 +34,9 @@ The Markdown body replaces the [profile instructions](../../reference/profiles.m
 
 The agent analyzes the selected MR diff in a prepared checkout. GitLab publication is handled by the connector. Do not instruct the agent to publish comments, approve the MR or switch to a newer branch revision.
 
-[`language`](../../reference/gitlab-review.md#workflow-language) sets the language of agent-authored text. It does not translate the connector's completion, failure or skip messages. The defaults are English.
+[`language`](../../reference/gitlab-review.md#workflow-language) sets the language of agent-authored text. It does not translate the connector's completion, failure or skip messages. The default service templates are English. A failure reason can include [public error text returned by Orpheus](../../reference/gitlab-review.md#note-placeholders).
+
+The built-in result instructions require finding files named `F-0001.md` (at least four digits), matching the finding ID exactly. Custom policy must preserve these names when findings are confirmed or rejected. Do not add descriptive suffixes.
 
 ## Customize completion and failure notes
 

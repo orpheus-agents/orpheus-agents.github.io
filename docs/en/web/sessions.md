@@ -12,7 +12,7 @@ Session details show profile, model, sandbox state, token usage and runs. Select
 4. Check its status and error phase.
 5. Inspect the unsuccessful tool or hook.
 
-Session status describes its work. After a run finishes, the conversation can continue if the session was created with [`allow_multiple_runs: true`](../reference/api/create-session.md).
+Session status describes its work. After a run finishes, the conversation can continue if the session was created with [`allow_multiple_runs: true`](../reference/api/create-session.md) and the sandbox remains available. Paused sandboxes have a [retention period](../configuration/sandbox-retention.md).
 
 Share the detail-page link with a colleague who has web access. History is shared among admitted users. The interface reconnects after interruptions. Check its connection indicator when assessing whether updates are current.
 

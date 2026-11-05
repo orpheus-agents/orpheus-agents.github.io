@@ -65,6 +65,7 @@ In the occurrence card, [`observed_at`](../reference/space-api/schema-occurrence
 | Saving services returns `422` | A code is absent from the [core service catalog](../configuration/secrets.md#services). Select an available service or update the catalog |
 | Submission is `failed` with `unknown_service` | The selected service was removed before submission. Correct the selection or restore the catalog entry |
 | Run accepted, then failed due to ENV | Supply the variable value to the Orpheus worker and inspect the run error |
+| `error_code=session_unavailable` or `run_error_code=sandbox_lost` | The environment cannot be continued. Use **Reset context** on the schedule card when no occurrence is active. Check [retention](../configuration/sandbox-retention.md) for long intervals |
 | Context reset returns `409` | Wait for the active run to finish or its synchronization to recover |
 
 ## If the run record is lost

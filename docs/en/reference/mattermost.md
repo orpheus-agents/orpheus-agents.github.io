@@ -27,7 +27,7 @@
 | <span id="workflow-mattermost-token-env"></span>`mattermost.token_env` | `required` | Bot token ENV name |
 | <span id="workflow-env-from"></span>`env_from` | `[]` | Worker variables selected for the agent |
 | <span id="workflow-services"></span>`services` | `[]` | Unique service codes passed to the agent session alongside `env_from` |
-| <span id="workflow-include-ids"></span><span id="workflow-exclude-ids"></span>`include_ids / exclude_ids` | `[]` | Included and excluded channel IDs |
+| <span id="workflow-include-ids"></span><span id="workflow-exclude-ids"></span>`include_ids / exclude_ids` | `[]` | Included and excluded channel IDs. Does not enable private or group channels |
 | <span id="workflow-direct-messages"></span>`direct_messages` | `false` | Handle direct messages |
 | <span id="workflow-private-channels"></span>`private_channels` | `false` | Handle private channels |
 | <span id="workflow-group-messages"></span>`group_messages` | `false` | Handle group messages |
@@ -53,6 +53,8 @@
 | <span id="workflow-link-expansion-enabled"></span>`link_expansion.enabled` | `true` | Expand same-server Mattermost links |
 | <span id="workflow-link-expansion-max-links"></span>`link_expansion.max_links` | `5` | Expanded link count |
 | <span id="workflow-link-expansion-max-posts"></span>`link_expansion.max_posts` | `20` | Linked post count |
+
+Unrouted private channels are left automatically. Configure private-channel access before starting or reloading the connector and before inviting the bot. See [channel routing](../integrations/mattermost/channels.md#private-channels).
 
 Mandatory fields are marked `required`. Unknown fields, duplicate keys, duplicate IDs and overlapping specialized routes are rejected. Quote `revision` as a string. Put the complete agent instructions after the YAML.
 

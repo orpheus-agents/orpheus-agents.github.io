@@ -8,7 +8,7 @@ Installation in a Linux Codex sandbox. For arm64, replace `arch=amd64` with `arc
 
 ```sh
 set -eu
-version=v0.10.2
+version=v0.10.3
 arch=amd64
 release="https://github.com/orpheus-agents/orpheus-space/releases/download/$version"
 for file in "orpheus-space_${version}_linux_${arch}.tar.gz" "orpheus-space_${version}_skill.tar.gz" checksums.txt; do
@@ -41,3 +41,5 @@ orpheus-space schedule list --owner-email alice@example.com --json
 ```
 
 The skill identifies the requester from verified connector metadata and handles only their schedules. Without verified email, it must not guess the owner. These are agent instructions, not restrictions on the shared API. See [commands, retries and schedule selection](../reference/space-cli.md).
+
+Inside a scheduled run, Space supplies the owner identity for managing only that originating schedule. See [scheduled-run identity](../reference/space-cli.md#scheduled-identity). Shared schedules provide no owner identity for this skill workflow.

@@ -80,6 +80,11 @@
     "Timeouts, concurrency and tokens"
   ],
   [
+    "configuration/sandbox-retention",
+    "Хранение песочниц на паузе",
+    "Paused sandbox retention"
+  ],
+  [
     "integrations/mattermost/connect",
     "Подключение бота",
     "Connect a bot"

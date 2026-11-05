@@ -51,8 +51,10 @@ A nonempty Markdown review policy is required below the YAML. It replaces the pr
 | Placeholder | Value |
 | --- | --- |
 | <code v-pre>{{ .FindingsCount }}</code> | Confirmed finding count on success, including zero |
-| <code v-pre>{{ .Reason }}</code> | Safe failure reason in English. No raw error or hook output |
+| <code v-pre>{{ .Reason }}</code> | Public Orpheus error message when available, otherwise an allowlisted application failure description. Markdown, HTML and mentions are escaped. |
 | <code v-pre>{{ .SessionURL }}</code> | Public session URL on failure, or an empty string when unavailable |
+
+The public [Orpheus error message](api/schema-error.md) can contain the original harness error and is visible to readers of the MR. To omit error text, set a custom `notes.fail` without <code v-pre>{{ .Reason }}</code>. The connector does not append raw connector errors or hook logs.
 
 Functions, conditions and other expressions are not supported. Explicitly blank fields, unknown substitutions and templates that can render an empty note are rejected. `language` does not translate templates or failure reasons.
 

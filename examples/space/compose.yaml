@@ -1,6 +1,6 @@
 name: orpheus-space-example
 
-x-space-image: &space-image retailcrm/orpheus-space:${ORPHEUS_SPACE_VERSION:-0.10.2}
+x-space-image: &space-image retailcrm/orpheus-space:${ORPHEUS_SPACE_VERSION:-0.10.3}
 x-space-env: &space-env
   DATABASE_URL: postgres://orpheus_space:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@db:5432/orpheus_space
   ORPHEUS_CONFIG_FILE: /etc/orpheus-space/space.toml
