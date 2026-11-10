@@ -147,3 +147,8 @@ This repository includes publishing configuration. Creating files locally does n
 ## Dependencies
 
 VitePress is pinned to its stable release. The Vite override selects patched Vite 6.4.5, compatible with the bundled Vue plugin, instead of VitePress's vulnerable Vite 5 dependency. Validate builds, browser behavior and `npm audit` when updating either dependency.
+
+## License
+
+Licensed under the GNU Affero General Public License, version 3 only
+(`AGPL-3.0-only`). See [LICENSE](LICENSE).
