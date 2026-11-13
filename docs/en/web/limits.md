@@ -1,6 +1,6 @@
 # Tokens and account limits
 
-The limits page shows quotas for accounts used by profiles with [`mode = "account"`](../configuration/authentication.md#account). API-key quotas are not listed.
+The Settings → Limits page shows quotas for accounts used by profiles with [`mode = "account"`](../configuration/authentication.md#account). API-key quotas are not listed.
 
 | State | Meaning |
 | --- | --- |
