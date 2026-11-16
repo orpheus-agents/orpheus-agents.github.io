@@ -67,7 +67,7 @@ const python = spawnSync('python3', ['scripts/check-python-examples.py'], { stdi
 if (python.status !== 0) process.exit(python.status ?? 1)
 const compose = spawnSync('docker', ['compose','--env-file','.env.example','config','--quiet'], {
   cwd: 'examples/quickstart', encoding:'utf8',
-  env: { ...process.env, POSTGRES_PASSWORD:'fixture-password', ENV_ENCRYPTION_KEY:'Zm9yLWxvY2FsLWRldmVsb3BtZW50LW9ubHktMzJieXQ=', ORPHEUS_API_KEY:'fixture', AGENTBOX_API_KEY:'fixture', OPENAI_API_KEY:'fixture', MATTERMOST_BOT_TOKEN:'fixture' },
+  env: { ...process.env, POSTGRES_PASSWORD:'fixture-password', ENV_ENCRYPTION_KEY:'Zm9yLWxvY2FsLWRldmVsb3BtZW50LW9ubHktMzJieXQ=', ORPHEUS_API_KEY:'fixture', AGENTBOX_API_KEY:'fixture', MATTERMOST_BOT_TOKEN:'fixture' },
 })
 if (compose.status !== 0) throw Error(compose.stderr || 'Docker Compose is required to validate the example')
 const spaceCompose = spawnSync('docker', ['compose', '--env-file', '.env.example', '--profile', 'execution', 'config', '--quiet'], {

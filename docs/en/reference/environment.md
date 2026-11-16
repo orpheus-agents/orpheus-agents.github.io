@@ -5,7 +5,7 @@ Process settings are supplied through ENV. The application does not load [`.env`
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | <span id="env-database-url"></span>`DATABASE_URL` | `required` | PostgreSQL for API, worker and migrations |
-| <span id="env-orpheus-config-file"></span>`ORPHEUS_CONFIG_FILE` | [`orpheus.toml`](../configuration/profiles.md) | Profile TOML path |
+| <span id="env-orpheus-config-file"></span>`ORPHEUS_CONFIG_FILE` | [`orpheus.toml`](../configuration/profiles.md) | Credential-store and service configuration path |
 | <span id="env-orpheus-migrations-dir"></span>`ORPHEUS_MIGRATIONS_DIR` | `migrations` | Migration directory. The --dir flag takes precedence |
 | <span id="env-public-api-keys"></span>`PUBLIC_API_KEYS` | `[]` | JSON array of Bearer keys with equal access |
 | <span id="env-env-encryption-key"></span>`ENV_ENCRYPTION_KEY` | `required` | 32-byte base64url key for environment encryption |
@@ -14,7 +14,6 @@ Process settings are supplied through ENV. The application does not load [`.env`
 | <span id="env-agentbox-api-url"></span>`AGENTBOX_API_URL` | `unset` | Explicit AgentBox API origin. Use the same endpoint settings on API and worker |
 | <span id="env-agentbox-domain"></span>`AGENTBOX_DOMAIN` | `agentbox-runtime.ru` | Domain used for `https://api.<domain>` when no explicit API URL is set |
 | <span id="env-agentbox-debug"></span>`AGENTBOX_DEBUG` | `false` | Select `http://localhost:3000` unless an explicit API URL is set |
-| <span id="env-openai-api-key"></span>`OPENAI_API_KEY` | `profile-dependent` | Model key for the example API-key profile |
 | <span id="env-sandbox-proxy-url"></span>`SANDBOX_PROXY_URL` | `https://sandbox-proxy.agentbox.ru:65181` | Agent proxy: HTTP, HTTPS, SOCKS5 or SOCKS5H. Empty disables injection. See [proxy and authentication compatibility](../configuration/authentication.md#network-proxy) |
 | <span id="env-max-concurrent-sessions"></span>`MAX_CONCURRENT_SESSIONS` | `50` | Occupied execution slots, including preparation and finalization |
 | <span id="env-default-max-session-tokens"></span>`DEFAULT_MAX_SESSION_TOKENS` | `100000000` | Default token budget for new sessions |
@@ -40,4 +39,4 @@ Process settings are supplied through ENV. The application does not load [`.env`
 
 `required` marks a required value. `unset` means no value is configured. SAML fields are required in `saml` mode. Supply integration variables such as [`HELPDESK_TOKEN`](../configuration/secrets.md) to the worker. Register their names in a [service](../configuration/secrets.md#services), or use `HARNESS_ENV_ALLOWLIST` for names outside the catalog.
 
-API and worker must share profile configuration, allowed environment names and encryption key. Recreate containers after ENV changes. [Practical setup](../configuration/secrets.md).
+API and worker must share credential-store and service configuration, allowed environment names and encryption key. Recreate containers after ENV changes. [Practical setup](../configuration/secrets.md).

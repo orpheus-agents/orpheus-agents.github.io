@@ -2,9 +2,19 @@
 
 Generated from the Orpheus OpenAPI contract. Usage guidance is provided in the integration guides.
 
-- [Profile](schema-profile.md)
 - [CodexProfile](schema-codexprofile.md)
+- [Profile](schema-profile.md)
 - [Profiles](schema-profiles.md)
+- [CreateProfile](schema-createprofile.md)
+- [UpdateProfile](schema-updateprofile.md)
+- [LLMAccount](schema-llmaccount.md)
+- [LLMAccountDetails](schema-llmaccountdetails.md)
+- [LLMAccounts](schema-llmaccounts.md)
+- [AuthFile](schema-authfile.md)
+- [CreateLLMAccount](schema-createllmaccount.md)
+- [UpdateLLMAccount](schema-updatellmaccount.md)
+- [ReplaceAPIKey](schema-replaceapikey.md)
+- [CredentialStores](schema-credentialstores.md)
 - [Template](schema-template.md)
 - [Templates](schema-templates.md)
 - [CreateTemplate](schema-createtemplate.md)

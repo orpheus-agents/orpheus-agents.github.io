@@ -6,7 +6,7 @@
 
 | Field | Required | Type | Description and constraints |
 | --- | --- | --- | --- |
-| `profile` | No | string | Exact Orpheus profile name; creation uses the configured default when omitted. minLength: <code>1</code> |
+| `profile` | No | string | Exact Orpheus profile name; creation uses the configured default when omitted. Every save except a pure pause requires an active profile and account. minLength: <code>1</code> |
 | `template` | No | string | Exact Orpheus template name; creation uses the configured default when omitted. minLength: <code>1</code> |
 | `name` | Yes | string |  minLength: <code>1</code><br>maxLength: <code>200</code> |
 | `prompt` | Yes | string |  minLength: <code>1</code> |
@@ -34,7 +34,7 @@
     "profile": {
       "type": "string",
       "minLength": 1,
-      "description": "Exact Orpheus profile name; creation uses the configured default when omitted."
+      "description": "Exact Orpheus profile name; creation uses the configured default when omitted. Every save except a pure pause requires an active profile and account."
     },
     "template": {
       "type": "string",

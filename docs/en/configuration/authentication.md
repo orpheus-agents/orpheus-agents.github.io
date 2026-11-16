@@ -1,42 +1,33 @@
 # Agent authentication
 
-Choose authentication separately for each profile in [`orpheus.toml`](profiles.md). Add the examples below to this file.
+Create authorization in **Settings → LLM accounts**. Set a name, harness and authorization mode, then select this account in one or more [profiles](profiles.md). The mode and credential store cannot be changed after creation. Create another account and rebind profiles if you need a different mode.
 
 ## API key
 
-```toml
-[profiles.default.auth]
-mode = "api_key"
-api_key_env = "OPENAI_API_KEY"
-```
+Choose **API key** and enter the provider key. Orpheus encrypts it in the database using [`ENV_ENCRYPTION_KEY`](../reference/environment.md#env-env-encryption-key). API and worker must share this key. Provider keys do not belong in the runtime environment or [`sandbox.env_from`](../reference/api/create-session.md).
 
-Supply [`OPENAI_API_KEY`](../reference/environment.md#env-openai-api-key) to the worker process. The field holds a variable name, not the key itself. Do not add the model key to [`sandbox.env_from`](../reference/api/create-session.md). Orpheus configures model authentication separately.
+The account card shows a mask. Enter a new key to replace it. The old key is never returned by the API or filled into the replacement field.
 
 ## Account
 
-Upload a valid Codex `auth.json` to a private S3-compatible bucket. Use credentials for the account assigned to this installation.
+Configure a private S3-compatible store in [`orpheus.toml`](../reference/profiles.md#store-access):
 
 ```toml
 [credential_stores.main]
 type = "s3"
 bucket = "orpheus-credentials"
 region = "us-east-1"
-
-[profiles.team]
-harness = "codex"
-model = "gpt-6-sol"
-[profiles.team.auth]
-mode = "account"
-account_id = "support-team"
-store = "main"
-key = "codex/support/auth.json"
 ```
 
-For a custom S3 service, set the store's [`endpoint_url`](../reference/profiles.md#store-endpoint-url). Supply worker access through standard AWS credentials such as [`AWS_ACCESS_KEY_ID`](../reference/profiles.md#store-access) and [`AWS_SECRET_ACCESS_KEY`](../reference/profiles.md#store-access). Grant read and write access to the authorization object. The S3 service must return an `ETag` and support conditional writes with `If-Match` so an older sandbox cannot overwrite newer credentials.
+For a custom service, set [`endpoint_url`](../reference/profiles.md#store-endpoint-url). Supply **both API and worker** with standard AWS credentials such as [`AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`](../reference/profiles.md#store-access). Grant read and write access to authorization objects. The service must return `ETag` and support conditional writes with `If-Match`.
 
-Orpheus synchronizes refreshed account credentials back to S3. When starting a replacement agent process after a pause or disconnection, it reads the current authorization file from S3. Upload a fresh valid file if you reauthorize the account manually. A running agent does not automatically reload a manually replaced file.
+Choose **Account**, select the store and paste valid Codex `auth.json` content into the form. Orpheus generates the object name from the account UUID. Profiles using the same account share this authorization.
 
-Profiles sharing an account must use the same [`account_id`](../reference/profiles.md#profile-auth-account-id) and credential source. The ID appears in [account limits](../web/limits.md). Assign a new ID when replacing the underlying account.
+Open **Edit authorization** to load or replace the file. This action reveals its tokens to the current user. A conflicting change keeps your draft and requires an explicit reload before saving again. Unknown JSON fields are preserved.
+
+Orpheus synchronizes refreshed tokens back to S3. A replacement agent process reads the current file. A process that is already running does not automatically reload a manual replacement. The account identity in existing sessions stays fixed when a profile is moved to another account.
+
+You can delete an account only when no profile or session references it. Deletion removes its database record and API-key secret, but leaves its S3 file. [Account cards and quotas](../web/limits.md).
 
 ## Network proxy {#network-proxy}
 

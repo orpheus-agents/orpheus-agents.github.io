@@ -4,12 +4,12 @@
 
 | Что сохранить | Зачем |
 | --- | --- |
-| PostgreSQL | История сессий, запусков и принятых сообщений |
-| [`ENV_ENCRYPTION_KEY`](../reference/environment.md#env-env-encryption-key) | Расшифровка сохранённых переменных |
+| PostgreSQL | История сессий, запусков и сообщений, профили, аккаунты и зашифрованные API-ключи |
+| [`ENV_ENCRYPTION_KEY`](../reference/environment.md#env-env-encryption-key) | Расшифровка сохранённых переменных и API-ключей моделей |
 | [`orpheus.toml`](../configuration/profiles.md) и [workflows Mattermost](../integrations/mattermost/workflow.md) | Воспроизведение настроек |
 | [Workflows ревью GitLab](../integrations/gitlab/workflows.md) и настройки коннектора | Восстановление маршрутов проектов, правил ревью и подключений |
 | Секреты и файлы SAML | Подключение сервисов и вход пользователей |
-| S3 credentials store | Авторизация профилей аккаунтов |
+| S3 credentials store | Файлы авторизации аккаунтов |
 
 При использовании [Space](../space/operations.md) резервируйте и его отдельную БД: там хранятся задания, история срабатываний и браузерные сессии. Полные ответы агентов остаются в БД Orpheus.
 

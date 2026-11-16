@@ -67,5 +67,11 @@
   "Nonzero UUID identifying this manual command within the schedule. Retrying the same key never creates another occurrence. Keys do not expire.": "Ненулевой UUID ручной команды в пределах задания. Повтор с тем же ключом не создаёт новое выполнение. Срок действия ключа не ограничен.",
   "The command was stored, or the same command was already accepted.": "Команда сохранена или уже была принята ранее.",
   "Configured creation default. Resolve it with GET /api/v1/templates?name=... without an active filter; it may be absent or inactive.": "Настроенный шаблон по умолчанию для создания. Проверяйте его через GET /api/v1/templates?name=... без фильтра active. Запись может отсутствовать или быть неактивной.",
-  "Cron due time for a scheduled occurrence, or command acceptance time for a manual occurrence. This is not the execution start time.": "Плановое время по cron или время принятия ручной команды. Не является временем начала выполнения."
+  "Cron due time for a scheduled occurrence, or command acceptance time for a manual occurrence. This is not the execution start time.": "Плановое время по cron или время принятия ручной команды. Не является временем начала выполнения.",
+  "Get a page of Orpheus model profiles": "Страница профилей моделей Orpheus",
+  "Returns active and inactive profiles. Use available=true for selection and an exact name without availability filters for a stored choice. Name filters are mutually exclusive; cursors are bound to the filters.": "Возвращает активные и неактивные профили. Для выбора используйте available=true. Для сохранённого выбора запрашивайте точное имя без фильтра доступности. Фильтры имени несовместимы друг с другом. Курсоры связаны с фильтрами.",
+  "Exact case-sensitive profile name.": "Точное имя профиля с учётом регистра.",
+  "Literal case-insensitive substring of the name.": "Подстрока имени без учёта регистра.",
+  "Exact Orpheus profile name; creation uses the configured default when omitted. Every save except a pure pause requires an active profile and account.": "Точное имя профиля Orpheus. При создании без значения используется настроенный дефолт. Любое сохранение, кроме чистой паузы, требует активного профиля и аккаунта.",
+  "Configured creation default, independent of catalog filters and pagination. Resolve the exact name before automatically selecting it.": "Настроенный дефолт для создания, независимый от фильтров и пагинации каталога. Перед автоматическим выбором проверьте точное имя."
 }

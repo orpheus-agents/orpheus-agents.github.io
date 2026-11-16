@@ -4,7 +4,7 @@
 
 ```sh
 orpheus-space services --json
-orpheus-space profiles --json
+orpheus-space profiles --available=true --limit 50 --json
 orpheus-space templates --active=true --limit 50 --json
 orpheus-space schedule settings --json
 orpheus-space schedule preview --cron '0 10 * * 1-5' --timezone Europe/Moscow --json
@@ -48,3 +48,7 @@ The skill may use that owner identity only to manage the same `schedule_id`. It 
 ## Template catalog
 
 `templates` returns one page, including the `active` flag. Use `--active=true`, `--active=false`, or omit the filter for both states. Use either exact `--name` or substring `--name-contains`. Pass `next_cursor` or `prev_cursor` as `--cursor` with the same filters. `--limit` accepts 1–200 and defaults to 50. Resolve a saved selection with `--name` and no activity filter.
+
+## Profile catalog
+
+`profiles` returns one page with profile and account activity, description and model. Use `--available=true` for new selections, or omit it to inspect unavailable records. Use either exact `--name` or substring `--name-contains`. Pagination uses `--limit` (1–200, default 50) and `--cursor` with unchanged filters. Resolve a saved profile or `default_profile` from `schedule settings` by exact name without `--available`. Never use the first page's first item as the default.

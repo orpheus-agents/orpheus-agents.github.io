@@ -6,7 +6,7 @@
 
 | Поле | Обязательное | Тип | Описание и ограничения |
 | --- | --- | --- | --- |
-| `code` | Да | string |  enum: <code>["required","invalid_type","invalid_value","unknown_field","template_not_found","template_inactive","template_forbidden","tag_not_found"]</code> |
+| `code` | Да | string |  enum: <code>["required","invalid_type","invalid_value","unknown_field","template_not_found","template_inactive","template_forbidden","tag_not_found","profile_not_found","profile_inactive","account_inactive"]</code> |
 | `path` | Да | array&lt;string / integer&gt; |   |
 
 ## JSON Schema
@@ -24,7 +24,10 @@
         "template_not_found",
         "template_inactive",
         "template_forbidden",
-        "tag_not_found"
+        "tag_not_found",
+        "profile_not_found",
+        "profile_inactive",
+        "account_inactive"
       ],
       "title": "Code",
       "type": "string"

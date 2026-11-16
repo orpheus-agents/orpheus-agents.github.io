@@ -19,7 +19,7 @@ mattermost:
 
 After the YAML, add analysis instructions and the general workflow's file-handling rules. Use the channel ID, not its name. Replace the timestamp with the processing cutover for that channel.
 
-In the [profile example](../../configuration/profiles.md), `default` uses Terra and `deep-analysis` uses Sol with `xhigh`. Channel routing selects the profile without additional user commands.
+Create an active `deep-analysis` [profile](../../configuration/profiles.md), for example with `gpt-6-sol` and `xhigh` effort. Channel routing selects it without additional user commands.
 
 In this example, tasks are routed as follows:
 

@@ -12,10 +12,10 @@ Start with limits matching available model and AgentBox quotas. More workers do 
 
 One session executes one run at a time. Independent sessions can run concurrently.
 
-Multiple API and worker instances must share the database, profiles, allowlist and encryption key. Settings that affect admission must match. Do not configure different capacity limits across one installation.
+Multiple API and worker instances must share the database, credential-store configuration, allowlist and encryption key. Settings that affect admission must match. Do not configure different capacity limits across one installation.
 
 Run one Mattermost connector per source: server and bot identity. Independent sources can use separate processes. Increasing replicas for the same source is not a scaling method.
 
 The [GitLab review connector](../integrations/gitlab/operations.md) also runs as one instance per GitLab installation and bot identity. Adjust its concurrency limit without adding replicas for the same bot.
 
-When latency grows, inspect active work, account quotas, sandbox preparation errors and company API response times. Also monitor Mattermost history growth since [`reconcile_from`](../reference/mattermost.md#workflow-reconcile-from). Periodic reconciliation reads that range.
+When latency grows, inspect active work, account quotas, sandbox preparation errors and company API response times. [Mattermost recovery](../integrations/mattermost/reload.md#recovery) uses bounded history windows and gives live events priority over archive recovery.

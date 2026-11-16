@@ -12,10 +12,10 @@ python3 init.py
 
 ## Заполните настройки
 
-1. В `.env` задайте [`AGENTBOX_API_KEY`](../reference/environment.md#env-agentbox-api-key), [`OPENAI_API_KEY`](../reference/environment.md#env-openai-api-key) и [`MATTERMOST_BOT_TOKEN`](../integrations/mattermost/connect.md).
+1. В `.env` задайте [`AGENTBOX_API_KEY`](../reference/environment.md#env-agentbox-api-key) и [`MATTERMOST_BOT_TOKEN`](../integrations/mattermost/connect.md).
 2. В [`workflows/assistant.md`](../integrations/mattermost/workflow.md) найдите параметр [`mattermost.base_url`](../reference/mattermost.md#workflow-mattermost-base-url) и замените `https://chat.example.com` на HTTPS-адрес вашего сервера Mattermost. По этому адресу коннектор обменивается сообщениями, а песочницы AgentBox скачивают вложения и отправляют файлы с результатами.
 
-В [`orpheus.toml`](../configuration/profiles.md) уже выбрана модель `gpt-6-sol`. При необходимости её можно изменить в параметре [`model`](../reference/profiles.md#profile-model) профиля `default`.
+База запускается с пустыми каталогами аккаунтов и профилей. Для применения миграций TOML с профилями не нужен.
 
 ```sh
 docker compose config --quiet
@@ -24,7 +24,11 @@ docker compose up -d db migrate api worker web
 curl -fsS http://localhost:9100/ready
 ```
 
-Откройте `http://localhost:8085`. В разделе **Настройки → Шаблоны** нажмите **Добавить шаблон** и зарегистрируйте `codex`, собранный в вашем проекте AgentBox. Оставьте тег пустым, а шаблон активным. При регистрации проверяется тег `default`. [Подробнее о регистрации](../configuration/templates.md#register).
+Откройте `http://localhost:8085`.
+
+В **Настройки → LLM-аккаунты** создайте аккаунт Codex с режимом **API-ключ** и введите ключ провайдера. Затем в **Настройки → Профили** создайте активный профиль `default`, выберите этот аккаунт и укажите модель `gpt-6-sol` или другую доступную вашему аккаунту. [Настройка профилей](../configuration/profiles.md).
+
+В разделе **Настройки → Шаблоны** нажмите **Добавить шаблон** и зарегистрируйте `codex`, собранный в вашем проекте AgentBox. Оставьте тег пустым, а шаблон активным. При регистрации проверяется тег `default`. [Подробнее о регистрации](../configuration/templates.md#register).
 
 Открывайте Web через `localhost`: настроенный [публичный origin](../reference/environment.md#env-orpheus-public-url) — `http://localhost:8085`. Через `127.0.0.1:8085` доступно чтение, но браузерные изменения отклоняются.
 

@@ -196,8 +196,8 @@
   ],
   [
     "web/limits",
-    "Токены и лимиты аккаунтов",
-    "Tokens and account limits"
+    "LLM-аккаунты и лимиты",
+    "LLM accounts and limits"
   ],
   [
     "space/overview",

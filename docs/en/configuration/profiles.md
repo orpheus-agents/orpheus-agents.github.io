@@ -1,31 +1,23 @@
 # Profiles and models
 
-A profile defines the model, authentication and shared instructions. You choose profile names. Connectors select one through [`agent.profile`](../reference/api/create-session.md).
+A profile selects an [LLM account](authentication.md), a model and shared instructions. Accounts and profiles are stored in PostgreSQL and managed through the web interface or [API](../reference/api/get-profiles.md). Connectors select a profile by its stable [`agent.profile`](../reference/api/create-session.md) name.
 
-Define profiles in the Orpheus configuration file, [`orpheus.toml`](../reference/profiles.md). In the [quick start](../getting-started/launch.md), this file is in `examples/quickstart/`, next to [`compose.yaml`](../getting-started/launch.md).
+## Create a profile
 
-```toml
-[profiles.default]
-harness = "codex"
-model = "gpt-5.6-terra"
-[profiles.default.auth]
-mode = "api_key"
-api_key_env = "OPENAI_API_KEY"
+1. In **Settings → LLM accounts**, add an account and configure its [authorization](authentication.md).
+2. In **Settings → Profiles**, choose **Add profile**. Enter a unique name, select the account and specify the required model ID.
+3. Add a description and instructions if needed. Configure the Codex options and keep the profile active.
 
-[profiles.deep-analysis]
-harness = "codex"
-model = "gpt-5.6-sol"
-[profiles.deep-analysis.codex]
-effort = "xhigh"
-[profiles.deep-analysis.auth]
-mode = "api_key"
-api_key_env = "OPENAI_API_KEY"
-```
+The name is used in workflows and API requests and cannot be renamed. The model is a string identifier accepted by the selected account. A session can override it through [`agent.model`](../reference/api/create-session.md).
 
-This example assigns Terra to general work and Sol with `xhigh` to a dedicated channel. Replace model identifiers with those available to your credentials.
+Codex profiles support [`effort`](../reference/profiles.md#profile-codex-effort), [`summary`](../reference/profiles.md#profile-codex-summary), [`personality`](../reference/profiles.md#profile-codex-personality) and [`service_tier`](../reference/profiles.md#profile-codex-service-tier). Unset options are omitted when starting the agent. Model and account support determine which values the provider accepts.
 
-Set [`effort`](../reference/profiles.md#profile-codex-effort), [`summary`](../reference/profiles.md#profile-codex-summary), [`personality`](../reference/profiles.md#profile-codex-personality) and [`service_tier`](../reference/profiles.md#profile-codex-service-tier) for the relevant profile in [`orpheus.toml`](../reference/profiles.md). Orpheus omits unspecified parameters when starting the agent. An empty string is not equivalent to omission.
+## Manage profiles
 
-After editing [`orpheus.toml`](../reference/profiles.md), recreate API and worker with the same configuration. Existing sessions retain their settings. For Mattermost, increase the workflow [`revision`](../reference/mattermost.md#workflow-revision) so the next request creates a new session.
+The list supports search, activity filters and pagination. Open a profile to edit it, enable or disable it, or delete it. New sessions require both the profile and its account to be active. Disabling either does not stop accepted sessions.
 
-[Profile reference](../reference/profiles.md) · [Channel routing example](../integrations/mattermost/channels.md)
+To balance spending or quotas, select another account using the same harness. New sessions use the new account. Existing sessions retain their account and execution settings, including model and instructions. Changes take effect without restarting API or worker.
+
+A deleted profile no longer admits new sessions. Existing sessions remain available. In [Mattermost](../integrations/mattermost/reload.md), use a deliberate workflow revision change to start new conversations with updated settings. In [Space](../space/schedules.md#pausing), reset reusable context when the next run should use a new session.
+
+[`orpheus.toml`](../reference/profiles.md#store-access) contains credential-store infrastructure and [service definitions](secrets.md#services). Profiles and account credentials are managed in the database catalog.

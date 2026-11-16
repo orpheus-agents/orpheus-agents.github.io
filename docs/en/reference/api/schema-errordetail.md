@@ -6,7 +6,7 @@ Validation paths start with body, header, query, or path. Hook execution errors 
 
 | Field | Required | Type | Description and constraints |
 | --- | --- | --- | --- |
-| `code` | Yes | string |  enum: <code>["required","invalid_type","invalid_value","unknown_field","template_not_found","template_inactive","template_forbidden","tag_not_found"]</code> |
+| `code` | Yes | string |  enum: <code>["required","invalid_type","invalid_value","unknown_field","template_not_found","template_inactive","template_forbidden","tag_not_found","profile_not_found","profile_inactive","account_inactive"]</code> |
 | `path` | Yes | array&lt;string / integer&gt; |   |
 
 ## JSON Schema
@@ -24,7 +24,10 @@ Validation paths start with body, header, query, or path. Hook execution errors 
         "template_not_found",
         "template_inactive",
         "template_forbidden",
-        "tag_not_found"
+        "tag_not_found",
+        "profile_not_found",
+        "profile_inactive",
+        "account_inactive"
       ],
       "title": "Code",
       "type": "string"

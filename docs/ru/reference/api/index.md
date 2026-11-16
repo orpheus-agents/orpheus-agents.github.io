@@ -9,6 +9,19 @@
 | Метод | Адрес | Операция |
 | --- | --- | --- |
 | `GET` | `/api/v1/profiles` | [Каталог профилей](get-profiles.md) |
+| `POST` | `/api/v1/profiles` | [Создание профиля](create-profile.md) |
+| `GET` | `/api/v1/profiles/{id}` | [Получение профиля](get-profile.md) |
+| `PATCH` | `/api/v1/profiles/{id}` | [Изменение профиля](update-profile.md) |
+| `DELETE` | `/api/v1/profiles/{id}` | [Удаление профиля](delete-profile.md) |
+| `GET` | `/api/v1/llm-accounts` | [Каталог LLM-аккаунтов](get-llm-accounts.md) |
+| `POST` | `/api/v1/llm-accounts` | [Создание LLM-аккаунта](create-llm-account.md) |
+| `GET` | `/api/v1/llm-accounts/{id}` | [Получение LLM-аккаунта](get-llm-account.md) |
+| `PATCH` | `/api/v1/llm-accounts/{id}` | [Изменение LLM-аккаунта](update-llm-account.md) |
+| `DELETE` | `/api/v1/llm-accounts/{id}` | [Удаление LLM-аккаунта](delete-llm-account.md) |
+| `GET` | `/api/v1/credential-stores` | [Хранилища авторизации](get-credential-stores.md) |
+| `PUT` | `/api/v1/llm-accounts/{id}/api-key` | [Замена API-ключа аккаунта](replace-api-key.md) |
+| `GET` | `/api/v1/llm-accounts/{id}/auth-file` | [Файл авторизации аккаунта](get-auth-file.md) |
+| `PUT` | `/api/v1/llm-accounts/{id}/auth-file` | [Замена файла авторизации аккаунта](replace-auth-file.md) |
 | `GET` | `/api/v1/templates` | [Каталог шаблонов](get-templates.md) |
 | `POST` | `/api/v1/templates` | [Регистрация шаблона](create-template.md) |
 | `GET` | `/api/v1/templates/{id}` | [Получение шаблона](get-template.md) |

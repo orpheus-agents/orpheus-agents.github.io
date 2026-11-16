@@ -13,7 +13,7 @@ Generated from the Orpheus Space OpenAPI contract. Usage guidance is provided in
 | `GET` | `/api/v1/schedules/{id}` | [Get a schedule including deleted records](get-schedule.md) |
 | `PATCH` | `/api/v1/schedules/{id}` | [Update selected schedule fields](update-schedule.md) |
 | `DELETE` | `/api/v1/schedules/{id}` | [Soft delete a schedule](delete-schedule.md) |
-| `GET` | `/api/v1/profiles` | [Get Orpheus profiles and the creation default](get-profiles.md) |
+| `GET` | `/api/v1/profiles` | [Get a page of Orpheus model profiles](get-profiles.md) |
 | `GET` | `/api/v1/templates` | [Get a page of Orpheus templates](get-templates.md) |
 | `GET` | `/api/v1/services` | [Get available Orpheus services](get-services.md) |
 | `GET` | `/api/v1/schedules/settings` | [Get schedule interface settings](get-settings.md) |

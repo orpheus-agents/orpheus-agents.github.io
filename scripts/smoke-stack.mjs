@@ -8,7 +8,7 @@ import { parse, stringify } from 'yaml'
 const temp = mkdtempSync(join(tmpdir(), 'orpheus-docs-smoke-'))
 const project = `orpheus-docs-smoke-${process.pid}`
 const upstream = JSON.parse(readFileSync('api/upstream.json','utf8'))
-const env = { ...process.env, POSTGRES_PASSWORD: 'fixture-password', ENV_ENCRYPTION_KEY: 'Zm9yLWxvY2FsLWRldmVsb3BtZW50LW9ubHktMzJieXQ=', AGENTBOX_API_KEY: 'fixture', OPENAI_API_KEY: 'fixture', MATTERMOST_BOT_TOKEN: 'fixture', ORPHEUS_API_KEY: 'fixture', ORPHEUS_VERSION: upstream.orpheus.tag.slice(1), ORPHEUS_MATTERMOST_VERSION: upstream['orpheus-mattermost'].tag.slice(1), ORPHEUS_WEB_VERSION: upstream['orpheus-web'].tag.slice(1) }
+const env = { ...process.env, POSTGRES_PASSWORD: 'fixture-password', ENV_ENCRYPTION_KEY: 'Zm9yLWxvY2FsLWRldmVsb3BtZW50LW9ubHktMzJieXQ=', AGENTBOX_API_KEY: 'fixture', MATTERMOST_BOT_TOKEN: 'fixture', ORPHEUS_API_KEY: 'fixture', ORPHEUS_VERSION: upstream.orpheus.tag.slice(1), ORPHEUS_MATTERMOST_VERSION: upstream['orpheus-mattermost'].tag.slice(1), ORPHEUS_WEB_VERSION: upstream['orpheus-web'].tag.slice(1) }
 Object.assign(env, { ORPHEUS_SPACE_API_KEY: 'space-fixture', ORPHEUS_BASE_URL: '', ORPHEUS_SPACE_VERSION: upstream['orpheus-space'].tag.slice(1), ORPHEUS_SPACE_WEB_VERSION: upstream['orpheus-space-web'].tag.slice(1) })
 Object.assign(env, { ORPHEUS_SPACE_CORE_NETWORK: `${project}-bridge`, ORPHEUS_SPACE_CORE_API_KEY: 'space-core-fixture' })
 // Each project reads its own .env. Do not inherit the caller's Compose selection.
@@ -49,7 +49,7 @@ try {
     throw Error(`GitLab workflow did not pass startup validation: ${review.error ?? review.stdout + review.stderr}`)
   }
   console.log('Published GitLab connector accepted the example workflow with networking disabled.')
-  // No worker, connector server or model calls. Only local schema validation and read requests.
+  // No core worker, connector server or model calls. Only isolated database/API checks.
   await compose(['run','--rm','--no-deps','mattermost','validate'])
   await compose(['up','-d','--wait','--wait-timeout','90','db','api','web'])
   for (const [service, port, path] of [['api','9100','/ready'],['web','8080','/'],['web','8080','/api/v1/sessions']]) {
@@ -66,6 +66,22 @@ try {
   if (publicMetrics.status !== 404) throw Error('Public API must not expose service metrics')
   const emptyTemplates = await fetch(`http://${publicAddress}/api/v1/templates`).then(r => r.json())
   if (emptyTemplates.items.length || emptyTemplates.next_cursor !== null || emptyTemplates.prev_cursor !== null) throw Error('A fresh installation must have an empty template catalog')
+  for (const catalog of ['profiles', 'llm-accounts']) {
+    const page = await fetch(`http://${publicAddress}/api/v1/${catalog}`).then(r => r.json())
+    if (page.items.length || page.next_cursor !== null || page.prev_cursor !== null) throw Error(`Fresh ${catalog} catalog must be empty without legacy TOML`)
+  }
+  const createCatalog = async (path, body) => {
+    const response = await fetch(`http://${publicAddress}/api/v1/${path}`, {
+      method: 'POST', headers: { Authorization: 'Bearer fixture', 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+    })
+    if (response.status !== 201) throw Error(`Create ${path}: ${response.status} ${await response.text()}`)
+    return response.json()
+  }
+  const account = await createCatalog('llm-accounts', { name: 'Docs smoke', harness: 'codex', auth_mode: 'api_key', api_key: 'fixture-model-key' })
+  await createCatalog('profiles', { name: 'default', account_id: account.id, model: 'gpt-6-sol' })
+  const httpMetrics = await fetch(`http://${systemAddress}/metrics`)
+  if (!httpMetrics.ok || !(await httpMetrics.text()).includes('orpheus_http_requests_total')) throw Error('HTTP metrics must count API traffic')
+  if ((await fetch(`http://${publicAddress}/metrics`)).status !== 404) throw Error('Public API must not expose HTTP metrics')
   const emptyAdmission = await fetch(`http://${publicAddress}/api/v1/sessions`, {
     method: 'POST',
     headers: { Authorization: 'Bearer fixture', 'Content-Type': 'application/json', 'Idempotency-Key': randomUUID() },
@@ -134,10 +150,12 @@ try {
   const services = await request('/api/v1/services')
   if (JSON.stringify(services) !== JSON.stringify(coreServices) || services.items.length !== 1 || services.items[0].code !== 'mattermost' || services.items[0].env_from.join() !== 'MATTERMOST_BOT_TOKEN') throw Error('Root service catalog differs from the runnable example')
   for (const catalog of ['profiles', 'templates']) if (!(await request(`/api/v1/${catalog}`)).items.length) throw Error(`Empty ${catalog} catalog`)
+  const profiles = await request('/api/v1/profiles?available=true&name=default&limit=1')
+  if (profiles.items.length !== 1 || profiles.items[0].model !== 'gpt-6-sol' || profiles.next_cursor !== null || profiles.prev_cursor !== null) throw Error('Space did not preserve the available profile page')
   const templates = await request('/api/v1/templates?active=true&name=codex&limit=1')
   if (templates.items.length !== 1 || templates.items[0].active !== true || templates.next_cursor !== null || templates.prev_cursor !== null) throw Error('Space did not preserve the active template page')
   const settings = await request(`${base}/settings`)
-  if (settings.browser_auth !== 'anonymous' || settings.default_template !== 'codex') throw Error('Unexpected Space settings')
+  if (settings.browser_auth !== 'anonymous' || settings.default_template !== 'codex' || settings.default_profile !== 'default') throw Error('Unexpected Space settings')
   await request(base, { method: 'POST', headers, body: JSON.stringify({ ...JSON.parse(payload), services: ['missing'] }) }, 422)
   const schedule = await request(base, { method: 'POST', headers, body: payload }, 201)
   if (schedule.services.length || 'env_from' in schedule) throw Error('Example schedule must have explicit empty services')
