@@ -24,5 +24,6 @@
 - [Occurrence](schema-occurrence.md)
 - [OccurrencePage](schema-occurrencepage.md)
 - [OccurrenceResult](schema-occurrenceresult.md)
+- [OccurrenceTrigger](schema-occurrencetrigger.md)
 - [OccurrenceState](schema-occurrencestate.md)
 - [NullableOccurrence](schema-nullableoccurrence.md)

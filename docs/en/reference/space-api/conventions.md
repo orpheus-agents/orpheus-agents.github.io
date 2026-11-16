@@ -22,11 +22,11 @@ Old sessions remain in Orpheus. Their namespace is `schedule`.
 
 Required [creation fields](schema-createschedule.md) are `name`, `prompt`, `cron` and `timezone`. Defaults are `status=active`, `session_mode=new`, `model=null` and `services=[]`. Omitted profile/template fields use the configured creation defaults. With full access, an omitted owner means `owner_email=null`. For an ordinary SAML user it is filled from the session email. Cron has five fields. Macros, seconds, years and inline TZ are rejected. Use an IANA time zone such as `Europe/Moscow`, not `Local`.
 
-[`PATCH`](update-schedule.md) changes only supplied fields. `null` clears model or owner, and `services: []` clears the service selection. Only callers with full access can change or clear ownership. Omitted profile/template fields preserve the stored selection, even if it was removed from Orpheus. Pausing removes the next run time. Resuming or editing cron/time zone chooses a new future time. Other edits preserve the planned time.
+[`PATCH`](update-schedule.md) changes only supplied fields. `null` clears model or owner, and `services: []` clears the service selection. Only callers with full access can change or clear ownership. Omitted profile/template fields preserve the stored names. The effective template must exist and be active for every ordinary edit and resume, including when its field is unchanged. A patch containing exactly `{"status":"paused"}` skips catalog validation. Additional fields make it an ordinary edit. Missing or inactive templates return `422` with `template_not_found` or `template_inactive` at `body.template`. Pausing removes the next run time. Resuming or editing cron/time zone chooses a new future time. Other edits preserve the planned time.
 
 [`DELETE`](delete-schedule.md) hides the schedule from lists. Its card and history remain, with `deleted_at` set on the card. Repeated deletion returns `204`.
 
-## Retries
+## Creation retries {#retries}
 
 Send a UUID [`Idempotency-Key`](create-schedule.md) when creating a schedule. Repeating the same normalized body returns the original response, even after later edits or deletion. A different body with the same key returns `409`. Keys do not expire. The [`url` and `can_edit`](schema-schedule.md) fields are computed from the current public address and current ownership/deletion state even in replayed responses. Creation permissions are checked before replay.
 
@@ -57,6 +57,18 @@ with urlopen(request, timeout=20) as response:
 
 The environment matches the [CLI](../space.md#cli). If the response is lost, reuse the saved key instead of generating a UUID, with the original body. Do not rerun the example with a new key to retry the same request.
 
+## Manual runs {#manual-runs}
+
+[`POST /api/v1/schedules/{id}/run`](run-schedule.md) stores a command to run a saved active or paused schedule. Send no body or query parameters and a nonzero UUID `Idempotency-Key`. The caller needs permission to edit the schedule. `202` returns the stored occurrence, not confirmation that the agent has started. Acceptance does not call Orpheus or validate its catalogs synchronously.
+
+The worker uses the saved settings when preparing the occurrence. Edits made before preparation apply to that run. Once prepared, the request is fixed for subsequent submission attempts. Follow progress through the [occurrence](get-occurrence.md) and [result](get-occurrence-result.md) endpoints.
+
+The key is scoped to one schedule and does not expire. Reusing it returns the same occurrence with its **current state**, even after completion or schedule deletion. Current ownership permissions are checked again. A new key requests a new occurrence. Another unfinished occurrence, including an unknown submission outcome, returns `409 schedule_busy`. A new command for a deleted schedule returns `409 schedule_deleted`.
+
+A manual command does not change activity, cron, the next scheduled time or reusable context. Its history has [`trigger=manual`](schema-occurrence.md), and `scheduled_at` is the command acceptance time. It does not repeat an earlier failed run's reporting period or reset context after failure. A successful manual run contributes to [`last_successful_run`](../space-cli.md#scheduled-identity). Overlapping cron periods follow the [usual skip rules](#execution).
+
+Pausing cancels pending scheduled occurrences but keeps pending manual commands. Deleting a schedule cancels both kinds of pending occurrences. Requests already prepared for submission and accepted runs retain their reconciliation behavior after either action.
+
 ## Filters and cursors
 
 Repeat [`owner_email`](list-schedules.md) for up to 100 distinct addresses, combined with OR semantics. Addresses are trimmed and lowercased. Provider-specific aliases are not merged. `unowned=true` selects only shared schedules and cannot be combined with email filters.
@@ -73,12 +85,13 @@ Errors use `error: {code, message, phase, details}`. A detail path such as `["bo
 
 ## History fields {#history}
 
-An occurrence records a due schedule instance. It can be skipped or fail to reach Orpheus, so run IDs and status may be `null`. See the [full schema](schema-occurrence.md).
+An occurrence records a scheduled or manual execution. It can be skipped or fail to reach Orpheus, so run IDs and status may be `null`. See the [full schema](schema-occurrence.md).
 
 | Field | Meaning |
 | --- | --- |
 | `id`, `schedule_id` | Occurrence and schedule IDs |
-| `scheduled_at` | Scheduled time |
+| `trigger` | `scheduled` for cron, `manual` for an explicit run command |
+| `scheduled_at` | Cron due time or manual command acceptance time |
 | `created_at`, `updated_at` | Creation and latest update of the Space record |
 | `state` | Dispatch: `pending`, `dispatching`, `accepted`, `skipped`, `failed`, `cancelled` |
 | `session_id`, `run_id` | Session and run IDs accepted by Orpheus |
@@ -102,8 +115,8 @@ Main `error.code` values in the schedules API:
 | 404 | `schedule_not_found`, `occurrence_not_found`, `not_found` | Missing schedule, occurrence or route |
 | 404 | `run_result_not_found` | Result record missing from Orpheus |
 | 409 | `run_not_started` | Orpheus has not accepted the run |
-| 409 | `schedule_busy` | Context reset during an active occurrence |
-| 409 | `schedule_deleted` | Editing a deleted schedule |
+| 409 | `schedule_busy` | Manual run or context reset while an occurrence is unfinished, including an unknown submission outcome |
+| 409 | `schedule_deleted` | Editing a deleted schedule or requesting a new manual run for it |
 | 409 | `idempotency_conflict` | Creation key already used with a different body |
 | 413 | `request_too_large` | Body size exceeded |
 | 415 | `unsupported_media_type` | JSON required |
@@ -122,4 +135,4 @@ The [session response](schema-authsession.md) exposes `write_access` and `can_ma
 
 ## Service catalogs
 
-The root [services](get-services.md), [profiles](get-profiles.md) and [templates](get-templates.md) endpoints read Orpheus and return `{items: [...]}`. Services are selected explicitly without defaults. Every caller with read access sees the same catalog. Unknown codes return `422`, and a required catalog that is unavailable returns `503 core_unavailable`. Unchanged selections and clearing services do not require the service catalog. Resuming validates the full selection. A service definition change under the same code requires [resetting reusable context](reset-session.md). Prepared occurrence requests keep their accepted configuration.
+The root [services](get-services.md) and [profiles](get-profiles.md) endpoints read Orpheus and return `{items: [...]}`. The [template catalog](get-templates.md) returns `items`, `next_cursor` and `prev_cursor`. It includes active and inactive records and accepts `active`, exact case-sensitive `name`, case-insensitive literal `name_contains`, `limit` (1–200, default 50) and `cursor`. Name filters are mutually exclusive. Preserve filters when using either returned cursor. Resolve stored selections and `default_template` from [settings](get-settings.md) with `name` and no activity filter. Services are selected explicitly without defaults. Every caller with read access sees the same catalog. Unknown codes return `422`, and a required catalog that is unavailable returns `503 core_unavailable`. Unchanged selections and clearing services do not require the service catalog. Resuming validates the full selection. A service definition change under the same code requires [resetting reusable context](reset-session.md). Prepared occurrence requests keep their accepted configuration.

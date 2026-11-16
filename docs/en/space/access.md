@@ -30,7 +30,7 @@ admin_emails = ["admin@example.com"]
 - Schedules without an owner are read-only for ordinary users.
 - A session without a valid email can only read.
 
-These rules apply to editing, pause/resume, deletion and context reset, including direct cookie-authenticated API requests. API keys retain full access. With an omitted or empty administrator list, no browser user has administrator rights. Restart the API after changing the list. Existing sessions use the new permissions without signing in again.
+These rules apply to editing, [manual runs](schedules.md#manual-runs), pause/resume, deletion and context reset, including direct cookie-authenticated API requests. API keys retain full access. With an omitted or empty administrator list, no browser user has administrator rights. Restart the API after changing the list. Existing sessions use the new permissions without signing in again.
 
 ## Configure SAML
 

@@ -9,7 +9,11 @@ Generated from the Orpheus OpenAPI contract. Usage guidance is provided in the i
 | Method | Path | Operation |
 | --- | --- | --- |
 | `GET` | `/api/v1/profiles` | [List configured profiles](get-profiles.md) |
-| `GET` | `/api/v1/templates` | [List configured templates](get-templates.md) |
+| `GET` | `/api/v1/templates` | [List registered templates](get-templates.md) |
+| `POST` | `/api/v1/templates` | [Register an own-project AgentBox template](create-template.md) |
+| `GET` | `/api/v1/templates/{id}` | [Read a registered template](get-template.md) |
+| `PATCH` | `/api/v1/templates/{id}` | [Update template activity or description](update-template.md) |
+| `DELETE` | `/api/v1/templates/{id}` | [Delete an Orpheus catalog record](delete-template.md) |
 | `GET` | `/api/v1/services` | [List configured services](get-services.md) |
 | `GET` | `/api/v1/accounts/limits` | [Current provider limits by configured account](get-account-limits.md) |
 | `GET` | `/api/v1/analytics/overview` | [Dashboard analytics snapshot](get-analytics-overview.md) |

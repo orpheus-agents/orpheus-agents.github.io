@@ -9,7 +9,7 @@
 | `env` | No | object |  additionalProperties: <code>{"type":"string"}</code> |
 | `services` | No | [ServiceCodes](schema-servicecodes.md) | Services available to the agent and session hooks, expanded together with env_from.  |
 | `env_from` | No | array&lt;string&gt; |   |
-| `template` | Yes | string |  minLength: <code>1</code> |
+| `template` | Yes | string | Exact active catalog name, including any team slug and tag. Missing or inactive records return 422 unknown_template with detail code template_not_found or template_inactive. Accepted sessions and idempotent replays keep their stored name regardless of subsequent catalog changes. minLength: <code>1</code> |
 
 ## JSON Schema
 
@@ -36,6 +36,7 @@
       "type": "array"
     },
     "template": {
+      "description": "Exact active catalog name, including any team slug and tag. Missing or inactive records return 422 unknown_template with detail code template_not_found or template_inactive. Accepted sessions and idempotent replays keep their stored name regardless of subsequent catalog changes.",
       "minLength": 1,
       "title": "Template",
       "type": "string"

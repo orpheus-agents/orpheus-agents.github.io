@@ -10,7 +10,10 @@ Process settings are supplied through ENV. The application does not load [`.env`
 | <span id="env-public-api-keys"></span>`PUBLIC_API_KEYS` | `[]` | JSON array of Bearer keys with equal access |
 | <span id="env-env-encryption-key"></span>`ENV_ENCRYPTION_KEY` | `required` | 32-byte base64url key for environment encryption |
 | <span id="env-harness-env-allowlist"></span>`HARNESS_ENV_ALLOWLIST` | `[]` | JSON array of extra permitted worker ENV names. Combined with all [service ENV names](../configuration/secrets.md#services) |
-| <span id="env-agentbox-api-key"></span>`AGENTBOX_API_KEY` | `required on worker` | Worker access to AgentBox |
+| <span id="env-agentbox-api-key"></span>`AGENTBOX_API_KEY` | `required on worker` | AgentBox access. Also supply to API for [template registration](../configuration/templates.md#register) |
+| <span id="env-agentbox-api-url"></span>`AGENTBOX_API_URL` | `unset` | Explicit AgentBox API origin. Use the same endpoint settings on API and worker |
+| <span id="env-agentbox-domain"></span>`AGENTBOX_DOMAIN` | `agentbox-runtime.ru` | Domain used for `https://api.<domain>` when no explicit API URL is set |
+| <span id="env-agentbox-debug"></span>`AGENTBOX_DEBUG` | `false` | Select `http://localhost:3000` unless an explicit API URL is set |
 | <span id="env-openai-api-key"></span>`OPENAI_API_KEY` | `profile-dependent` | Model key for the example API-key profile |
 | <span id="env-sandbox-proxy-url"></span>`SANDBOX_PROXY_URL` | `https://sandbox-proxy.agentbox.ru:65181` | Agent proxy: HTTP, HTTPS, SOCKS5 or SOCKS5H. Empty disables injection. See [proxy and authentication compatibility](../configuration/authentication.md#network-proxy) |
 | <span id="env-max-concurrent-sessions"></span>`MAX_CONCURRENT_SESSIONS` | `50` | Occupied execution slots, including preparation and finalization |
@@ -28,7 +31,7 @@ Process settings are supplied through ENV. The application does not load [`.env`
 | <span id="env-orpheus-host"></span><span id="env-orpheus-port"></span>`ORPHEUS_HOST / ORPHEUS_PORT` | `0.0.0.0 / 8000` | API listener |
 | <span id="env-orpheus-system-host"></span><span id="env-orpheus-system-port"></span>`ORPHEUS_SYSTEM_HOST / ORPHEUS_SYSTEM_PORT` | `0.0.0.0 / 9100` | Process probes and [service metrics](../operations/monitoring.md#service-metrics). Keep access within a trusted network |
 | <span id="env-orpheus-browser-auth"></span>`ORPHEUS_BROWSER_AUTH` | `api_only` | api_only, anonymous or saml |
-| <span id="env-orpheus-public-url"></span>`ORPHEUS_PUBLIC_URL` | `unset` | External origin. HTTPS required for SAML |
+| <span id="env-orpheus-public-url"></span>`ORPHEUS_PUBLIC_URL` | `unset` | Exact external origin for [browser writes](../operations/sso.md#template-writes). HTTPS required for SAML |
 | <span id="env-saml-sp-entity-id"></span>`SAML_SP_ENTITY_ID` | `unset` | SP entity ID |
 | <span id="env-saml-idp-metadata-file"></span>`SAML_IDP_METADATA_FILE` | `unset` | Path to IdP metadata XML |
 | <span id="env-saml-sp-cert-file"></span>`SAML_SP_CERT_FILE` | `unset` | Path to SP certificate |

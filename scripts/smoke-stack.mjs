@@ -2,6 +2,7 @@ import { mkdtempSync, cpSync, readFileSync, writeFileSync, rmSync } from 'node:f
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { spawn, spawnSync } from 'node:child_process'
+import { randomUUID } from 'node:crypto'
 import { parse, stringify } from 'yaml'
 
 const temp = mkdtempSync(join(tmpdir(), 'orpheus-docs-smoke-'))
@@ -63,6 +64,23 @@ try {
   const publicAddress = await compose(['port','api','8000'], true)
   const publicMetrics = await fetch(`http://${publicAddress}/metrics/service`, { headers: { Authorization: 'Bearer fixture' } })
   if (publicMetrics.status !== 404) throw Error('Public API must not expose service metrics')
+  const emptyTemplates = await fetch(`http://${publicAddress}/api/v1/templates`).then(r => r.json())
+  if (emptyTemplates.items.length || emptyTemplates.next_cursor !== null || emptyTemplates.prev_cursor !== null) throw Error('A fresh installation must have an empty template catalog')
+  const emptyAdmission = await fetch(`http://${publicAddress}/api/v1/sessions`, {
+    method: 'POST',
+    headers: { Authorization: 'Bearer fixture', 'Content-Type': 'application/json', 'Idempotency-Key': randomUUID() },
+    body: readFileSync('examples/create-session.json', 'utf8'),
+  })
+  if (emptyAdmission.status !== 422 || (await emptyAdmission.json()).error.code !== 'unknown_template') throw Error('An empty catalog must reject new sessions')
+  // Fixture only in this disposable database. The user registers an own-project
+  // template through Web/API; this offline test must never contact AgentBox.
+  const templateId = randomUUID()
+  await compose(['exec', '-T', 'db', 'psql', '-U', 'orpheus', '-d', 'orpheus', '-v', 'ON_ERROR_STOP=1', '-c',
+    `INSERT INTO templates (id, template_name, agentbox_template_id) VALUES ('${templateId}', 'codex', 'docs-smoke-fixture');`])
+  const templateWeb = `http://${await compose(['port', 'web', '8080'], true)}/api/v1/templates/${templateId}`
+  const patchTemplate = headers => fetch(templateWeb, { method: 'PATCH', headers: { 'Content-Type': 'application/json', ...headers }, body: JSON.stringify({ description: 'Disposable smoke fixture' }) })
+  if ((await patchTemplate({})).status !== 403) throw Error('Core browser writes must require Origin and CSRF')
+  if ((await patchTemplate({ Origin: 'http://localhost:8085', 'X-Orpheus-CSRF': '1' })).status !== 200) throw Error('Configured core browser writes must succeed')
   console.log('Published images passed migrations, API readiness, service metrics isolation, web proxy and offline workflow validation.')
   const space = parse(readFileSync(join(temp, 'space/compose.yaml'), 'utf8'))
   for (const service of Object.values(space.services)) if (service.ports) service.ports = service.ports.map(p => '127.0.0.1::' + p.split(':').at(-1))
@@ -116,7 +134,10 @@ try {
   const services = await request('/api/v1/services')
   if (JSON.stringify(services) !== JSON.stringify(coreServices) || services.items.length !== 1 || services.items[0].code !== 'mattermost' || services.items[0].env_from.join() !== 'MATTERMOST_BOT_TOKEN') throw Error('Root service catalog differs from the runnable example')
   for (const catalog of ['profiles', 'templates']) if (!(await request(`/api/v1/${catalog}`)).items.length) throw Error(`Empty ${catalog} catalog`)
-  if (Object.keys(await request(`${base}/settings`)).join() !== 'browser_auth') throw Error('Unexpected Space settings')
+  const templates = await request('/api/v1/templates?active=true&name=codex&limit=1')
+  if (templates.items.length !== 1 || templates.items[0].active !== true || templates.next_cursor !== null || templates.prev_cursor !== null) throw Error('Space did not preserve the active template page')
+  const settings = await request(`${base}/settings`)
+  if (settings.browser_auth !== 'anonymous' || settings.default_template !== 'codex') throw Error('Unexpected Space settings')
   await request(base, { method: 'POST', headers, body: JSON.stringify({ ...JSON.parse(payload), services: ['missing'] }) }, 422)
   const schedule = await request(base, { method: 'POST', headers, body: payload }, 201)
   if (schedule.services.length || 'env_from' in schedule) throw Error('Example schedule must have explicit empty services')

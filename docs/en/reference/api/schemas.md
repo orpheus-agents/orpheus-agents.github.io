@@ -7,6 +7,8 @@ Generated from the Orpheus OpenAPI contract. Usage guidance is provided in the i
 - [Profiles](schema-profiles.md)
 - [Template](schema-template.md)
 - [Templates](schema-templates.md)
+- [CreateTemplate](schema-createtemplate.md)
+- [UpdateTemplate](schema-updatetemplate.md)
 - [ServiceCodes](schema-servicecodes.md)
 - [Service](schema-service.md)
 - [Services](schema-services.md)

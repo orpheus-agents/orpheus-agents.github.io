@@ -10,6 +10,10 @@
 | --- | --- | --- |
 | `GET` | `/api/v1/profiles` | [Каталог профилей](get-profiles.md) |
 | `GET` | `/api/v1/templates` | [Каталог шаблонов](get-templates.md) |
+| `POST` | `/api/v1/templates` | [Регистрация шаблона](create-template.md) |
+| `GET` | `/api/v1/templates/{id}` | [Получение шаблона](get-template.md) |
+| `PATCH` | `/api/v1/templates/{id}` | [Изменение шаблона](update-template.md) |
+| `DELETE` | `/api/v1/templates/{id}` | [Удаление шаблона](delete-template.md) |
 | `GET` | `/api/v1/services` | [Каталог сервисов](get-services.md) |
 | `GET` | `/api/v1/accounts/limits` | [Лимиты аккаунтов](get-account-limits.md) |
 | `GET` | `/api/v1/analytics/overview` | [Обзор аналитики](get-analytics-overview.md) |

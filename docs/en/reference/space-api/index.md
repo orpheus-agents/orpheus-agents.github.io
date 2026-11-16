@@ -14,7 +14,7 @@ Generated from the Orpheus Space OpenAPI contract. Usage guidance is provided in
 | `PATCH` | `/api/v1/schedules/{id}` | [Update selected schedule fields](update-schedule.md) |
 | `DELETE` | `/api/v1/schedules/{id}` | [Soft delete a schedule](delete-schedule.md) |
 | `GET` | `/api/v1/profiles` | [Get Orpheus profiles and the creation default](get-profiles.md) |
-| `GET` | `/api/v1/templates` | [Get Orpheus templates and the creation default](get-templates.md) |
+| `GET` | `/api/v1/templates` | [Get a page of Orpheus templates](get-templates.md) |
 | `GET` | `/api/v1/services` | [Get available Orpheus services](get-services.md) |
 | `GET` | `/api/v1/schedules/settings` | [Get schedule interface settings](get-settings.md) |
 | `POST` | `/api/v1/schedules/preview` | [Preview five future cron occurrences](preview-schedule.md) |
@@ -22,6 +22,7 @@ Generated from the Orpheus Space OpenAPI contract. Usage guidance is provided in
 | `GET` | `/api/v1/schedules/{id}/occurrences` | [Read stored history without calling the core](list-occurrences.md) |
 | `GET` | `/api/v1/schedules/{id}/occurrences/{occurrence_id}` | [Read a stored occurrence without calling the core](get-occurrence.md) |
 | `GET` | `/api/v1/schedules/{id}/occurrences/{occurrence_id}/result` | [Explicitly fetch the current result from the Orpheus core](get-occurrence-result.md) |
+| `POST` | `/api/v1/schedules/{id}/run` | [Run a schedule now without changing its timing or activity](run-schedule.md) |
 | `POST` | `/api/v1/schedules/{id}/reset-session` | [Detach the reusable session for the next occurrence](reset-session.md) |
 | `GET` | `/auth/login` | [Start SP-initiated SAML login](browser-login.md) |
 | `POST` | `/auth/callback` | [Consume a signed SAML HTTP-POST response](browser-callback.md) |

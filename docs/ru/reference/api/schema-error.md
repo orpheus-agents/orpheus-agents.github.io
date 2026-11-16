@@ -7,6 +7,7 @@
 | Поле | Обязательное | Тип | Описание и ограничения |
 | --- | --- | --- | --- |
 | `code` | Да | string |   |
+| `diagnostic_id` | Нет | string / null | Идентификатор внутреннего диагностического лога ошибки, если доступен. Не предоставляет доступ к логам.  |
 | `details` | Да | array&lt;[ErrorDetail](schema-errordetail.md)&gt; |   |
 | `message` | Да | string | Сообщение об ошибке для пользователя. Ошибки исполнения включают исходное сообщение харнеса и доступные дополнительные сведения. Если их нет, возвращается общее сообщение.  |
 | `phase` | Да | string / null |   |
@@ -19,6 +20,18 @@
     "code": {
       "title": "Code",
       "type": "string"
+    },
+    "diagnostic_id": {
+      "description": "Identifier of the internal diagnostic log for this error, when available. It does not grant access to logs.",
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "details": {
       "items": {

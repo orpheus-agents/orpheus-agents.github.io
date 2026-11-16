@@ -29,4 +29,4 @@ The [sandbox state](../reference/api/get-session.md) changes from `paused` throu
 
 If a sandbox disappeared externally and Orpheus has not detected it yet, the API can return `202`. The run then fails with `sandbox_lost` when the worker confirms the loss. Do not automatically rerun a task that may already have performed actions. Replaying a previously accepted request with the same [idempotency key](../reference/api/conventions.md#requests) still returns its original acceptance.
 
-[Mattermost continuation](../integrations/mattermost/conversation.md) and [Space context reset](../space/schedules.md#pausing-and-context) describe how each connector handles the next request. A session's [`allow_multiple_runs`](../reference/api/create-session.md) policy does not guarantee that its sandbox is still available.
+[Mattermost continuation](../integrations/mattermost/conversation.md) and [Space context reset](../space/schedules.md#pausing) describe how each connector handles the next request. A session's [`allow_multiple_runs`](../reference/api/create-session.md) policy does not guarantee that its sandbox is still available.

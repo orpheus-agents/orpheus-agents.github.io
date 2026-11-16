@@ -16,7 +16,7 @@ Supply a service key through `Authorization: Bearer …`. In examples, `ORPHEUS_
 | --- | --- |
 | 400 | Request or cursor format |
 | 401 | Bearer key or browser session |
-| 403 | Access mode. Cookies provide read access only |
+| 403 | Access mode, browser Origin and CSRF for template changes |
 | 404 | Resource identifier |
 | 409 | Session state, idempotency conflict or exhausted budget |
 | 413 | Request size |
@@ -37,3 +37,9 @@ An explicitly invalid Authorization header does not fall back to browser authent
 ## Stored agent output
 
 Actual NUL characters in stored agent messages and tool JSON inputs/results are replaced with Unicode `U+FFFD` (`�`). This lets history remain readable when agent output contains such characters. Literal text containing a backslash followed by `u0000` is preserved.
+
+## Template selection
+
+New sessions require the exact name of an [active catalog entry](../../configuration/templates.md#activity). Unknown and inactive names return `422 unknown_template`, with `template_not_found` or `template_inactive` in `error.details`. Accepted sessions and idempotent replays keep their saved name. Continuation runs do not recheck the catalog.
+
+The [template list](get-templates.md) returns `items`, `next_cursor` and `prev_cursor`, with a default limit of 50 and a maximum of 200. Use `active`, exact `name` or literal `name_contains` filters. The name filters cannot be combined. Keep filters unchanged when following a cursor.

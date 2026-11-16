@@ -8,7 +8,8 @@
 | --- | --- | --- | --- |
 | `id` | Yes | string |  format: <code>"uuid"</code> |
 | `schedule_id` | Yes | string |  format: <code>"uuid"</code> |
-| `scheduled_at` | Yes | string |  format: <code>"date-time"</code> |
+| `trigger` | Yes | [OccurrenceTrigger](schema-occurrencetrigger.md) |   |
+| `scheduled_at` | Yes | string | Cron due time for a scheduled occurrence, or command acceptance time for a manual occurrence. This is not the execution start time. format: <code>"date-time"</code> |
 | `state` | Yes | [OccurrenceState](schema-occurrencestate.md) |   |
 | `created_at` | Yes | string |  format: <code>"date-time"</code> |
 | `updated_at` | Yes | string |  format: <code>"date-time"</code> |
@@ -33,6 +34,7 @@
   "required": [
     "id",
     "schedule_id",
+    "trigger",
     "scheduled_at",
     "state",
     "created_at",
@@ -58,9 +60,13 @@
       "type": "string",
       "format": "uuid"
     },
+    "trigger": {
+      "$ref": "#/components/schemas/OccurrenceTrigger"
+    },
     "scheduled_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Cron due time for a scheduled occurrence, or command acceptance time for a manual occurrence. This is not the execution start time."
     },
     "state": {
       "$ref": "#/components/schemas/OccurrenceState"

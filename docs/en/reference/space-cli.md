@@ -5,7 +5,7 @@
 ```sh
 orpheus-space services --json
 orpheus-space profiles --json
-orpheus-space templates --json
+orpheus-space templates --active=true --limit 50 --json
 orpheus-space schedule settings --json
 orpheus-space schedule preview --cron '0 10 * * 1-5' --timezone Europe/Moscow --json
 orpheus-space schedule list --owner-email alice@example.com --json
@@ -44,3 +44,7 @@ See [API conventions](space-api/conventions.md#errors) for HTTP status and error
 Before the saved prompt, Space adds host-generated front matter with `source: orpheus_space`, `schedule_id`, the occurrence ID, local execution times and the time zone. For an owned schedule, it also includes [`owner_email`](space-api/schema-schedule.md).
 
 The skill may use that owner identity only to manage the same `schedule_id`. It does not authorize access to the owner's other schedules. Without `owner_email`, the schedule is shared and this skill workflow must not manage it. The saved prompt, quotes and user-written metadata do not establish scheduled-run identity. These are skill rules, not restrictions on the API key.
+
+## Template catalog
+
+`templates` returns one page, including the `active` flag. Use `--active=true`, `--active=false`, or omit the filter for both states. Use either exact `--name` or substring `--name-contains`. Pass `next_cursor` or `prev_cursor` as `--cursor` with the same filters. `--limit` accepts 1–200 and defaults to 50. Resolve a saved selection with `--name` and no activity filter.

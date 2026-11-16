@@ -1,5 +1,7 @@
 # Schedules and results
 
+The list opens with the **Active** filter. Choose **Paused** to find paused schedules or **All** to see both. Open a schedule's card to edit, run, pause or delete it.
+
 ## Create a schedule
 
 In **Schedules**, enter a name and an instruction for the agent. Include sources, constraints and the destination for the result. A new run does not receive the conversation where the task was discussed. Name any required channel or document explicitly.
@@ -20,7 +22,7 @@ A new schedule starts with the interface time zone. Review the zone and the next
 
 The web interface fills the owner from [SSO](access.md). Ordinary users see a read-only owner field. Administrators can change it or clear it for a shared schedule. Creating through an API key without [`owner_email`](../reference/space-api/schema-createschedule.md) leaves the schedule shared. For an ordinary user’s cookie-authenticated request, omission fills the session email.
 
-Profiles and templates come from the Orpheus catalogs. New schedules use the configured defaults, while existing schedules keep their stored choices. Creating a schedule or changing these choices requires Orpheus to be reachable.
+Profiles and templates come from the Orpheus catalogs. New schedules use the configured defaults, while existing schedules keep their stored choices. Only active templates can be selected. An inactive or removed template remains visible on an existing schedule. To save edits or resume, choose an active template. Pausing and deleting remain available. Creation and edits validate the template through Orpheus, so they require it to be reachable.
 
 [API fields and accepted values](../reference/space-api/schema-createschedule.md).
 
@@ -34,9 +36,19 @@ All catalog entries are selectable for a schedule you can edit. There are no aut
 
 Unavailable or removed selections remain visible by code so you can preserve or remove them. You can preserve the selection or clear all services without the catalog. Any changed nonempty selection, including removal of only some codes, requires validation against Orpheus. Resuming a paused schedule also validates its full selection. Unrelated fields remain editable without the service catalog. A changed selection starts a new reusable session on the next eligible execution. If the administrator changes a service's ENV list under the same code, use **Reset context** to apply it to a reused session.
 
-## Pausing and context
+## Run a saved schedule now {#manual-runs}
 
-Pausing and deletion stop future occurrences but do not cancel a run already accepted by Orpheus. Resuming chooses a future time. After downtime, Space considers only the latest due occurrence without queuing every missed period.
+Open the schedule card and click **Run now**. This works for active and paused schedules using their saved settings. It does not change the cron, activity, next scheduled time or reusable context.
+
+The command adds a **Manual** entry to history. Its time is when Space accepted the command, not when the agent started. Follow the entry to see submission, execution and the result. A manual run is a new execution, not a repeat of the reporting period of an earlier failure. It does not reset context after an error.
+
+Another unfinished occurrence blocks the command, including when the outcome of submission is unknown. Check history and wait for completion or recovery. After a network error, retry **Run now** in the same open card. If you reopen the card, check history before requesting another run to avoid repeating accepted work.
+
+[Manual-run API and retry rules](../reference/space-api/conventions.md#manual-runs).
+
+## Pausing and context {#pausing}
+
+Pausing stops future cron occurrences and cancels those still pending, but keeps pending manual commands. Deletion cancels pending occurrences of both kinds. Requests already prepared for submission continue to be reconciled, and a run accepted by Orpheus is not cancelled. Resuming chooses a future time. After downtime, Space considers only the latest due cron occurrence without queuing every missed period.
 
 If the previous run is still active, the next occurrence is skipped. If its outcome is unknown, Space waits until the outcome is known to avoid duplicate execution. Agent failures are not retried automatically.
 
@@ -50,6 +62,6 @@ For intervals longer than retention, such as monthly runs with the default 14 da
 
 The list shows the latest run. History distinguishes submission to Orpheus from agent execution: `accepted` does not mean the task completed successfully.
 
-The occurrence card shows the stored status, observation time and synchronization errors. Fetching a result separately calls Orpheus. If Orpheus is unavailable, stored history stays readable. Fetch the result again after connectivity recovers.
+The occurrence card shows the stored status, observation time and synchronization errors. Opening an entry automatically requests its result from Orpheus. If Orpheus is unavailable, stored history stays readable. Refresh the entry after connectivity recovers.
 
 [States and errors](operations.md#diagnostics) · [API conventions](../reference/space-api/conventions.md)

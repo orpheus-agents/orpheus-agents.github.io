@@ -10,6 +10,8 @@ const contracts = [
 ]
 const names = {
   get_services: 'Каталог сервисов', get_profiles: 'Каталог профилей', get_templates: 'Каталог шаблонов',
+  create_template: 'Регистрация шаблона', get_template: 'Получение шаблона',
+  update_template: 'Изменение шаблона', delete_template: 'Удаление шаблона',
   get_account_limits: 'Лимиты аккаунтов', get_analytics_overview: 'Обзор аналитики',
   auth_session: 'Браузерная сессия', browser_login: 'Вход через SSO', browser_callback: 'Ответ SAML',
   browser_logout: 'Выход', saml_metadata: 'Метаданные SAML', list_all_runs: 'Все запуски',

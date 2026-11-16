@@ -29,4 +29,4 @@
 
 Если песочницу удалили извне и Orpheus ещё не обнаружил потерю, API может вернуть `202`. После подтверждения потери worker завершит запуск с `sandbox_lost`. Не повторяйте автоматически задание, которое уже могло выполнить действия. Повтор ранее принятого запроса с тем же [ключом идемпотентности](../reference/api/conventions.md#запросы) по-прежнему возвращает исходное подтверждение.
 
-[Продолжение в Mattermost](../integrations/mattermost/conversation.md) и [сброс контекста в Space](../space/schedules.md#пауза-и-контекст) описывают обработку следующего запроса в коннекторах. Режим сессии [`allow_multiple_runs`](../reference/api/create-session.md) не гарантирует доступность её песочницы.
+[Продолжение в Mattermost](../integrations/mattermost/conversation.md) и [сброс контекста в Space](../space/schedules.md#pausing) описывают обработку следующего запроса в коннекторах. Режим сессии [`allow_multiple_runs`](../reference/api/create-session.md) не гарантирует доступность её песочницы.

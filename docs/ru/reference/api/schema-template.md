@@ -6,8 +6,12 @@
 
 | Поле | Обязательное | Тип | Описание и ограничения |
 | --- | --- | --- | --- |
-| `name` | Да | string |   |
+| `id` | Да | string |  format: <code>"uuid"</code> |
+| `name` | Да | string | Точное нормализованное имя с необязательным тегом.  |
+| `template_name` | Да | string |   |
+| `tag` | Да | string / null |   |
 | `description` | Да | string / null |   |
+| `active` | Да | boolean |   |
 
 ## JSON Schema
 
@@ -16,18 +20,39 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
+    "id",
     "name",
-    "description"
+    "template_name",
+    "tag",
+    "description",
+    "active"
   ],
   "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
     "name": {
+      "type": "string",
+      "description": "Exact normalized reference including the optional tag."
+    },
+    "template_name": {
       "type": "string"
+    },
+    "tag": {
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "description": {
       "type": [
         "string",
         "null"
       ]
+    },
+    "active": {
+      "type": "boolean"
     }
   }
 }

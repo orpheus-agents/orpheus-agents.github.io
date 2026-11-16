@@ -7,6 +7,8 @@
 - [Profiles](schema-profiles.md)
 - [Template](schema-template.md)
 - [Templates](schema-templates.md)
+- [CreateTemplate](schema-createtemplate.md)
+- [UpdateTemplate](schema-updatetemplate.md)
 - [ServiceCodes](schema-servicecodes.md)
 - [Service](schema-service.md)
 - [Services](schema-services.md)
