@@ -46,6 +46,6 @@ Restart API and worker after editing the catalog. Accepted sessions and runs ret
 
 To apply a changed service definition, create a new session. In Mattermost, increase the workflow's [`revision`](../integrations/mattermost/reload.md). In Space, [reset context](../space/schedules.md) for a schedule that reuses its session. Changing selected service codes also starts fresh context on the next eligible execution.
 
-Explicit [`sandbox.env`](../reference/api/create-session.md) values are encrypted in the database with [`ENV_ENCRYPTION_KEY`](../reference/environment.md#env-env-encryption-key). Preserve this key across restarts and back it up separately from the database. Reserved system names, including [`OPENAI_API_KEY`](../reference/environment.md#env-openai-api-key), [`AGENTBOX_API_KEY`](../reference/environment.md#env-agentbox-api-key) and reserved [`ORPHEUS_*`](../reference/environment.md) names, cannot be arbitrary secrets.
+Explicit [`sandbox.env`](../reference/api/create-session.md) values are encrypted in the database with [`ENV_ENCRYPTION_KEY`](../reference/environment.md#env-env-encryption-key). Preserve this key across restarts and back it up separately from the database. Reserved system names, including [`OPENAI_API_KEY`](authentication.md#api-key), [`AGENTBOX_API_KEY`](../reference/environment.md#env-agentbox-api-key) and reserved [`ORPHEUS_*`](../reference/environment.md) names, cannot be arbitrary secrets.
 
 [Publish through a hook](../integrations/custom/helpdesk-hook.md)

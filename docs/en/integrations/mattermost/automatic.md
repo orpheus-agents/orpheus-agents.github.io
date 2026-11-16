@@ -17,7 +17,9 @@ trigger_bot_ids:
   - SOURCE_BOT_ID
 ```
 
-The Orpheus bot's own messages never trigger work. This avoids reply loops.
+The connector's own bot can start work with a **new root message** that explicitly mentions its current username, for example `@orpheus Process task A`. This works in every channel type, including DMs, regardless of `start_on_mention` and `trigger_bot_ids`. Its replies inside threads never start work.
+
+A scheduled agent can use this to create independent tasks in a channel under the bot account. Each root uses that channel's workflow. Avoid instructions that keep creating new roots: the root-only rule does not limit deliberate chains.
 
 ## Continuing the conversation
 

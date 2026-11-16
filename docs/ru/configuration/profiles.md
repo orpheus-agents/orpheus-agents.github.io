@@ -1,31 +1,23 @@
 # Профили и модели
 
-Профиль задаёт модель, авторизацию и общие инструкции. Имена профилей выбираете вы. Коннектор передаёт имя в [`agent.profile`](../reference/api/create-session.md).
+Профиль выбирает [LLM-аккаунт](authentication.md), модель и общие инструкции. Аккаунты и профили хранятся в PostgreSQL. Управляйте ими через веб-интерфейс или [API](../reference/api/get-profiles.md). Коннекторы выбирают профиль по постоянному имени [`agent.profile`](../reference/api/create-session.md).
 
-Профили описываются в файле конфигурации Orpheus — [`orpheus.toml`](../reference/profiles.md). В комплекте [быстрого старта](../getting-started/launch.md) он находится в каталоге `examples/quickstart/` рядом с [`compose.yaml`](../getting-started/launch.md).
+## Создать профиль
 
-```toml
-[profiles.default]
-harness = "codex"
-model = "gpt-5.6-terra"
-[profiles.default.auth]
-mode = "api_key"
-api_key_env = "OPENAI_API_KEY"
+1. В **Настройки → LLM-аккаунты** добавьте аккаунт и настройте его [авторизацию](authentication.md).
+2. В **Настройки → Профили** нажмите **Добавить профиль**. Укажите уникальное название, выберите аккаунт и задайте обязательный идентификатор модели.
+3. При необходимости добавьте описание, инструкции и настройки Codex. Оставьте профиль активным.
 
-[profiles.deep-analysis]
-harness = "codex"
-model = "gpt-5.6-sol"
-[profiles.deep-analysis.codex]
-effort = "xhigh"
-[profiles.deep-analysis.auth]
-mode = "api_key"
-api_key_env = "OPENAI_API_KEY"
-```
+Название используется в workflows и запросах API. После создания изменить его нельзя. Модель задаётся строкой, которую принимает выбранный аккаунт. В сессии её можно переопределить через [`agent.model`](../reference/api/create-session.md).
 
-Здесь Terra используется для общих задач, Sol с `xhigh` для отдельного канала. Это пример распределения, а не требование к моделям. Подставьте идентификаторы, доступные вашей авторизации.
+Профили Codex поддерживают [`effort`](../reference/profiles.md#profile-codex-effort), [`summary`](../reference/profiles.md#profile-codex-summary), [`personality`](../reference/profiles.md#profile-codex-personality) и [`service_tier`](../reference/profiles.md#profile-codex-service-tier). Неуказанные настройки не передаются агенту. Допустимые значения зависят от модели и аккаунта.
 
-Параметры [`effort`](../reference/profiles.md#profile-codex-effort), [`summary`](../reference/profiles.md#profile-codex-summary), [`personality`](../reference/profiles.md#profile-codex-personality) и [`service_tier`](../reference/profiles.md#profile-codex-service-tier) задаются в [`orpheus.toml`](../reference/profiles.md) для нужного профиля. При отсутствии параметра Orpheus не отправляет его агенту. Пустая строка не равна отсутствию.
+## Управлять профилями
 
-После изменения [`orpheus.toml`](../reference/profiles.md) пересоздайте API и worker с одной конфигурацией. Существующие сессии сохраняют настройки. Для Mattermost увеличьте [`revision`](../reference/mattermost.md#workflow-revision) workflow, чтобы следующий запрос создал новую сессию.
+В списке есть поиск, фильтр активности и пагинация. Откройте профиль, чтобы изменить, включить, выключить или удалить его. Для новой сессии нужны активные профиль и аккаунт. Отключение любого из них не останавливает принятые сессии.
 
-[Справочник профилей](../reference/profiles.md) · [Пример маршрутизации](../integrations/mattermost/channels.md)
+Для балансировки расходов и лимитов выберите другой аккаунт того же харнеса. Новые сессии используют новый аккаунт. Существующие сохраняют прежний аккаунт и настройки исполнения, включая модель и инструкции. Перезапуск API и worker не нужен.
+
+Удалённый профиль больше не принимает новые сессии. Существующие остаются доступны. В [Mattermost](../integrations/mattermost/reload.md) намеренно измените ревизию workflow, чтобы начать новые разговоры с обновлёнными настройками. В [Space](../space/schedules.md#pausing) сбросьте переиспользуемый контекст, если следующий запуск должен создать новую сессию.
+
+В [`orpheus.toml`](../reference/profiles.md#store-access) остаются настройки хранилищ авторизации и [описания сервисов](secrets.md#services). Профили и авторизация аккаунтов управляются через каталог БД.

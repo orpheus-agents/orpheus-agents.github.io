@@ -6,7 +6,7 @@
 
 | Поле | Обязательное | Тип | Описание и ограничения |
 | --- | --- | --- | --- |
-| `profile` | Нет | string | Точное имя профиля Orpheus. При пропуске создание использует настроенное значение по умолчанию. minLength: <code>1</code> |
+| `profile` | Нет | string | Точное имя профиля Orpheus. При создании без значения используется настроенный дефолт. Любое сохранение, кроме чистой паузы, требует активного профиля и аккаунта. minLength: <code>1</code> |
 | `template` | Нет | string | Точное имя шаблона Orpheus. При пропуске создание использует настроенное значение по умолчанию. minLength: <code>1</code> |
 | `name` | Да | string |  minLength: <code>1</code><br>maxLength: <code>200</code> |
 | `prompt` | Да | string |  minLength: <code>1</code> |
@@ -34,7 +34,7 @@
     "profile": {
       "type": "string",
       "minLength": 1,
-      "description": "Exact Orpheus profile name; creation uses the configured default when omitted."
+      "description": "Exact Orpheus profile name; creation uses the configured default when omitted. Every save except a pure pause requires an active profile and account."
     },
     "template": {
       "type": "string",

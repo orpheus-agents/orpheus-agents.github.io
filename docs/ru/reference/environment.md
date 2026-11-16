@@ -5,7 +5,7 @@
 | Переменная | По умолчанию | Назначение |
 | --- | --- | --- |
 | <span id="env-database-url"></span>`DATABASE_URL` | `required` | PostgreSQL для API, worker и миграций |
-| <span id="env-orpheus-config-file"></span>`ORPHEUS_CONFIG_FILE` | [`orpheus.toml`](../configuration/profiles.md) | Путь к TOML-профилям |
+| <span id="env-orpheus-config-file"></span>`ORPHEUS_CONFIG_FILE` | [`orpheus.toml`](../configuration/profiles.md) | Путь к настройкам хранилищ авторизации и сервисов |
 | <span id="env-orpheus-migrations-dir"></span>`ORPHEUS_MIGRATIONS_DIR` | `migrations` | Каталог миграций. Флаг --dir имеет приоритет |
 | <span id="env-public-api-keys"></span>`PUBLIC_API_KEYS` | `[]` | JSON-массив Bearer-ключей с одинаковым доступом |
 | <span id="env-env-encryption-key"></span>`ENV_ENCRYPTION_KEY` | `required` | 32 байта в base64url для шифрования ENV |
@@ -14,7 +14,6 @@
 | <span id="env-agentbox-api-url"></span>`AGENTBOX_API_URL` | `unset` | Явный origin API AgentBox. Используйте одинаковые настройки адреса на API и worker |
 | <span id="env-agentbox-domain"></span>`AGENTBOX_DOMAIN` | `agentbox-runtime.ru` | Домен для `https://api.<domain>`, если явный API URL не задан |
 | <span id="env-agentbox-debug"></span>`AGENTBOX_DEBUG` | `false` | Выбирает `http://localhost:3000`, если явный API URL не задан |
-| <span id="env-openai-api-key"></span>`OPENAI_API_KEY` | `profile-dependent` | Ключ модели для стандартного API-key профиля |
 | <span id="env-sandbox-proxy-url"></span>`SANDBOX_PROXY_URL` | `https://sandbox-proxy.agentbox.ru:65181` | Прокси агента: HTTP, HTTPS, SOCKS5 или SOCKS5H. Пустое значение отключает подстановку. [Совместимость с авторизацией](../configuration/authentication.md#network-proxy) |
 | <span id="env-max-concurrent-sessions"></span>`MAX_CONCURRENT_SESSIONS` | `50` | Занятые слоты исполнения, включая подготовку и завершение |
 | <span id="env-default-max-session-tokens"></span>`DEFAULT_MAX_SESSION_TOKENS` | `100000000` | Бюджет токенов новой сессии |
@@ -40,4 +39,4 @@
 
 `required` означает обязательное значение, `unset` означает отсутствие значения. SAML-поля обязательны в режиме `saml`. Передайте значения переменных интеграций, например [`HELPDESK_TOKEN`](../configuration/secrets.md), worker. Опишите их имена в [сервисе](../configuration/secrets.md#services), а для имён вне каталога используйте `HARNESS_ENV_ALLOWLIST`.
 
-API и worker должны использовать одинаковую конфигурацию профилей, список разрешённых переменных и ключ шифрования. После изменения ENV пересоздайте контейнеры. [Практическая настройка](../configuration/secrets.md).
+API и worker должны использовать одинаковую конфигурацию хранилищ авторизации и сервисов, список разрешённых переменных и ключ шифрования. После изменения ENV пересоздайте контейнеры. [Практическая настройка](../configuration/secrets.md).

@@ -13,7 +13,7 @@
 | `GET` | `/api/v1/schedules/{id}` | [Получение задания, включая удалённое](get-schedule.md) |
 | `PATCH` | `/api/v1/schedules/{id}` | [Изменение полей задания](update-schedule.md) |
 | `DELETE` | `/api/v1/schedules/{id}` | [Удаление задания с сохранением истории](delete-schedule.md) |
-| `GET` | `/api/v1/profiles` | [Профили Orpheus и профиль по умолчанию для создания](get-profiles.md) |
+| `GET` | `/api/v1/profiles` | [Страница профилей моделей Orpheus](get-profiles.md) |
 | `GET` | `/api/v1/templates` | [Страница шаблонов Orpheus](get-templates.md) |
 | `GET` | `/api/v1/services` | [Доступные сервисы Orpheus](get-services.md) |
 | `GET` | `/api/v1/schedules/settings` | [Настройки интерфейса заданий](get-settings.md) |

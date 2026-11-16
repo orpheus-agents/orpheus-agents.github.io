@@ -4,12 +4,12 @@ Back up the database and configuration. Sandbox files and source-system data are
 
 | Preserve | Purpose |
 | --- | --- |
-| PostgreSQL | Sessions, runs and accepted message history |
-| [`ENV_ENCRYPTION_KEY`](../reference/environment.md#env-env-encryption-key) | Decrypt stored environment values |
+| PostgreSQL | Sessions, runs, accepted messages, profiles, accounts and encrypted API keys |
+| [`ENV_ENCRYPTION_KEY`](../reference/environment.md#env-env-encryption-key) | Decrypt stored environment values and model API keys |
 | [`orpheus.toml`](../configuration/profiles.md) and [Mattermost workflows](../integrations/mattermost/workflow.md) | Reproduce configuration |
 | [GitLab review workflows](../integrations/gitlab/workflows.md) and connector settings | Restore project routing, review policies and connection settings |
 | Secrets and SAML files | Service connections and user sign-in |
-| S3 credential store | Account-profile authentication |
+| S3 credential store | Account authorization files |
 
 If you use [Space](../space/operations.md), back up its separate database too. It stores schedules, occurrence history and browser sessions. Full agent answers remain in the Orpheus database.
 

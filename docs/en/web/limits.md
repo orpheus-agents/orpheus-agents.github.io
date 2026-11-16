@@ -1,6 +1,10 @@
-# Tokens and account limits
+# LLM accounts and quotas
 
-The Settings → Limits page shows quotas for accounts used by profiles with [`mode = "account"`](../configuration/authentication.md#account). API-key quotas are not listed.
+**Settings → LLM accounts** lists accounts as quota cards. Search by name, filter by activity and use pagination. Each card shows the account name, harness, authorization mode, activity and related profiles alongside all available quota windows, reset times and observation freshness.
+
+Open a card to edit the name or authorization, enable or disable the account, or delete it. Deletion is blocked while a profile or session references the account. API keys appear only as masks. [Configure authorization](../configuration/authentication.md).
+
+Provider quota observations are available for account-file authorization. API-key accounts remain in the list without these quotas. A failed request is shown separately from a successful response with no observation.
 
 | State | Meaning |
 | --- | --- |
@@ -11,7 +15,7 @@ The Settings → Limits page shows quotas for accounts used by profiles with [`m
 
 Missing data does not mean zero usage. Updates come from running sessions using the account. Viewing the page does not wake a paused sandbox.
 
-Profiles sharing an account are grouped by [`account_id`](../reference/profiles.md#profile-auth-account-id). Usage percentages belong to provider quota windows. Check the window duration and reset time.
+An account is identified by [`account_id`](../reference/profiles.md#profile-auth-account-id). Usage percentages belong to provider quota windows. Check the window duration and reset time.
 
 ## Token breakdown
 

@@ -4,7 +4,7 @@
 
 ```sh
 orpheus-space services --json
-orpheus-space profiles --json
+orpheus-space profiles --available=true --limit 50 --json
 orpheus-space templates --active=true --limit 50 --json
 orpheus-space schedule settings --json
 orpheus-space schedule preview --cron '0 10 * * 1-5' --timezone Europe/Moscow --json
@@ -48,3 +48,7 @@ orpheus-space schedule delete '<id>' --json
 ## Каталог шаблонов
 
 `templates` возвращает одну страницу с флагом `active`. Задайте `--active=true`, `--active=false` или пропустите фильтр для обоих состояний. Используйте точное имя `--name` или вхождение `--name-contains`. Передавайте `next_cursor` или `prev_cursor` как `--cursor` с прежними фильтрами. `--limit` принимает 1–200, по умолчанию 50. Проверяйте сохранённый выбор через `--name` без фильтра активности.
+
+## Каталог профилей
+
+`profiles` возвращает одну страницу с активностью профиля и аккаунта, описанием и моделью. Для нового выбора задайте `--available=true`, для просмотра недоступных записей пропустите фильтр. Используйте точное `--name` или подстроку `--name-contains`. Пагинация: `--limit` (1–200, по умолчанию 50) и `--cursor` с неизменными фильтрами. Сохранённый профиль или `default_profile` из `schedule settings` проверяйте по точному имени без `--available`. Первый элемент страницы не заменяет значение по умолчанию.

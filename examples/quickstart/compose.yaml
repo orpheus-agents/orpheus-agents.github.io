@@ -1,6 +1,6 @@
 name: orpheus-quickstart
 
-x-core-image: &core-image retailcrm/orpheus:${ORPHEUS_VERSION:-0.13.0}
+x-core-image: &core-image retailcrm/orpheus:${ORPHEUS_VERSION:-0.15.0}
 x-core-env: &core-env
   DATABASE_URL: postgres://orpheus:${POSTGRES_PASSWORD:?Run init.py first}@db:5432/orpheus
   ORPHEUS_CONFIG_FILE: /etc/orpheus/orpheus.toml
@@ -70,7 +70,6 @@ services:
       SANDBOX_PAUSED_RETENTION_DAYS: ${SANDBOX_PAUSED_RETENTION_DAYS:-14}
       SANDBOX_CLEANUP_BATCH_SIZE: ${SANDBOX_CLEANUP_BATCH_SIZE:-1000}
       AGENTBOX_API_KEY: ${AGENTBOX_API_KEY:?Set AGENTBOX_API_KEY in .env}
-      OPENAI_API_KEY: ${OPENAI_API_KEY:?Set OPENAI_API_KEY in .env}
       MATTERMOST_BOT_TOKEN: ${MATTERMOST_BOT_TOKEN:?Set MATTERMOST_BOT_TOKEN in .env}
     volumes: *core-volumes
     depends_on:
@@ -81,7 +80,7 @@ services:
     restart: unless-stopped
 
   mattermost:
-    image: retailcrm/orpheus-mattermost:${ORPHEUS_MATTERMOST_VERSION:-0.6.3}
+    image: retailcrm/orpheus-mattermost:${ORPHEUS_MATTERMOST_VERSION:-0.6.5}
     init: true
     environment:
       ORPHEUS_BASE_URL: http://api:8000
@@ -106,7 +105,7 @@ services:
     restart: unless-stopped
 
   web:
-    image: retailcrm/orpheus-web:${ORPHEUS_WEB_VERSION:-0.7.2}
+    image: retailcrm/orpheus-web:${ORPHEUS_WEB_VERSION:-0.8.0}
     init: true
     environment:
       ORPHEUS_UPSTREAM: http://api:8000

@@ -6,10 +6,16 @@
 
 | Поле | Обязательное | Тип | Описание и ограничения |
 | --- | --- | --- | --- |
+| `id` | Да | string |  format: <code>"uuid"</code> |
+| `account_id` | Да | string |  format: <code>"uuid"</code> |
+| `account_name` | Да | string |   |
+| `account_active` | Да | boolean |   |
+| `active` | Да | boolean |   |
+| `available` | Да | boolean |   |
 | `name` | Да | string |   |
 | `description` | Да | string / null |   |
 | `harness` | Да | string |  enum: <code>["codex"]</code> |
-| `model` | Да | string / null |   |
+| `model` | Да | string |  minLength: <code>1</code> |
 | `codex` | Да | [CodexProfile](schema-codexprofile.md) |   |
 | `instructions` | Да | string |   |
 | `is_default` | Да | boolean |   |
@@ -21,15 +27,41 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
+    "id",
     "name",
     "description",
     "harness",
+    "account_id",
+    "account_name",
+    "account_active",
+    "active",
+    "available",
     "model",
     "codex",
     "instructions",
     "is_default"
   ],
   "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "account_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "account_name": {
+      "type": "string"
+    },
+    "account_active": {
+      "type": "boolean"
+    },
+    "active": {
+      "type": "boolean"
+    },
+    "available": {
+      "type": "boolean"
+    },
     "name": {
       "type": "string"
     },
@@ -45,7 +77,7 @@
     },
     "model": {
       "type": "string",
-      "nullable": true
+      "minLength": 1
     },
     "codex": {
       "$ref": "#/components/schemas/CodexProfile"

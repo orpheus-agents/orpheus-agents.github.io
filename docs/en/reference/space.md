@@ -94,7 +94,7 @@ Changing the effective base configuration starts fresh context on the next execu
 
 There are no default services or ENV lists in Space configuration. An omitted selection on creation is `[]`. An empty selection removes all selected services. Unknown codes return `422`. Catalog failures return `503` when validation is needed. Unchanged selections and clearing services can be saved without catalog access. Resuming a paused schedule validates its complete selection.
 
-The root [services](space-api/get-services.md) and [profiles](space-api/get-profiles.md) endpoints return `{items: [...]}`. The [template endpoint](space-api/get-templates.md) returns a page with `items`, `next_cursor` and `prev_cursor`, including activity flags. The [schedule settings endpoint](space-api/get-settings.md) returns `browser_auth` and `default_template`. Check that default with `GET /api/v1/templates?name=...` without an activity filter: it may be absent or inactive.
+The root [services endpoint](space-api/get-services.md) returns `{items: [...]}`. The [profile](space-api/get-profiles.md) and [template](space-api/get-templates.md) catalogs return pages with `items`, `next_cursor` and `prev_cursor`. [Schedule settings](space-api/get-settings.md) return `browser_auth`, `default_profile` and `default_template`. Resolve defaults by exact `name` without activity or availability filters: they may be missing or inactive.
 
 Creating a schedule, editing it or resuming validates the effective template, even when the template field is unchanged. Only a pause patch containing exactly `{"status":"paused"}` skips this check. Pause and deletion work without Orpheus. Unknown or inactive templates return `422` with a detail at `body.template`.
 

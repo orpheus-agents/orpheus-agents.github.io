@@ -9,6 +9,9 @@ const contracts = [
   { file: 'space.openapi.yaml', checksum: 'space_openapi_sha256', directory: 'space-api', translations: 'space.translations.ru.json' },
 ]
 const names = {
+  create_profile: 'Создание профиля', get_profile: 'Получение профиля', update_profile: 'Изменение профиля', delete_profile: 'Удаление профиля',
+  get_llm_accounts: 'Каталог LLM-аккаунтов', create_llm_account: 'Создание LLM-аккаунта', get_llm_account: 'Получение LLM-аккаунта', update_llm_account: 'Изменение LLM-аккаунта', delete_llm_account: 'Удаление LLM-аккаунта',
+  get_credential_stores: 'Хранилища авторизации', replace_api_key: 'Замена API-ключа аккаунта', get_auth_file: 'Файл авторизации аккаунта', replace_auth_file: 'Замена файла авторизации аккаунта',
   get_services: 'Каталог сервисов', get_profiles: 'Каталог профилей', get_templates: 'Каталог шаблонов',
   create_template: 'Регистрация шаблона', get_template: 'Получение шаблона',
   update_template: 'Изменение шаблона', delete_template: 'Удаление шаблона',

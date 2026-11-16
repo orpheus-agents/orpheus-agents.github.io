@@ -12,10 +12,10 @@ The script creates `.env`, [`orpheus.toml`](../configuration/profiles.md) and [`
 
 ## Fill in the settings
 
-1. Set [`AGENTBOX_API_KEY`](../reference/environment.md#env-agentbox-api-key), [`OPENAI_API_KEY`](../reference/environment.md#env-openai-api-key) and [`MATTERMOST_BOT_TOKEN`](../integrations/mattermost/connect.md) in `.env`.
+1. Set [`AGENTBOX_API_KEY`](../reference/environment.md#env-agentbox-api-key) and [`MATTERMOST_BOT_TOKEN`](../integrations/mattermost/connect.md) in `.env`.
 2. Find [`mattermost.base_url`](../reference/mattermost.md#workflow-mattermost-base-url) in [`workflows/assistant.md`](../integrations/mattermost/workflow.md) and replace `https://chat.example.com` with your Mattermost server's HTTPS address. The connector uses this address to exchange messages. AgentBox sandboxes use it to download attachments and upload result files.
 
-The model in [`orpheus.toml`](../configuration/profiles.md) is already set to `gpt-6-sol`. To use a different model, change [`model`](../reference/profiles.md#profile-model) in the `default` profile.
+The database starts with empty account and profile catalogs. No profile TOML is needed to apply migrations.
 
 ```sh
 docker compose config --quiet
@@ -24,7 +24,11 @@ docker compose up -d db migrate api worker web
 curl -fsS http://localhost:9100/ready
 ```
 
-Open `http://localhost:8085`. In **Settings → Templates**, choose **Add template** and register the `codex` template you built in your AgentBox project. Leave the tag empty and keep the template active. Registration checks its `default` tag. See [template registration](../configuration/templates.md#register).
+Open `http://localhost:8085`.
+
+In **Settings → LLM accounts**, create a Codex account in **API key** mode and enter the provider key. Then open **Settings → Profiles** and create an active profile named `default`, select that account and set the model to `gpt-6-sol` or another model available to your account. [Profile settings](../configuration/profiles.md).
+
+In **Settings → Templates**, choose **Add template** and register the `codex` template you built in your AgentBox project. Leave the tag empty and keep the template active. Registration checks its `default` tag. See [template registration](../configuration/templates.md#register).
 
 Use `localhost` in the browser: the configured [public origin](../reference/environment.md#env-orpheus-public-url) is `http://localhost:8085`. Opening `127.0.0.1:8085` allows reads but rejects browser writes.
 

@@ -46,6 +46,6 @@ ENV выбранных сервисов объединяются с явным `
 
 Чтобы применить новый состав сервиса, создайте новую сессию. В Mattermost увеличьте [`revision`](../integrations/mattermost/reload.md) workflow. В Space [сбросьте контекст](../space/schedules.md) задания, которое продолжает одну сессию. Смена выбранных кодов сервисов также начинает новый контекст при следующем подходящем выполнении.
 
-Явные значения [`sandbox.env`](../reference/api/create-session.md) шифруются при хранении в БД ключом [`ENV_ENCRYPTION_KEY`](../reference/environment.md#env-env-encryption-key). Сохраняйте этот ключ между перезапусками и резервируйте отдельно от БД. Системные имена, включая [`OPENAI_API_KEY`](../reference/environment.md#env-openai-api-key), [`AGENTBOX_API_KEY`](../reference/environment.md#env-agentbox-api-key) и [`ORPHEUS_*`](../reference/environment.md) из зарезервированного списка, нельзя использовать как произвольные секреты.
+Явные значения [`sandbox.env`](../reference/api/create-session.md) шифруются при хранении в БД ключом [`ENV_ENCRYPTION_KEY`](../reference/environment.md#env-env-encryption-key). Сохраняйте этот ключ между перезапусками и резервируйте отдельно от БД. Системные имена, включая [`OPENAI_API_KEY`](authentication.md#api-key), [`AGENTBOX_API_KEY`](../reference/environment.md#env-agentbox-api-key) и [`ORPHEUS_*`](../reference/environment.md) из зарезервированного списка, нельзя использовать как произвольные секреты.
 
 [Пример публикации через хук](../integrations/custom/helpdesk-hook.md)

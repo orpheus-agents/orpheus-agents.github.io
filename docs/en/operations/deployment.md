@@ -23,6 +23,6 @@ Then open `http://localhost:8085` on your computer.
 
 Enable Docker on boot. The stack uses `restart: unless-stopped` for long-running services. Migrations must finish successfully before API and worker start.
 
-To use an external PostgreSQL instance, set [`DATABASE_URL`](../reference/environment.md#env-database-url) for API, worker and migrations. Keep profile TOML, encryption key and environment allowlist consistent across API and worker.
+To use an external PostgreSQL instance, set [`DATABASE_URL`](../reference/environment.md#env-database-url) for API, worker and migrations. Keep credential-store and service TOML, encryption key and environment allowlist consistent across API and worker.
 
 Run one Mattermost connector per server and bot identity. The [GitLab review connector](../integrations/gitlab/connect.md) runs separately and also requires one instance per GitLab installation and bot identity. Preserve these rules, the separate migration step and SSE proxy settings when deploying to Kubernetes.

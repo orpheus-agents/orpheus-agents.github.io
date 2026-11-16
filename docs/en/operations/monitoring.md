@@ -6,6 +6,7 @@ Check API readiness, connector health and actual execution separately.
 | --- | --- | --- |
 | API health | `http://localhost:9100/health` | Process responds |
 | API ready | `http://localhost:9100/ready` | API can accept requests |
+| HTTP request metrics | `http://localhost:9100/metrics` | Local API request counter |
 | Account metrics | `http://localhost:9100/metrics/service` | Latest stored quotas and available resets |
 | Mattermost ready | `http://localhost:8081/readyz` | Latest connector reconciliation state |
 | Mattermost metrics | `http://localhost:8081/metrics` | Processing, errors and lag |
@@ -31,6 +32,18 @@ For accounts using [account authentication](../configuration/authentication.md#a
 The [`reset_credits_available`](../reference/api/schema-accountlimititem.md) field contains the available reset count for the whole account: `0` means none are available, while `null` means the count is unknown. Resets belong to the account rather than an individual quota window and are separate from monetary credits. Orpheus reports their count without consuming them.
 
 Data updates about once a minute while the account has an active Codex session. Reading the API or metrics does not refresh the observation or start a sandbox. A snapshot becomes `stale` after five minutes without an update, an unrecovered read failure or a passed window reset time. The last percentages and reset count remain available, but are no longer confirmed as current. [Limit states](../web/limits.md) distinguish fresh, stale and unknown data.
+
+## HTTP request metrics {#http-metrics}
+
+`GET /metrics` on the [system port](../reference/environment.md#env-orpheus-system-port) exposes `orpheus_http_requests_total{method, route, status}`. It counts completed public HTTP requests, including authentication and validation errors. Routes use templates without session IDs. SSE is counted when its handler finishes. Health checks and scrapes are excluded.
+
+Collect this counter from **every API pod**. Do not scrape a load-balanced address as one counter. Restarts reset the counter, so apply `rate()` before summing:
+
+```promql
+sum by (method, route, status) (rate(orpheus_http_requests_total[5m]))
+```
+
+Restrict the query to your installation's job/cluster/namespace labels. The endpoint reads process memory and remains available without PostgreSQL. It needs no authentication, so keep the system port private.
 
 ## Service metrics {#service-metrics}
 

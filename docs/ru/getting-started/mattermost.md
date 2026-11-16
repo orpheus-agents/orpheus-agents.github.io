@@ -4,7 +4,7 @@
 
 Проверьте файл [`workflows/assistant.md`](../integrations/mattermost/workflow.md):
 
-- [`profile: default`](../reference/mattermost.md#workflow-profile) выбирает профиль из [`orpheus.toml`](../configuration/profiles.md).
+- [`profile: default`](../reference/mattermost.md#workflow-profile) выбирает [профиль из БД](../configuration/profiles.md).
 - [`sandbox_template: codex`](../reference/mattermost.md#workflow-sandbox-template) выбирает шаблон AgentBox.
 - [`mattermost.base_url`](../reference/mattermost.md#workflow-mattermost-base-url) содержит доступный HTTPS-адрес Mattermost.
 - [`reconcile_from`](../reference/mattermost.md#workflow-reconcile-from) фиксирует начало обработки сообщений. `init.py` подставляет время создания конфигурации в UTC. Сообщения до этой точки не запускают задачи.
