@@ -66,7 +66,10 @@ In the occurrence card, [`observed_at`](../reference/space-api/schema-occurrence
 | Submission is `failed` with `unknown_service` | The selected service was removed before submission. Correct the selection or restore the catalog entry |
 | Run accepted, then failed due to ENV | Supply the variable value to the Orpheus worker and inspect the run error |
 | `error_code=session_unavailable` or `run_error_code=sandbox_lost` | The environment cannot be continued. Use **Reset context** on the schedule card when no occurrence is active. Check [retention](../configuration/sandbox-retention.md) for long intervals |
-| Context reset returns `409` | Wait for the active run to finish or its synchronization to recover |
+| **Run now** or context reset returns `409 schedule_busy` | Inspect the unfinished occurrence, including an unknown submission outcome. Wait for completion or synchronization to recover |
+| Manual command stays `pending` | Check Space worker readiness. Accepting the command does not mean that Orpheus has received it |
+
+Pausing cancels pending cron occurrences but keeps pending manual commands. Deletion cancels both kinds. Already prepared requests and accepted work retain their reconciliation rules. See [pausing and pending commands](schedules.md#pausing).
 
 ## If the run record is lost
 

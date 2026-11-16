@@ -26,7 +26,7 @@ Required [creation fields](schema-createschedule.md) are `name`, `prompt`, `cron
 
 [`DELETE`](delete-schedule.md) hides the schedule from lists. Its card and history remain, with `deleted_at` set on the card. Repeated deletion returns `204`.
 
-## Retries
+## Creation retries {#retries}
 
 Send a UUID [`Idempotency-Key`](create-schedule.md) when creating a schedule. Repeating the same normalized body returns the original response, even after later edits or deletion. A different body with the same key returns `409`. Keys do not expire. The [`url` and `can_edit`](schema-schedule.md) fields are computed from the current public address and current ownership/deletion state even in replayed responses. Creation permissions are checked before replay.
 
@@ -56,6 +56,18 @@ with urlopen(request, timeout=20) as response:
 ```
 
 The environment matches the [CLI](../space.md#cli). If the response is lost, reuse the saved key instead of generating a UUID, with the original body. Do not rerun the example with a new key to retry the same request.
+
+## Manual runs {#manual-runs}
+
+[`POST /api/v1/schedules/{id}/run`](run-schedule.md) stores a command to run a saved active or paused schedule. Send no body or query parameters and a nonzero UUID `Idempotency-Key`. The caller needs permission to edit the schedule. `202` returns the stored occurrence, not confirmation that the agent has started. Acceptance does not call Orpheus or validate its catalogs synchronously.
+
+The worker uses the saved settings when preparing the occurrence. Edits made before preparation apply to that run. Once prepared, the request is fixed for subsequent submission attempts. Follow progress through the [occurrence](get-occurrence.md) and [result](get-occurrence-result.md) endpoints.
+
+The key is scoped to one schedule and does not expire. Reusing it returns the same occurrence with its **current state**, even after completion or schedule deletion. Current ownership permissions are checked again. A new key requests a new occurrence. Another unfinished occurrence, including an unknown submission outcome, returns `409 schedule_busy`. A new command for a deleted schedule returns `409 schedule_deleted`.
+
+A manual command does not change activity, cron, the next scheduled time or reusable context. Its history has [`trigger=manual`](schema-occurrence.md), and `scheduled_at` is the command acceptance time. It does not repeat an earlier failed run's reporting period or reset context after failure. A successful manual run contributes to [`last_successful_run`](../space-cli.md#scheduled-identity). Overlapping cron periods follow the [usual skip rules](#execution).
+
+Pausing cancels pending scheduled occurrences but keeps pending manual commands. Deleting a schedule cancels both kinds of pending occurrences. Requests already prepared for submission and accepted runs retain their reconciliation behavior after either action.
 
 ## Filters and cursors
 
@@ -103,8 +115,8 @@ Main `error.code` values in the schedules API:
 | 404 | `schedule_not_found`, `occurrence_not_found`, `not_found` | Missing schedule, occurrence or route |
 | 404 | `run_result_not_found` | Result record missing from Orpheus |
 | 409 | `run_not_started` | Orpheus has not accepted the run |
-| 409 | `schedule_busy` | Context reset during an active occurrence |
-| 409 | `schedule_deleted` | Editing a deleted schedule |
+| 409 | `schedule_busy` | Manual run or context reset while an occurrence is unfinished, including an unknown submission outcome |
+| 409 | `schedule_deleted` | Editing a deleted schedule or requesting a new manual run for it |
 | 409 | `idempotency_conflict` | Creation key already used with a different body |
 | 413 | `request_too_large` | Body size exceeded |
 | 415 | `unsupported_media_type` | JSON required |
