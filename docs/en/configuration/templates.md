@@ -49,7 +49,7 @@ print(template["id"], template["name"])
 
 ## Find and edit templates {#manage}
 
-The Web list shows active templates by default. Filter by activity or part of the name. Page controls and page size are at the bottom. Opening a template and returning to the list preserves the page and filters in the URL.
+The Web list shows active templates by default. Filter by activity or part of the name. Page controls and page size are at the bottom.
 
 Open a template to edit its description or activity. Deactivation and deletion require confirmation. Name and tag cannot be edited. To use another reference, register a new record. Deleting a record removes it only from Orpheus, leaving the AgentBox template intact.
 
