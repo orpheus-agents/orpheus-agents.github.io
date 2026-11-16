@@ -77,7 +77,7 @@ Space keeps an inactive or deleted selection visible on the schedule. Saving oth
 
 ## Environment changes
 
-Updating an image does not change existing sandboxes. After updating a Mattermost template, increment the workflow [`revision`](../reference/mattermost.md#workflow-revision). In a [custom integration](../integrations/custom/overview.md), create a new session with the desired template.
+Updating an image does not change existing sandboxes. New sandboxes use the build selected by the template name and tag. If existing Mattermost conversations need the new environment, increment the workflow [`revision`](../reference/mattermost.md#workflow-revision) and [reload the workflow](../integrations/mattermost/reload.md). This starts a new session on the next request. A template or tool update alone does not require a revision change. In a [custom integration](../integrations/custom/overview.md), create a new session when you need to replace the existing sandbox.
 
 With [`allow_multiple_runs: true`](../reference/api/create-session.md), files and context survive sandbox pauses between runs. In the default mode, the sandbox is deleted after its only run. Keep published results in the destination system.
 
