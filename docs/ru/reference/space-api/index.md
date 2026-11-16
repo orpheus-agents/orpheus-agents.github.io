@@ -14,7 +14,7 @@
 | `PATCH` | `/api/v1/schedules/{id}` | [Изменение полей задания](update-schedule.md) |
 | `DELETE` | `/api/v1/schedules/{id}` | [Удаление задания с сохранением истории](delete-schedule.md) |
 | `GET` | `/api/v1/profiles` | [Профили Orpheus и профиль по умолчанию для создания](get-profiles.md) |
-| `GET` | `/api/v1/templates` | [Шаблоны Orpheus и шаблон по умолчанию для создания](get-templates.md) |
+| `GET` | `/api/v1/templates` | [Страница шаблонов Orpheus](get-templates.md) |
 | `GET` | `/api/v1/services` | [Доступные сервисы Orpheus](get-services.md) |
 | `GET` | `/api/v1/schedules/settings` | [Настройки интерфейса заданий](get-settings.md) |
 | `POST` | `/api/v1/schedules/preview` | [Пять ближайших срабатываний](preview-schedule.md) |
@@ -22,6 +22,7 @@
 | `GET` | `/api/v1/schedules/{id}/occurrences` | [Сохранённая история запусков](list-occurrences.md) |
 | `GET` | `/api/v1/schedules/{id}/occurrences/{occurrence_id}` | [Сохранённые сведения о запуске](get-occurrence.md) |
 | `GET` | `/api/v1/schedules/{id}/occurrences/{occurrence_id}/result` | [Получение результата из ядра Orpheus](get-occurrence-result.md) |
+| `POST` | `/api/v1/schedules/{id}/run` | [Запуск задания без изменения расписания и активности](run-schedule.md) |
 | `POST` | `/api/v1/schedules/{id}/reset-session` | [Сброс контекста следующего запуска](reset-session.md) |
 | `GET` | `/auth/login` | [Вход через SAML](browser-login.md) |
 | `POST` | `/auth/callback` | [Обработка подписанного SAML-ответа](browser-callback.md) |

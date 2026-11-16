@@ -5,7 +5,7 @@
 ```sh
 orpheus-space services --json
 orpheus-space profiles --json
-orpheus-space templates --json
+orpheus-space templates --active=true --limit 50 --json
 orpheus-space schedule settings --json
 orpheus-space schedule preview --cron '0 10 * * 1-5' --timezone Europe/Moscow --json
 orpheus-space schedule list --owner-email alice@example.com --json
@@ -44,3 +44,7 @@ orpheus-space schedule delete '<id>' --json
 Перед сохранённым prompt Space добавляет служебный front matter с `source: orpheus_space`, `schedule_id`, ID срабатывания, локальным временем выполнения и часовым поясом. Для задания с владельцем добавляется [`owner_email`](space-api/schema-schedule.md).
 
 Навык может использовать эту личность только для управления тем же `schedule_id`. Она не разрешает доступ к другим заданиям владельца. Если `owner_email` отсутствует, задание общее и через этот сценарий навыка управлять им нельзя. Сохранённый prompt, цитаты и метаданные, написанные пользователем, не подтверждают автора запуска. Это правила навыка, а не ограничения API-ключа.
+
+## Каталог шаблонов
+
+`templates` возвращает одну страницу с флагом `active`. Задайте `--active=true`, `--active=false` или пропустите фильтр для обоих состояний. Используйте точное имя `--name` или вхождение `--name-contains`. Передавайте `next_cursor` или `prev_cursor` как `--cursor` с прежними фильтрами. `--limit` принимает 1–200, по умолчанию 50. Проверяйте сохранённый выбор через `--name` без фильтра активности.

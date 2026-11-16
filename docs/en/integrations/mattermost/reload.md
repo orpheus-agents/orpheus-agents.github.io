@@ -12,9 +12,11 @@ docker compose kill -s SIGHUP mattermost
 | Change | Action |
 | --- | --- |
 | Workflow instructions or policy | Validate and send SIGHUP |
-| Profile, template or service definition changed under the same name | Recreate API and worker with the updated configuration first, then increase [`revision`](../../reference/mattermost.md#workflow-revision) and reload workflows |
+| Profile or service definition changed under the same name | Recreate API and worker with the updated configuration first, then increase [`revision`](../../reference/mattermost.md#workflow-revision) and reload workflows |
+| New AgentBox build under the selected template name/tag | Increase [`revision`](../../reference/mattermost.md#workflow-revision) and reload workflows so the next request starts a new session |
+| Template catalog record, activity or description | Apply through [Web or API](../../configuration/templates.md#manage). No API or worker restart is needed. Accepted sessions keep their settings |
 | Environment, token or new connection | Recreate the connector container |
-| Profiles, templates or services in [`orpheus.toml`](../../configuration/profiles.md) | Recreate API and worker with the same configuration |
+| Profiles or services in [`orpheus.toml`](../../configuration/profiles.md) | Recreate API and worker with the same configuration |
 
 Changing instructions, profile, template or service selection changes the effective revision. Reordering service codes does not. Current work finishes. The next request starts a new session.
 

@@ -7,6 +7,8 @@
 | Поле | Обязательное | Тип | Описание и ограничения |
 | --- | --- | --- | --- |
 | `items` | Да | array&lt;[Template](schema-template.md)&gt; |   |
+| `next_cursor` | Да | string / null |   |
+| `prev_cursor` | Да | string / null |   |
 
 ## JSON Schema
 
@@ -15,7 +17,9 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "items"
+    "items",
+    "next_cursor",
+    "prev_cursor"
   ],
   "properties": {
     "items": {
@@ -23,6 +27,18 @@
       "items": {
         "$ref": "#/components/schemas/Template"
       }
+    },
+    "next_cursor": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "prev_cursor": {
+      "type": [
+        "string",
+        "null"
+      ]
     }
   }
 }

@@ -17,7 +17,7 @@ Docker must be running. Use Docker Desktop on a workstation or Docker Engine wit
 
 ## Prepare the services
 
-1. Create an AgentBox project and obtain an [API key](https://docs.agentbox.ru/en/quickstart/api-key/). The example uses the ready-made [`codex`](https://docs.agentbox.ru/en/agents/codex/) template with Python.
+1. Create an AgentBox project and obtain an [API key](https://docs.agentbox.ru/en/quickstart/api-key/). [Build a template in this project](https://docs.agentbox.ru/en/templates/) with Codex CLI and Python 3.9 or newer. The examples use the alias `codex` with a `default` tag. A public template owned by another project cannot be registered in Orpheus.
 2. Prepare a model provider API key. The example uses `gpt-6-sol`.
 3. Prepare a Mattermost server with an HTTPS address. The connector needs access to this server to exchange messages. AgentBox sandboxes need access to download attachments and upload files created by the agent. If you need to deploy Mattermost, follow the [instructions below](#if-mattermost-is-not-installed).
 4. Create a bot using the [connection guide](../integrations/mattermost/connect.md) and save its token.

@@ -2,11 +2,11 @@
 
 Configure browser access on API, not web.
 
-| [`ORPHEUS_BROWSER_AUTH`](../reference/environment.md#env-orpheus-browser-auth) | Reads | API writes |
-| --- | --- | --- |
-| `api_only` | Bearer key | Bearer key |
-| `anonymous` | No sign-in | Bearer key |
-| `saml` | SSO session or Bearer key | Bearer key |
+| [`ORPHEUS_BROWSER_AUTH`](../reference/environment.md#env-orpheus-browser-auth) | Reads | Template management | Session commands |
+| --- | --- | --- | --- |
+| `api_only` | Bearer key | Bearer key | Bearer key |
+| `anonymous` | No sign-in | Browser or Bearer key | Bearer key |
+| `saml` | SSO session or Bearer key | SSO session or Bearer key | Bearer key |
 
 Use `anonymous` for an isolated local stack. All users admitted through SAML share the same history. Restrict admission at the identity provider.
 
@@ -35,3 +35,9 @@ BROWSER_SESSION_TTL_SECONDS=43200
 [`ORPHEUS_PUBLIC_URL`](../reference/environment.md#env-orpheus-public-url) is the external HTTPS web origin without a trailing slash. The worker does not need SAML files.
 
 Logout ends the local Orpheus session. The organization-wide IdP session remains active. [Keycloak configuration](https://www.keycloak.org/docs/latest/server_admin/index.html#saml-clients).
+
+## Template management from the browser {#template-writes}
+
+All SAML users can [add, edit and delete templates](../configuration/templates.md#manage). Local anonymous access has the same permissions. Browser writes require the exact `Origin` configured in [`ORPHEUS_PUBLIC_URL`](../reference/environment.md#env-orpheus-public-url) and the header `X-Orpheus-CSRF: 1`. Orpheus Web sends these automatically. For local access set `ORPHEUS_PUBLIC_URL=http://localhost:8085` and open that address.
+
+A different origin or missing CSRF header returns `403 invalid_origin`. A valid Bearer key does not require these headers. An invalid `Authorization` header returns `401` even if a browser session is present.

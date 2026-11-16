@@ -6,6 +6,8 @@
 
 | Поле | Обязательное | Тип | Описание и ограничения |
 | --- | --- | --- | --- |
+| `next_cursor` | Да | string / null |   |
+| `prev_cursor` | Да | string / null |   |
 | `items` | Да | array&lt;[Template](schema-template.md)&gt; |   |
 
 ## JSON Schema
@@ -15,9 +17,19 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "items"
+    "items",
+    "next_cursor",
+    "prev_cursor"
   ],
   "properties": {
+    "next_cursor": {
+      "type": "string",
+      "nullable": true
+    },
+    "prev_cursor": {
+      "type": "string",
+      "nullable": true
+    },
     "items": {
       "type": "array",
       "items": {

@@ -8,7 +8,8 @@
 | --- | --- | --- | --- |
 | `id` | Да | string |  format: <code>"uuid"</code> |
 | `schedule_id` | Да | string |  format: <code>"uuid"</code> |
-| `scheduled_at` | Да | string |  format: <code>"date-time"</code> |
+| `trigger` | Да | [OccurrenceTrigger](schema-occurrencetrigger.md) |   |
+| `scheduled_at` | Да | string | Плановое время по cron или время принятия ручной команды. Не является временем начала выполнения. format: <code>"date-time"</code> |
 | `state` | Да | [OccurrenceState](schema-occurrencestate.md) |   |
 | `created_at` | Да | string |  format: <code>"date-time"</code> |
 | `updated_at` | Да | string |  format: <code>"date-time"</code> |
@@ -33,6 +34,7 @@
   "required": [
     "id",
     "schedule_id",
+    "trigger",
     "scheduled_at",
     "state",
     "created_at",
@@ -58,9 +60,13 @@
       "type": "string",
       "format": "uuid"
     },
+    "trigger": {
+      "$ref": "#/components/schemas/OccurrenceTrigger"
+    },
     "scheduled_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "description": "Cron due time for a scheduled occurrence, or command acceptance time for a manual occurrence. This is not the execution start time."
     },
     "state": {
       "$ref": "#/components/schemas/OccurrenceState"

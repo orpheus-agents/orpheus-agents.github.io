@@ -22,7 +22,7 @@ Old sessions remain in Orpheus. Their namespace is `schedule`.
 
 Required [creation fields](schema-createschedule.md) are `name`, `prompt`, `cron` and `timezone`. Defaults are `status=active`, `session_mode=new`, `model=null` and `services=[]`. Omitted profile/template fields use the configured creation defaults. With full access, an omitted owner means `owner_email=null`. For an ordinary SAML user it is filled from the session email. Cron has five fields. Macros, seconds, years and inline TZ are rejected. Use an IANA time zone such as `Europe/Moscow`, not `Local`.
 
-[`PATCH`](update-schedule.md) changes only supplied fields. `null` clears model or owner, and `services: []` clears the service selection. Only callers with full access can change or clear ownership. Omitted profile/template fields preserve the stored selection, even if it was removed from Orpheus. Pausing removes the next run time. Resuming or editing cron/time zone chooses a new future time. Other edits preserve the planned time.
+[`PATCH`](update-schedule.md) changes only supplied fields. `null` clears model or owner, and `services: []` clears the service selection. Only callers with full access can change or clear ownership. Omitted profile/template fields preserve the stored names. The effective template must exist and be active for every ordinary edit and resume, including when its field is unchanged. A patch containing exactly `{"status":"paused"}` skips catalog validation. Additional fields make it an ordinary edit. Missing or inactive templates return `422` with `template_not_found` or `template_inactive` at `body.template`. Pausing removes the next run time. Resuming or editing cron/time zone chooses a new future time. Other edits preserve the planned time.
 
 [`DELETE`](delete-schedule.md) hides the schedule from lists. Its card and history remain, with `deleted_at` set on the card. Repeated deletion returns `204`.
 
@@ -73,12 +73,13 @@ Errors use `error: {code, message, phase, details}`. A detail path such as `["bo
 
 ## History fields {#history}
 
-An occurrence records a due schedule instance. It can be skipped or fail to reach Orpheus, so run IDs and status may be `null`. See the [full schema](schema-occurrence.md).
+An occurrence records a scheduled or manual execution. It can be skipped or fail to reach Orpheus, so run IDs and status may be `null`. See the [full schema](schema-occurrence.md).
 
 | Field | Meaning |
 | --- | --- |
 | `id`, `schedule_id` | Occurrence and schedule IDs |
-| `scheduled_at` | Scheduled time |
+| `trigger` | `scheduled` for cron, `manual` for an explicit run command |
+| `scheduled_at` | Cron due time or manual command acceptance time |
 | `created_at`, `updated_at` | Creation and latest update of the Space record |
 | `state` | Dispatch: `pending`, `dispatching`, `accepted`, `skipped`, `failed`, `cancelled` |
 | `session_id`, `run_id` | Session and run IDs accepted by Orpheus |
@@ -122,4 +123,4 @@ The [session response](schema-authsession.md) exposes `write_access` and `can_ma
 
 ## Service catalogs
 
-The root [services](get-services.md), [profiles](get-profiles.md) and [templates](get-templates.md) endpoints read Orpheus and return `{items: [...]}`. Services are selected explicitly without defaults. Every caller with read access sees the same catalog. Unknown codes return `422`, and a required catalog that is unavailable returns `503 core_unavailable`. Unchanged selections and clearing services do not require the service catalog. Resuming validates the full selection. A service definition change under the same code requires [resetting reusable context](reset-session.md). Prepared occurrence requests keep their accepted configuration.
+The root [services](get-services.md) and [profiles](get-profiles.md) endpoints read Orpheus and return `{items: [...]}`. The [template catalog](get-templates.md) returns `items`, `next_cursor` and `prev_cursor`. It includes active and inactive records and accepts `active`, exact case-sensitive `name`, case-insensitive literal `name_contains`, `limit` (1–200, default 50) and `cursor`. Name filters are mutually exclusive. Preserve filters when using either returned cursor. Resolve stored selections and `default_template` from [settings](get-settings.md) with `name` and no activity filter. Services are selected explicitly without defaults. Every caller with read access sees the same catalog. Unknown codes return `422`, and a required catalog that is unavailable returns `503 core_unavailable`. Unchanged selections and clearing services do not require the service catalog. Resuming validates the full selection. A service definition change under the same code requires [resetting reusable context](reset-session.md). Prepared occurrence requests keep their accepted configuration.

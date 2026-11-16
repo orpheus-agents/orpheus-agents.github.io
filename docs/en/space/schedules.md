@@ -20,7 +20,7 @@ A new schedule starts with the interface time zone. Review the zone and the next
 
 The web interface fills the owner from [SSO](access.md). Ordinary users see a read-only owner field. Administrators can change it or clear it for a shared schedule. Creating through an API key without [`owner_email`](../reference/space-api/schema-createschedule.md) leaves the schedule shared. For an ordinary user’s cookie-authenticated request, omission fills the session email.
 
-Profiles and templates come from the Orpheus catalogs. New schedules use the configured defaults, while existing schedules keep their stored choices. Creating a schedule or changing these choices requires Orpheus to be reachable.
+Profiles and templates come from the Orpheus catalogs. New schedules use the configured defaults, while existing schedules keep their stored choices. Only active templates can be selected. An inactive or removed template remains visible on an existing schedule. To save edits or resume, choose an active template. Pausing and deleting remain available. Creation and edits validate the template through Orpheus, so they require it to be reachable.
 
 [API fields and accepted values](../reference/space-api/schema-createschedule.md).
 

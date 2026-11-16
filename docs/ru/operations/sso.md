@@ -2,11 +2,11 @@
 
 Режим браузерного доступа задаётся на API, а не на web.
 
-| [`ORPHEUS_BROWSER_AUTH`](../reference/environment.md#env-orpheus-browser-auth) | Чтение | Изменения через API |
-| --- | --- | --- |
-| `api_only` | По Bearer-ключу | По Bearer-ключу |
-| `anonymous` | Без входа | По Bearer-ключу |
-| `saml` | После SSO или по Bearer-ключу | По Bearer-ключу |
+| [`ORPHEUS_BROWSER_AUTH`](../reference/environment.md#env-orpheus-browser-auth) | Чтение | Управление шаблонами | Команды сессиям |
+| --- | --- | --- | --- |
+| `api_only` | Bearer-ключ | Bearer-ключ | Bearer-ключ |
+| `anonymous` | Без входа | Браузер или Bearer-ключ | Bearer-ключ |
+| `saml` | SSO или Bearer-ключ | SSO или Bearer-ключ | Bearer-ключ |
 
 `anonymous` подходит для изолированного локального стенда. Все пользователи, допущенные через SAML, видят общую историю. Ограничьте круг пользователей на стороне IdP.
 
@@ -35,3 +35,9 @@ BROWSER_SESSION_TTL_SECONDS=43200
 [`ORPHEUS_PUBLIC_URL`](../reference/environment.md#env-orpheus-public-url) содержит внешний HTTPS-origin веб-интерфейса без завершающего слеша. Worker не нужны SAML-файлы.
 
 Выход завершает сессию Orpheus. Общая сессия в IdP сохраняется. [Настройки Keycloak](https://www.keycloak.org/docs/latest/server_admin/index.html#saml-clients).
+
+## Управление шаблонами из браузера {#template-writes}
+
+Все SAML-пользователи могут [добавлять, редактировать и удалять шаблоны](../configuration/templates.md#manage). У локального анонимного доступа такие же права. Для браузерных изменений нужны точный `Origin` из [`ORPHEUS_PUBLIC_URL`](../reference/environment.md#env-orpheus-public-url) и заголовок `X-Orpheus-CSRF: 1`. Orpheus Web отправляет их сам. Для локального доступа задайте `ORPHEUS_PUBLIC_URL=http://localhost:8085` и открывайте этот адрес.
+
+Другой origin или отсутствующий CSRF-заголовок возвращает `403 invalid_origin`. С действующим Bearer-ключом эти заголовки не нужны. Неверный `Authorization` возвращает `401`, даже если браузерная сессия существует.
