@@ -6,6 +6,7 @@
 
 | Поле | Обязательное | Тип | Описание и ограничения |
 | --- | --- | --- | --- |
+| `opencode` | Нет | [OpenCodeProfile](schema-opencodeprofile.md) |   |
 | `instructions` | Да | string |   |
 | `model` | Да | string |   |
 | `profile` | Да | string |   |
@@ -16,6 +17,9 @@
 {
   "additionalProperties": false,
   "properties": {
+    "opencode": {
+      "$ref": "#/components/schemas/OpenCodeProfile"
+    },
     "instructions": {
       "title": "Instructions",
       "type": "string"

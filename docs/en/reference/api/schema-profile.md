@@ -17,6 +17,7 @@
 | `available` | Yes | boolean |   |
 | `model` | Yes | string |  minLength: <code>1</code><br>maxLength: <code>255</code> |
 | `codex` | Yes | [CodexProfile](schema-codexprofile.md) |   |
+| `opencode` | No | [OpenCodeProfile](schema-opencodeprofile.md) |   |
 | `instructions` | Yes | string |   |
 
 ## JSON Schema
@@ -88,6 +89,9 @@
     },
     "codex": {
       "$ref": "#/components/schemas/CodexProfile"
+    },
+    "opencode": {
+      "$ref": "#/components/schemas/OpenCodeProfile"
     },
     "instructions": {
       "type": "string"

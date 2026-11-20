@@ -11,6 +11,7 @@
 | `description` | Необязательное описание |
 | `active` | Разрешает новые сессии, если аккаунт тоже активен |
 | <span id="profile-instructions"></span>`instructions` | Общие инструкции. Заменяются через [`agent.instructions`](api/create-session.md) |
+| <span id="profile-opencode-variant"></span>`opencode.variant` | ID варианта OpenCode для выбранной модели. Пустое значение в форме оставляет режим модели по умолчанию. |
 | <span id="profile-codex-effort"></span>`codex.effort` | `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
 | <span id="profile-codex-summary"></span>`codex.summary` | `auto`, `concise`, `detailed`, `none` |
 | <span id="profile-codex-personality"></span>`codex.personality` | `none`, `friendly`, `pragmatic` |

@@ -10,6 +10,7 @@
 | `description` | No | string / null |  maxLength: <code>4096</code> |
 | `model` | No | string |  minLength: <code>1</code><br>maxLength: <code>255</code> |
 | `instructions` | No | string |  maxLength: <code>65536</code> |
+| `opencode` | No | object / null |  additionalProperties: <code>false</code> |
 | `codex` | No | object / null |  additionalProperties: <code>false</code> |
 | `active` | No | boolean |   |
 
@@ -40,6 +41,23 @@
     "instructions": {
       "type": "string",
       "maxLength": 65536
+    },
+    "opencode": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "variant": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 255
+        }
+      }
     },
     "codex": {
       "type": [

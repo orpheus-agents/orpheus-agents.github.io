@@ -2,6 +2,7 @@
 
 Справочник построен из OpenAPI Orpheus. Описания переведены на русский. В блоках JSON Schema сохранён исходный контракт.
 
+- [OpenCodeProfile](schema-opencodeprofile.md)
 - [CodexProfile](schema-codexprofile.md)
 - [Profile](schema-profile.md)
 - [Profiles](schema-profiles.md)
