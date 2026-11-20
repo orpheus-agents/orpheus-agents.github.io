@@ -72,7 +72,7 @@ services:
     restart: unless-stopped
 
   web:
-    image: retailcrm/orpheus-space-web:${ORPHEUS_SPACE_WEB_VERSION:-0.7.0}
+    image: retailcrm/orpheus-space-web:${ORPHEUS_SPACE_WEB_VERSION:-0.8.0}
     init: true
     environment:
       ORPHEUS_SPACE_UPSTREAM: http://api:8000
