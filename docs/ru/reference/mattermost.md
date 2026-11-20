@@ -21,8 +21,9 @@
 | <span id="workflow-id"></span>`id` | `required` | Уникальное имя workflow |
 | <span id="workflow-revision"></span>`revision` | `required` | Строка ревизии |
 | <span id="workflow-reconcile-from"></span>`reconcile_from` | `required` | Фиксированная дата начала обработки UTC RFC3339 |
-| <span id="workflow-profile"></span>`profile` | `required` | Имя профиля Orpheus |
-| <span id="workflow-sandbox-template"></span>`sandbox_template` | `required` | Имя шаблона AgentBox |
+| <span id="workflow-profile"></span>`profile` | `required` | [Профиль модели](../configuration/profiles.md) по умолчанию |
+| <span id="workflow-sandbox-template"></span>`sandbox_template` | `required` | [Шаблон песочницы](../configuration/templates.md) по умолчанию из каталога Orpheus |
+| <span id="workflow-profile-by-tag"></span>`profile_by_tag` | `{}` | Для каждого хештега задаёт обязательный `profile` и необязательный `sandbox_template`. Если шаблон опущен, используется шаблон workflow. [Пример](../integrations/mattermost/workflow.md#profile-tags) |
 | <span id="workflow-mattermost-base-url"></span>`mattermost.base_url` | `required` | Адрес Mattermost |
 | <span id="workflow-mattermost-token-env"></span>`mattermost.token_env` | `required` | Имя ENV токена бота |
 | <span id="workflow-env-from"></span>`env_from` | `[]` | Переменные worker для агента |
@@ -59,6 +60,13 @@
 Обязательные поля отмечены `required`. Неизвестные поля, дубли ключей, совпадающие ID и пересекающиеся специализированные маршруты отклоняются. `revision` заключайте в кавычки. После YAML запишите полные инструкции агенту.
 
 Секреты не записываются в workflow. `token_env` и [`env_from`](../configuration/secrets.md) содержат имена переменных. [Примеры](../integrations/mattermost/workflow.md) · [Применение изменений](../integrations/mattermost/reload.md).
+
+### Как распознаются хештеги
+
+- В YAML указывайте ключ без `#`, строчными буквами, по шаблону `[a-z][a-z0-9_-]*`.
+- В Mattermost пишите хештег отдельным словом в обычном тексте. Коннектор распознаёт `#FAST!` как `fast` независимо от регистра букв и восклицательного знака в конце. Он пропускает теги в коде, цитатах, ссылках и изображениях, а также экранированные теги. Агент получает исходный текст.
+- Профиль и шаблон выбирает первое сообщение, которое может запустить задачу. При [группировке сообщений](../integrations/mattermost/automatic.md) это самый ранний запрос, при совпадении времени — запрос с меньшим ID поста. Теги в связанных тредах и вложениях на выбор не влияют.
+- Можно указать несколько тегов, если они выбирают один профиль и один шаблон с учётом значения по умолчанию. Если профиль или шаблон различаются, бот попросит автора исправить сообщение. Остальные запросы в группе могут запустить задачу.
 
 ## Автор и канал сообщения {#identity}
 

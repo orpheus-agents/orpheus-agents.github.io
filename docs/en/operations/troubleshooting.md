@@ -21,7 +21,9 @@ Start with `docker compose ps -a`, run details and the relevant service logs.
 
 ## Collect diagnostic context
 
-Record the user action, time, [`session_id`](../reference/api/get-session.md), [`run_id`](../reference/api/get-run.md), error code and phase. Check whether a fresh test task reproduces the issue. Remove secrets and unnecessary user data before sharing logs.
+Record the user action, time, session ID and run ID. Read the phase and error code from the [run through the API](../reference/api/get-run.md). If the error includes [`diagnostic_id`](../reference/api/schema-error.md), search the worker logs for the `execution.failure` event with that ID. Check the operation and any diagnostic message it records. If the ID is absent, search by run ID and time.
+
+Check whether a fresh test task reproduces the issue. Remove secrets and unnecessary user data before sharing logs.
 
 Do not start by deleting the database or recreating every session. A publication failure does not mean the agent must repeat its work. First check whether the result already exists in the destination system.
 

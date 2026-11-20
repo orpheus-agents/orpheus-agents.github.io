@@ -16,7 +16,7 @@ Supply a service key through `Authorization: Bearer …`. In examples, `ORPHEUS_
 | --- | --- |
 | 400 | Request or cursor format |
 | 401 | Bearer key or browser session |
-| 403 | Access mode, browser Origin and CSRF for template changes |
+| 403 | Access mode. For browser changes to accounts, profiles or templates, check [Origin and CSRF](../../operations/sso.md#template-writes) |
 | 404 | Resource identifier |
 | 409 | Session state, idempotency conflict or exhausted budget |
 | 413 | Request size |
