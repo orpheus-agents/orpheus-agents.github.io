@@ -6,6 +6,7 @@
 
 | Field | Required | Type | Description and constraints |
 | --- | --- | --- | --- |
+| `opencode` | No | [OpenCodeProfile](schema-opencodeprofile.md) |   |
 | `instructions` | Yes | string |   |
 | `model` | Yes | string |   |
 | `profile` | Yes | string |   |
@@ -16,6 +17,9 @@
 {
   "additionalProperties": false,
   "properties": {
+    "opencode": {
+      "$ref": "#/components/schemas/OpenCodeProfile"
+    },
     "instructions": {
       "title": "Instructions",
       "type": "string"

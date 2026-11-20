@@ -12,6 +12,8 @@ The name is used in workflows and API requests and cannot be renamed. The model 
 
 An OpenCode profile inherits its [provider](../reference/profiles.md#account-provider) from the account. For global Kimi Coding Plan, use a model ID such as `k3.1-pro`. For a Console account, enter `opencode-go/<model>` to use the Go subscription, for example `opencode-go/gpt-6-luna`. A bare model ID or `opencode/<model>` selects Console. Choose a [sandbox template](templates.md) that contains OpenCode.
 
+To choose a [model variant](../reference/profiles.md#profile-opencode-variant), enter its ID in **Reasoning effort**. For example, enter `max` for Kimi K3.1 Pro and keep `k3.1-pro` in the model field. Available variants depend on the provider and model. Orpheus captures the setting when creating a session.
+
 Codex profiles support [`effort`](../reference/profiles.md#profile-codex-effort), [`summary`](../reference/profiles.md#profile-codex-summary), [`personality`](../reference/profiles.md#profile-codex-personality) and [`service_tier`](../reference/profiles.md#profile-codex-service-tier). Unset options are omitted when starting the agent. Model and account support determine which values the provider accepts.
 
 ## Manage profiles

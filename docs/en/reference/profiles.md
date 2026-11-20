@@ -11,6 +11,7 @@
 | `description` | Optional description |
 | `active` | Permits new sessions when the account is also active |
 | <span id="profile-instructions"></span>`instructions` | Shared instructions. Replaced by [`agent.instructions`](api/create-session.md) |
+| <span id="profile-opencode-variant"></span>`opencode.variant` | OpenCode variant ID for the selected model. Leave the field empty to use the model default. |
 | <span id="profile-codex-effort"></span>`codex.effort` | `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max`, `ultra` |
 | <span id="profile-codex-summary"></span>`codex.summary` | `auto`, `concise`, `detailed`, `none` |
 | <span id="profile-codex-personality"></span>`codex.personality` | `none`, `friendly`, `pragmatic` |

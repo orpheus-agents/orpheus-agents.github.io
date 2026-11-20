@@ -12,6 +12,7 @@
 | `model` | Да | string |  minLength: <code>1</code><br>maxLength: <code>255</code> |
 | `instructions` | Нет | string |  maxLength: <code>65536</code> |
 | `codex` | Нет | [CodexProfile](schema-codexprofile.md) |   |
+| `opencode` | Нет | [OpenCodeProfile](schema-opencodeprofile.md) |   |
 | `active` | Нет | boolean |  default: <code>true</code> |
 
 ## JSON Schema
@@ -53,6 +54,9 @@
     },
     "codex": {
       "$ref": "#/components/schemas/CodexProfile"
+    },
+    "opencode": {
+      "$ref": "#/components/schemas/OpenCodeProfile"
     },
     "active": {
       "type": "boolean",

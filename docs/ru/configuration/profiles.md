@@ -12,6 +12,8 @@
 
 Профиль OpenCode наследует [провайдера](../reference/profiles.md#account-provider) от аккаунта. Для глобальной подписки Kimi Coding Plan укажите ID модели, например `k3.1-pro`. Для аккаунта Console используйте `opencode-go/<модель>`, чтобы расходовать подписку Go, например `opencode-go/gpt-6-luna`. ID модели без префикса или `opencode/<модель>` выбирает Console. Для запуска выберите [шаблон песочницы](templates.md) с OpenCode.
 
+В поле **Усилие рассуждения** укажите [вариант модели](../reference/profiles.md#profile-opencode-variant), если хотите задать его явно. Например, для Kimi K3.1 Pro введите `max`, а в поле модели оставьте `k3.1-pro`. Набор вариантов зависит от модели и провайдера. Orpheus сохраняет выбранный вариант при создании сессии.
+
 Профили Codex поддерживают [`effort`](../reference/profiles.md#profile-codex-effort), [`summary`](../reference/profiles.md#profile-codex-summary), [`personality`](../reference/profiles.md#profile-codex-personality) и [`service_tier`](../reference/profiles.md#profile-codex-service-tier). Неуказанные настройки не передаются агенту. Допустимые значения зависят от модели и аккаунта.
 
 ## Управлять профилями

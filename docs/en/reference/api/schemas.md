@@ -2,6 +2,7 @@
 
 Generated from the Orpheus OpenAPI contract. Usage guidance is provided in the integration guides.
 
+- [OpenCodeProfile](schema-opencodeprofile.md)
 - [CodexProfile](schema-codexprofile.md)
 - [Profile](schema-profile.md)
 - [Profiles](schema-profiles.md)

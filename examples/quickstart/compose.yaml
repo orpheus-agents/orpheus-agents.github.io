@@ -1,6 +1,6 @@
 name: orpheus-quickstart
 
-x-core-image: &core-image retailcrm/orpheus:${ORPHEUS_VERSION:-0.16.0}
+x-core-image: &core-image retailcrm/orpheus:${ORPHEUS_VERSION:-0.17.0}
 x-core-env: &core-env
   DATABASE_URL: postgres://orpheus:${POSTGRES_PASSWORD:?Run init.py first}@db:5432/orpheus
   ORPHEUS_CONFIG_FILE: /etc/orpheus/orpheus.toml
@@ -105,7 +105,7 @@ services:
     restart: unless-stopped
 
   web:
-    image: retailcrm/orpheus-web:${ORPHEUS_WEB_VERSION:-0.9.1}
+    image: retailcrm/orpheus-web:${ORPHEUS_WEB_VERSION:-0.10.0}
     init: true
     environment:
       ORPHEUS_UPSTREAM: http://api:8000
