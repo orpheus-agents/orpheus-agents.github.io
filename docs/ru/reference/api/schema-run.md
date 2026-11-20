@@ -11,9 +11,10 @@
 | `agent_status` | Да | string / null |   |
 | `agent_error` | Да | [Error](schema-error.md) / null |   |
 | `hooks` | Да | array&lt;[HookResult](schema-hookresult.md)&gt; |   |
+| `harness_env_names` | Да | array&lt;string&gt; / null | Отсортированные имена ENV, переданных процессу агента, который обслуживает запуск. До подключения к процессу или при отсутствии данных возвращается null.  |
 | `env_names` | Да | array&lt;string&gt; | Отсортированные имена явных переменных запуска. Значения не возвращаются.  |
-| `services` | Да | array&lt;[Service](schema-service.md)&gt; | Неизменяемые описания сервисов и имена ENV, определённые при принятии запроса.  |
-| `env_from` | Да | array&lt;string&gt; | Отсортированные имена переменных окружения оркестратора для запуска, включая ENV выбранных сервисов.  |
+| `services` | Да | [ServiceCodes](schema-servicecodes.md) |   |
+| `env_from` | Да | array&lt;string&gt; | Отсортированные имена ENV worker, явно запрошенных для этого запуска.  |
 | `input_fingerprint` | Да | string / null | Версия входных данных при приёме запуска. От 1 до 256 байт UTF-8. NUL и строки только из пробелов запрещены. Точное сравнение.  |
 | `cancel_requested_at` | Да | string / null |   |
 | `created_at` | Да | string |  format: <code>"date-time"</code> |
@@ -86,6 +87,21 @@
         "$ref": "#/components/schemas/HookResult"
       }
     },
+    "harness_env_names": {
+      "description": "Sorted names passed by Orpheus at launch of the harness used by this run. Null if unknown, including before attachment.",
+      "anyOf": [
+        {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "env_names": {
       "description": "Sorted names of explicit variables supplied for this run; values are never returned.",
       "type": "array",
@@ -94,14 +110,10 @@
       }
     },
     "services": {
-      "description": "Immutable service descriptions and environment names resolved when accepted.",
-      "type": "array",
-      "items": {
-        "$ref": "#/components/schemas/Service"
-      }
+      "$ref": "#/components/schemas/ServiceCodes"
     },
     "env_from": {
-      "description": "Sorted orchestrator environment variable names for this run, including expanded services.",
+      "description": "Sorted worker variable names explicitly requested for this run.",
       "type": "array",
       "items": {
         "type": "string"
@@ -265,6 +277,7 @@
     "hooks",
     "input_fingerprint",
     "env_names",
+    "harness_env_names",
     "env_from",
     "services",
     "id",

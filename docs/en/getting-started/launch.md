@@ -14,6 +14,7 @@ The script creates `.env`, [`orpheus.toml`](../configuration/profiles.md) and [`
 
 1. Set [`AGENTBOX_API_KEY`](../reference/environment.md#env-agentbox-api-key) and [`MATTERMOST_BOT_TOKEN`](../integrations/mattermost/connect.md) in `.env`.
 2. Find [`mattermost.base_url`](../reference/mattermost.md#workflow-mattermost-base-url) in [`workflows/assistant.md`](../integrations/mattermost/workflow.md) and replace `https://chat.example.com` with your Mattermost server's HTTPS address. The connector uses this address to exchange messages. AgentBox sandboxes use it to download attachments and upload result files.
+3. Set `services.mattermost.endpoint` in the [service catalog](../configuration/secrets.md#services) to the same address. Selecting `mattermost` passes this URL to the sandbox in `MATTERMOST_URL`.
 
 The database starts with empty account and profile catalogs. No profile TOML is needed to apply migrations.
 

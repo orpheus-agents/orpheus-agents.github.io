@@ -148,7 +148,7 @@ try {
   }
   const coreServices = await fetch(`${coreAPI}/api/v1/services`, { headers: { Authorization: 'Bearer fixture' } }).then(r => r.json())
   const services = await request('/api/v1/services')
-  if (JSON.stringify(services) !== JSON.stringify(coreServices) || services.items.length !== 1 || services.items[0].code !== 'mattermost' || services.items[0].env_from.join() !== 'MATTERMOST_BOT_TOKEN') throw Error('Root service catalog differs from the runnable example')
+  if (JSON.stringify(services) !== JSON.stringify(coreServices) || services.items.length !== 1 || services.items[0].code !== 'mattermost' || services.items[0].env_names.join() !== 'MATTERMOST_BOT_TOKEN,MATTERMOST_URL') throw Error('Root service catalog differs from the runnable example')
   for (const catalog of ['profiles', 'templates']) if (!(await request(`/api/v1/${catalog}`)).items.length) throw Error(`Empty ${catalog} catalog`)
   const profiles = await request('/api/v1/profiles?available=true&name=default&limit=1')
   if (profiles.items.length !== 1 || profiles.items[0].model !== 'gpt-6-sol' || profiles.next_cursor !== null || profiles.prev_cursor !== null) throw Error('Space did not preserve the available profile page')
@@ -185,7 +185,7 @@ try {
   }
   if (occurrence?.state !== 'accepted' || !occurrence.run_id) throw Error('Space did not submit to local core')
   const session = await fetch(`${coreAPI}/api/v1/sessions/${occurrence.session_id}`, { headers: { Authorization: 'Bearer fixture' } }).then(r => r.json())
-  if (JSON.stringify(session.configuration.sandbox.services) !== JSON.stringify(coreServices.items) || session.configuration.sandbox.env_from.join() !== 'MATTERMOST_BOT_TOKEN') throw Error('Space did not forward session service access to core')
+  if (session.configuration.sandbox.services.join() !== 'mattermost' || session.configuration.sandbox.env_from.length !== 0) throw Error('Space did not forward session service access to core')
   await request(`${base}/${probe.id}`, { method: 'DELETE', headers }, 204)
   console.log('Persistent COMPOSE_FILE selection, dedicated bridge, distinct core keys and Space worker submission passed. Core worker stayed stopped.')
 } catch (error) {

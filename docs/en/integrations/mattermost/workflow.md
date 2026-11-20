@@ -39,6 +39,6 @@ Select [services](../../configuration/secrets.md#services) from the Orpheus cata
 services: [helpdesk]
 ```
 
-The catalog must contain `helpdesk`, and its ENV values must be supplied to the Orpheus worker. You can combine `services` with [`env_from`](../../reference/mattermost.md#workflow-env-from). The bot token used by file hooks remains run-scoped unless you explicitly select it for the session.
+The catalog must contain `helpdesk`, and its credential sources must be set on the Orpheus worker. You can combine `services` with [`env_from`](../../reference/mattermost.md#workflow-env-from). The bot token used by file hooks remains run-scoped unless you explicitly select it for the session.
 
 [Channel workflows](channels.md) · [Apply changes](reload.md) · [All settings](../../reference/mattermost.md)

@@ -2,18 +2,25 @@
 
 ## Настройте сервисы {#services}
 
-Сервис объединяет переменные окружения worker для доступа к системе. Опишите каталог в [`orpheus.toml`](profiles.md), одинаково на API и worker:
+Сервис описывает адрес системы и данные, которые получит клиент в песочнице. Укажите один и тот же каталог в [`orpheus.toml`](profiles.md) на API и worker.
 
 ```toml
 [services.helpdesk]
 name = "Хелпдеск"
 description = "Чтение обращений поддержки и публикация ответов."
-env_from = ["HELPDESK_URL", "HELPDESK_TOKEN"]
+delivery = "direct"
+endpoint = "https://helpdesk.example.com"
+
+[services.helpdesk.credentials]
+key = { env = "SUPPORT_READ_TOKEN", as = "HELPDESK_TOKEN" }
+
+[services.helpdesk.environment]
+HELPDESK_URL = { from = "endpoint" }
 ```
 
-Ключ секции — код сервиса. Он должен соответствовать `[a-z][a-z0-9_-]{0,63}`. Название и описание обязательны. В каждом сервисе нужен хотя бы один допустимый, незарезервированный ENV без повторов. Разные сервисы могут включать одинаковые имена. В каталоге хранятся имена, а не значения секретов.
+Код сервиса должен соответствовать `[a-z][a-z0-9_-]{0,63}`. Укажите название, описание, `delivery = "direct"`, HTTP(S)-адрес и хотя бы одну запись в `environment`. Для адреса с путём используйте `from = "endpoint"`, для хоста с портом — `from = "endpoint.host"`. Обычное значение можно записать строкой. В `credentials` укажите имя ENV worker. Поле `as` задаёт имя в песочнице, по умолчанию оно совпадает с именем на worker.
 
-Передайте значения `HELPDESK_URL` и `HELPDESK_TOKEN` **worker Orpheus**. При создании сессии выберите сервис в [`configuration.sandbox.services`](../reference/api/create-session.md):
+Задайте `SUPPORT_READ_TOKEN` на **worker Orpheus**. Клиент получит его значение в `HELPDESK_TOKEN` и адрес из TOML в `HELPDESK_URL`. При создании сессии выберите сервис в [`configuration.sandbox.services`](../reference/api/create-session.md):
 
 ```json
 {
@@ -24,15 +31,15 @@ env_from = ["HELPDESK_URL", "HELPDESK_TOKEN"]
 
 JSON показывает значение [`configuration.sandbox`](../reference/api/create-session.md). Агент и хуки сессии получают выбранные переменные. Само добавление сервиса в каталог не даёт доступ к нему каждой сессии.
 
-[`GET /api/v1/services`](../reference/api/get-services.md) возвращает коды, названия, описания и имена ENV с сортировкой по коду. В списке выбора коды не повторяются. Неизвестный код отклоняет запрос целиком с `422 unknown_service`.
+[`GET /api/v1/services`](../reference/api/get-services.md) возвращает коды, названия, описания и имена ENV у клиента в `env_names` с сортировкой по коду. В списке выбора коды не повторяются. Неизвестный код отклоняет запрос целиком с `422 unknown_service`.
 
 [Workflows Mattermost](../reference/mattermost.md#workflow-services) выбирают коды через `services`. [Workflows ревью GitLab](../reference/gitlab-review.md#workflow-services) также выбирают сервисы явно. В [Space](../space/schedules.md#environment) сервисы явно задаются в каждом задании. Пользователю с правом редактирования задания доступен весь каталог, в том числе сервис с API-ключом Space. Права внешнего токена при этом сохраняются.
 
 ## Отдельные переменные {#individual-variables}
 
-Сервисы можно сочетать с [`env_from`](../reference/api/create-session.md). Разрешённые имена — объединение [`HARNESS_ENV_ALLOWLIST`](../reference/environment.md#env-harness-env-allowlist) и ENV всех сервисов. Конфигурация API и worker должна совпадать. Отдельные имена вне каталога добавьте в `HARNESS_ENV_ALLOWLIST`.
+Через [`env_from`](../reference/api/create-session.md) можно дополнительно запросить ENV worker по имени. Разрешены имена источников `credentials.*.env` всех сервисов и имена из [`HARNESS_ENV_ALLOWLIST`](../reference/environment.md#env-harness-env-allowlist). Настройте список одинаково на API и worker.
 
-ENV выбранных сервисов объединяются с явным `env_from` без повторов. Значение в [`env`](../reference/api/create-session.md) не может использовать имя переменной выбранного сервиса в той же области действия.
+Если сервисы или явные настройки одного уровня задают одну ENV клиента, worker объединяет равные значения. Разные значения останавливают запуск процесса. Настройка уровня запуска перекрывает одноимённую переменную сессии для хуков запуска.
 
 ## Секреты только для хуков {#hook-secrets}
 
@@ -42,9 +49,9 @@ ENV выбранных сервисов объединяются с явным `
 
 ## Примените изменения каталога {#changes}
 
-После редактирования каталога перезапустите API и worker. Принятые сессии и запуски сохраняют снимок названия, описания и ENV выбранных сервисов. Изменение каталога не меняет их конфигурацию. При подготовке исполнения worker берёт текущие значения из своего окружения и проверяет актуальный список разрешённых имён.
+После изменения каталога перезапустите API и worker. Сессия и запуск хранят выбранные коды. При старте каждого нового процесса worker читает текущие определения и значения ENV. Уже запущенный агент продолжает работу с окружением своего процесса.
 
-Чтобы применить новый состав сервиса, создайте новую сессию. В Mattermost увеличьте [`revision`](../integrations/mattermost/reload.md) workflow. В Space [сбросьте контекст](../space/schedules.md) задания, которое продолжает одну сессию. Смена выбранных кодов сервисов также начинает новый контекст при следующем подходящем выполнении.
+Чтобы запустить агента с новым окружением, создайте новую сессию. В Mattermost увеличьте [`revision`](../integrations/mattermost/reload.md) workflow. В Space [сбросьте контекст](../space/schedules.md) задания, которое продолжает одну сессию. Смена выбранных кодов сервисов также начинает новый контекст при следующем подходящем выполнении.
 
 Явные значения [`sandbox.env`](../reference/api/create-session.md) шифруются при хранении в БД ключом [`ENV_ENCRYPTION_KEY`](../reference/environment.md#env-env-encryption-key). Сохраняйте этот ключ между перезапусками и резервируйте отдельно от БД. Системные имена, включая [`OPENAI_API_KEY`](authentication.md#api-key), [`AGENTBOX_API_KEY`](../reference/environment.md#env-agentbox-api-key) и [`ORPHEUS_*`](../reference/environment.md) из зарезервированного списка, нельзя использовать как произвольные секреты.
 

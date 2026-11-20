@@ -14,7 +14,7 @@ Save `publish.py` beside `create.py`:
 
 <<< @/../examples/helpdesk/publish.py
 
-Set [`ORPHEUS_URL`](../../reference/api/conventions.md) and [`ORPHEUS_API_KEY`](../../reference/environment.md#env-public-api-keys) in the connector environment. Define the [`helpdesk` service](../../configuration/secrets.md#services) on API and worker, and supply its `HELPDESK_URL` and `HELPDESK_TOKEN` values to the worker. The example selects the service only for run hooks. The template needs Python 3.
+Set [`ORPHEUS_URL`](../../reference/api/conventions.md) and [`ORPHEUS_API_KEY`](../../reference/environment.md#env-public-api-keys) in the connector environment. Define the [`helpdesk` service](../../configuration/secrets.md#services) on API and worker. Set the Helpdesk URL in its TOML endpoint and supply `SUPPORT_READ_TOKEN` to the worker. The example selects the service only for run hooks. The template needs Python 3.
 
 The code uses the hypothetical helpdesk contract. If your API does not support `Idempotency-Key`, check for an existing comment before retrying. An arbitrary header alone does not prevent duplicates.
 

@@ -9,7 +9,7 @@
 | `code` | Да | string |   |
 | `name` | Да | string |   |
 | `description` | Да | string |   |
-| `env_from` | Да | array&lt;string&gt; | Отсортированные имена переменных окружения без значений.  |
+| `env_names` | Да | array&lt;string&gt; | Отсортированные имена переменных, которые клиент получает от сервиса.  |
 
 ## JSON Schema
 
@@ -21,7 +21,7 @@
     "code",
     "name",
     "description",
-    "env_from"
+    "env_names"
   ],
   "properties": {
     "code": {
@@ -33,9 +33,10 @@
     "description": {
       "type": "string"
     },
-    "env_from": {
-      "description": "Sorted environment variable names; never their values.",
+    "env_names": {
+      "description": "Sorted destination variable names supplied by this service to the client.",
       "type": "array",
+      "uniqueItems": true,
       "items": {
         "type": "string"
       }

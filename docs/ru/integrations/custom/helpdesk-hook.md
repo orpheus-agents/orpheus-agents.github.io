@@ -14,7 +14,7 @@
 
 <<< @/../examples/helpdesk/publish.py
 
-Перед запуском задайте [`ORPHEUS_URL`](../../reference/api/conventions.md) и [`ORPHEUS_API_KEY`](../../reference/environment.md#env-public-api-keys) в окружении коннектора. Опишите [сервис `helpdesk`](../../configuration/secrets.md#services) на API и worker, а значения его `HELPDESK_URL` и `HELPDESK_TOKEN` передайте worker. Пример выбирает сервис только для хуков запуска. В шаблоне нужен Python 3.
+Перед запуском задайте [`ORPHEUS_URL`](../../reference/api/conventions.md) и [`ORPHEUS_API_KEY`](../../reference/environment.md#env-public-api-keys) в окружении коннектора. Опишите [сервис `helpdesk`](../../configuration/secrets.md#services) на API и worker. Укажите адрес Helpdesk в `endpoint` сервиса и передайте `SUPPORT_READ_TOKEN` в окружении worker. Пример выбирает сервис только для хуков запуска. В шаблоне нужен Python 3.
 
 Код использует условный контракт хелпдеска. Если ваша система не поддерживает `Idempotency-Key`, добавьте проверку опубликованного комментария перед повтором. Не считайте произвольный заголовок гарантией защиты от дублей.
 

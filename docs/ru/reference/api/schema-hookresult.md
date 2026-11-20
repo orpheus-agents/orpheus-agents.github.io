@@ -6,6 +6,7 @@
 
 | Поле | Обязательное | Тип | Описание и ограничения |
 | --- | --- | --- | --- |
+| `env_names` | Да | array&lt;string&gt; / null | Отсортированные имена ENV, переданных скрипту хука при подтверждённом запуске. Если данных нет, возвращается null.  |
 | `id` | Да | string |  format: <code>"uuid"</code> |
 | `name` | Да | string |  enum: <code>["after_create","before_run","after_run","before_remove"]</code> |
 | `status` | Да | string |  enum: <code>["pending","running","completed","failed","cancelled","skipped"]</code> |
@@ -24,6 +25,21 @@
 ```json
 {
   "properties": {
+    "env_names": {
+      "description": "Sorted names passed by Orpheus for the confirmed start of this hook script. Null if unknown.",
+      "anyOf": [
+        {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "id": {
       "type": "string",
       "format": "uuid"
@@ -150,6 +166,7 @@
   "required": [
     "id",
     "name",
+    "env_names",
     "status",
     "started_at",
     "deadline_at",

@@ -9,7 +9,7 @@
 | `code` | Yes | string |   |
 | `name` | Yes | string |   |
 | `description` | Yes | string |   |
-| `env_from` | Yes | array&lt;string&gt; | Sorted environment variable names; never their values.  |
+| `env_names` | Yes | array&lt;string&gt; | Sorted destination variable names supplied by this service to the client.  |
 
 ## JSON Schema
 
@@ -21,7 +21,7 @@
     "code",
     "name",
     "description",
-    "env_from"
+    "env_names"
   ],
   "properties": {
     "code": {
@@ -33,9 +33,10 @@
     "description": {
       "type": "string"
     },
-    "env_from": {
-      "description": "Sorted environment variable names; never their values.",
+    "env_names": {
+      "description": "Sorted destination variable names supplied by this service to the client.",
       "type": "array",
+      "uniqueItems": true,
       "items": {
         "type": "string"
       }

@@ -6,9 +6,9 @@
 
 | Поле | Обязательное | Тип | Описание и ограничения |
 | --- | --- | --- | --- |
-| `services` | Да | array&lt;[Service](schema-service.md)&gt; | Неизменяемые описания сервисов и имена ENV, определённые при принятии запроса.  |
-| `env_from` | Да | array&lt;string&gt; | Отсортированные имена переменных окружения оркестратора, включая ENV выбранных сервисов.  |
-| `env_names` | Да | array&lt;string&gt; |   |
+| `services` | Да | [ServiceCodes](schema-servicecodes.md) |   |
+| `env_from` | Да | array&lt;string&gt; | Отсортированные имена ENV worker, явно запрошенных для этой сессии.  |
+| `env_names` | Да | array&lt;string&gt; | Отсортированные имена ENV, значения которых переданы явно для сессии.  |
 | `template` | Да | string |   |
 
 ## JSON Schema
@@ -18,14 +18,10 @@
   "additionalProperties": false,
   "properties": {
     "services": {
-      "description": "Immutable service descriptions and environment names resolved when accepted.",
-      "type": "array",
-      "items": {
-        "$ref": "#/components/schemas/Service"
-      }
+      "$ref": "#/components/schemas/ServiceCodes"
     },
     "env_from": {
-      "description": "Sorted orchestrator environment variable names, including expanded services.",
+      "description": "Sorted worker variable names explicitly requested for the session.",
       "items": {
         "type": "string"
       },
@@ -33,6 +29,7 @@
       "type": "array"
     },
     "env_names": {
+      "description": "Sorted names of explicit session env values.",
       "items": {
         "type": "string"
       },

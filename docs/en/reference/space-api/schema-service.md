@@ -9,7 +9,7 @@
 | `code` | Yes | string |  pattern: <code>"^[a-z][a-z0-9_-]{0,63}$"</code> |
 | `name` | Yes | string |   |
 | `description` | Yes | string |   |
-| `env_from` | Yes | array&lt;string&gt; | Names of worker environment variables included in this service; never values.  |
+| `env_names` | Yes | array&lt;string&gt; | Sorted destination variable names supplied by this service to the client.  |
 
 ## JSON Schema
 
@@ -21,7 +21,7 @@
     "code",
     "name",
     "description",
-    "env_from"
+    "env_names"
   ],
   "properties": {
     "code": {
@@ -34,12 +34,13 @@
     "description": {
       "type": "string"
     },
-    "env_from": {
+    "env_names": {
       "type": "array",
+      "uniqueItems": true,
       "items": {
         "type": "string"
       },
-      "description": "Names of worker environment variables included in this service; never values."
+      "description": "Sorted destination variable names supplied by this service to the client."
     }
   }
 }

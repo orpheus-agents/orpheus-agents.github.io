@@ -9,7 +9,7 @@
 | `code` | Да | string |  pattern: <code>"^[a-z][a-z0-9_-]{0,63}$"</code> |
 | `name` | Да | string |   |
 | `description` | Да | string |   |
-| `env_from` | Да | array&lt;string&gt; | Имена переменных окружения worker, входящих в сервис, без значений.  |
+| `env_names` | Да | array&lt;string&gt; | Отсортированные имена переменных, которые клиент получает от сервиса.  |
 
 ## JSON Schema
 
@@ -21,7 +21,7 @@
     "code",
     "name",
     "description",
-    "env_from"
+    "env_names"
   ],
   "properties": {
     "code": {
@@ -34,12 +34,13 @@
     "description": {
       "type": "string"
     },
-    "env_from": {
+    "env_names": {
       "type": "array",
+      "uniqueItems": true,
       "items": {
         "type": "string"
       },
-      "description": "Names of worker environment variables included in this service; never values."
+      "description": "Sorted destination variable names supplied by this service to the client."
     }
   }
 }

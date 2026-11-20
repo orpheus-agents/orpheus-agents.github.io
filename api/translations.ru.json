@@ -109,13 +109,7 @@
   "Current provider limits by configured account": "Текущие лимиты провайдера по настроенным аккаунтам",
   "Dashboard analytics snapshot": "Сводка аналитики панели",
   "Create Run": "Создание запуска",
-  "Unique configured service codes. Order is insignificant; an unknown code rejects the entire request.": "Уникальные коды настроенных сервисов. Порядок не важен. Неизвестный код отклоняет запрос целиком.",
-  "Sorted environment variable names; never their values.": "Отсортированные имена переменных окружения без значений.",
   "Services available only to this run's before_run and after_run hooks, as with run env_from. Never passed to the harness, after_create, or before_remove.": "Сервисы только для хуков before_run и after_run этого запуска, как env_from запуска. Не передаются агенту, after_create и before_remove.",
-  "Immutable service descriptions and environment names resolved when accepted.": "Неизменяемые описания сервисов и имена ENV, определённые при принятии запроса.",
-  "Sorted orchestrator environment variable names for this run, including expanded services.": "Отсортированные имена переменных окружения оркестратора для запуска, включая ENV выбранных сервисов.",
-  "Sorted orchestrator environment variable names, including expanded services.": "Отсортированные имена переменных окружения оркестратора, включая ENV выбранных сервисов.",
-  "Services available to the agent and session hooks, expanded together with env_from.": "Сервисы для агента и хуков сессии. Их ENV объединяются с env_from.",
   "List configured services": "Каталог настроенных сервисов",
   "Returns the complete catalog sorted by code from local configuration. No provider or credential lookups are performed.": "Возвращает полный каталог из локальной конфигурации, отсортированный по коду. Не обращается к провайдеру и не запрашивает значения секретов.",
   "Configured services": "Настроенные сервисы",
@@ -164,5 +158,13 @@
   "Conditionally replace the account authorization file": "Условная замена файла авторизации аккаунта",
   "Current provider limits by account": "Текущие лимиты провайдера по аккаунтам",
   "Comma-separated account UUIDs. Omit to read all accounts with supported quota sources.": "UUID аккаунтов через запятую. Без параметра возвращаются все аккаунты, для которых поддерживается чтение квот.",
-  "Native model integration ID. Required for OpenCode API keys and inferred from the OpenCode Console account file for OAuth.": "ID интеграции провайдера модели. Для API-ключа OpenCode обязателен. При авторизации через OAuth определяется из файла аккаунта OpenCode Console."
+  "Native model integration ID. Required for OpenCode API keys and inferred from the OpenCode Console account file for OAuth.": "ID интеграции провайдера модели. Для API-ключа OpenCode обязателен. При авторизации через OAuth определяется из файла аккаунта OpenCode Console.",
+  "Unique service codes. Order is insignificant on input. Admission rejects unknown codes. Responses return sorted selections.": "Уникальные коды сервисов. Порядок при передаче произвольный. API отклоняет неизвестный код и возвращает выбранные коды в отсортированном виде.",
+  "Sorted destination variable names supplied by this service to the client.": "Отсортированные имена переменных, которые клиент получает от сервиса.",
+  "Sorted names passed by Orpheus for the confirmed start of this hook script. Null if unknown.": "Отсортированные имена ENV, переданных скрипту хука при подтверждённом запуске. Если данных нет, возвращается null.",
+  "Sorted names passed by Orpheus at launch of the harness used by this run. Null if unknown, including before attachment.": "Отсортированные имена ENV, переданных процессу агента, который обслуживает запуск. До подключения к процессу или при отсутствии данных возвращается null.",
+  "Sorted worker variable names explicitly requested for this run.": "Отсортированные имена ENV worker, явно запрошенных для этого запуска.",
+  "Sorted worker variable names explicitly requested for the session.": "Отсортированные имена ENV worker, явно запрошенных для этой сессии.",
+  "Sorted names of explicit session env values.": "Отсортированные имена ENV, значения которых переданы явно для сессии.",
+  "Session service codes. The worker resolves them using its current service configuration when preparing the harness or a hook.": "Коды сервисов сессии. При подготовке процесса агента или хука worker использует текущие настройки этих сервисов."
 }

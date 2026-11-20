@@ -1,6 +1,6 @@
 # ServiceCodes
 
-Unique configured service codes. Order is insignificant; an unknown code rejects the entire request.
+Unique service codes. Order is insignificant on input. Admission rejects unknown codes. Responses return sorted selections.
 
 **Type:** array&lt;string&gt;
 
@@ -8,7 +8,7 @@ Unique configured service codes. Order is insignificant; an unknown code rejects
 
 ```json
 {
-  "description": "Unique configured service codes. Order is insignificant; an unknown code rejects the entire request.",
+  "description": "Unique service codes. Order is insignificant on input. Admission rejects unknown codes. Responses return sorted selections.",
   "type": "array",
   "uniqueItems": true,
   "items": {

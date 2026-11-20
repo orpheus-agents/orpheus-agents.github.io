@@ -32,7 +32,7 @@ Space prepends [host-generated execution metadata](../reference/space-cli.md#sch
 
 ## Services {#environment}
 
-Select the systems the agent needs in the schedule's [`services`](../reference/space-api/schema-createschedule.md). The checklist shows names and descriptions. Expand the list beneath it to inspect ENV names for the selected services. Values are never shown or stored in Space. Schedule details list service names in one row. Hover, keyboard focus or tap reveals the description and ENV names.
+Select the systems the agent needs in the schedule's [`services`](../reference/space-api/schema-createschedule.md). The checklist shows names and descriptions. Expand the list beneath it to inspect the ENV names the selected services deliver to the client. Values are never shown or stored in Space. Schedule details list service names in one row. Hover, keyboard focus or tap reveals the description and ENV names.
 
 All catalog entries are selectable for a schedule you can edit. There are no automatic selections. Empty means no services. If a required system is absent, ask the administrator to [configure a service](../configuration/secrets.md#services).
 
