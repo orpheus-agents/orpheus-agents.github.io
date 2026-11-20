@@ -6,9 +6,11 @@ A profile selects an [LLM account](authentication.md), a model and shared instru
 
 1. In **Settings → LLM accounts**, add an account and configure its [authorization](authentication.md).
 2. In **Settings → Profiles**, choose **Add profile**. Enter a unique name, select the account and specify the required model ID.
-3. Add a description and instructions if needed. Configure the Codex options and keep the profile active.
+3. Add a description and instructions if needed. Keep the profile active.
 
 The name is used in workflows and API requests and cannot be renamed. The model is a string identifier accepted by the selected account. A session can override it through [`agent.model`](../reference/api/create-session.md).
+
+An OpenCode profile inherits its [provider](../reference/profiles.md#account-provider) from the account. For global Kimi Coding Plan, use a model ID such as `k3.1-pro`. For a Console account, enter `opencode-go/<model>` to use the Go subscription, for example `opencode-go/gpt-6-luna`. A bare model ID or `opencode/<model>` selects Console. Choose a [sandbox template](templates.md) that contains OpenCode.
 
 Codex profiles support [`effort`](../reference/profiles.md#profile-codex-effort), [`summary`](../reference/profiles.md#profile-codex-summary), [`personality`](../reference/profiles.md#profile-codex-personality) and [`service_tier`](../reference/profiles.md#profile-codex-service-tier). Unset options are omitted when starting the agent. Model and account support determine which values the provider accepts.
 

@@ -5,7 +5,7 @@
 | Profile field | Value |
 | --- | --- |
 | `name` | Required unique name. Immutable after creation |
-| <span id="profile-harness"></span>`harness` | Inherited from the account. `codex` |
+| <span id="profile-harness"></span>`harness` | Inherited from the account. `codex` or `opencode` |
 | `account_id` | Account UUID. Can be changed to another account of the same harness |
 | <span id="profile-model"></span>`model` | Required model ID. A session can override it with [`agent.model`](api/create-session.md) |
 | `description` | Optional description |
@@ -20,7 +20,8 @@
 | --- | --- |
 | <span id="profile-auth-account-id"></span>`id` | Generated UUID. Identifies the account in sessions and quota observations |
 | `name` | Editable display name |
-| `harness` | Immutable. `codex` |
+| `harness` | Immutable. `codex` or `opencode` |
+| <span id="account-provider"></span>`provider` | Immutable. Codex uses `openai`. For OpenCode keys, supply the integration ID. For OpenCode Console, the authorization record supplies `opencode` |
 | <span id="profile-auth-mode"></span>`auth_mode` | Immutable. `api_key` or `account` |
 | `active` | Permits new sessions through active profiles |
 | <span id="profile-auth-store"></span>`credential_store` | Immutable store name for account-file authorization |

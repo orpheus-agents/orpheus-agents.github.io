@@ -16,7 +16,7 @@ A new schedule starts with the interface time zone. Review the zone and the next
 | New session for each run | Start each task with fresh context |
 | Continue the same session | Keep context between runs |
 | Profile | Select the [agent configuration](../configuration/profiles.md) |
-| Sandbox template | Select the [AgentBox environment](../configuration/templates.md) |
+| Sandbox template | Select an [AgentBox environment](../configuration/templates.md) with the harness required by the profile (Codex or OpenCode) |
 | Model | Optional override for the selected profile’s model |
 | Owner email | Defines ownership and filters the list. Empty means shared |
 

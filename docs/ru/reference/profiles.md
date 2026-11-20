@@ -5,7 +5,7 @@
 | Поле профиля | Значение |
 | --- | --- |
 | `name` | Обязательное уникальное название. Не меняется после создания |
-| <span id="profile-harness"></span>`harness` | Наследуется от аккаунта. `codex` |
+| <span id="profile-harness"></span>`harness` | Наследуется от аккаунта. `codex` или `opencode` |
 | `account_id` | UUID аккаунта. Можно выбрать другой аккаунт того же харнеса |
 | <span id="profile-model"></span>`model` | Обязательный ID модели. В сессии можно переопределить через [`agent.model`](api/create-session.md) |
 | `description` | Необязательное описание |
@@ -20,7 +20,8 @@
 | --- | --- |
 | <span id="profile-auth-account-id"></span>`id` | Сгенерированный UUID. Определяет аккаунт в сессиях и наблюдениях лимитов |
 | `name` | Изменяемое название |
-| `harness` | Не меняется. `codex` |
+| `harness` | Не меняется. `codex` или `opencode` |
+| <span id="account-provider"></span>`provider` | Не меняется. Для Codex — `openai`. Для ключа OpenCode укажите ID интеграции. Для OpenCode Console значение `opencode` берётся из файла авторизации |
 | <span id="profile-auth-mode"></span>`auth_mode` | Не меняется. `api_key` или `account` |
 | `active` | Разрешает новые сессии через активные профили |
 | <span id="profile-auth-store"></span>`credential_store` | Неизменяемое название хранилища для файловой авторизации |

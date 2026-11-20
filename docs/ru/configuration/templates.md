@@ -1,9 +1,9 @@
 # Окружение и шаблоны песочниц
 
-Шаблон определяет, какие программы и файлы доступны агенту. Подготовьте шаблон в своём проекте AgentBox с Codex, CLI, навыками и конфигурацией MCP нужных систем. Orpheus регистрирует шаблоны проекта, которому принадлежит его [ключ AgentBox](../reference/environment.md#env-agentbox-api-key).
+Шаблон определяет, какие программы и файлы доступны агенту. Подготовьте шаблон в своём проекте AgentBox с харнесом выбранного [профиля](profiles.md), CLI, навыками и конфигурацией MCP нужных систем. Orpheus регистрирует шаблоны проекта, которому принадлежит его [ключ AgentBox](../reference/environment.md#env-agentbox-api-key).
 
 1. Опишите и соберите окружение по [инструкции AgentBox](https://docs.agentbox.ru/ru/templates/).
-2. Добавьте Codex CLI и инструменты для ваших workflow. Для Mattermost также нужны Linux и Python 3.9 или новее. Скрипты работы с вложениями коннектор устанавливает сам.
+2. Для аккаунтов Codex установите Codex CLI, для OpenCode — OpenCode 2.3.2 и Python 3. Новую версию OpenCode проверьте в отдельной песочнице перед обновлением шаблона workflow. Добавьте инструменты для ваших workflow. Если OpenCode использует собственного провайдера, настройте ID интеграции и модели в шаблоне. Для Mattermost также нужны Linux и Python 3.9 или новее. Скрипты работы с вложениями коннектор устанавливает сам.
 3. Зарегистрируйте шаблон в Orpheus по инструкции ниже.
 4. Укажите точное имя из каталога в [`configuration.sandbox.template`](../reference/api/create-session.md), поле [`sandbox_template`](../reference/mattermost.md#workflow-sandbox-template) workflow Mattermost или [задании Space](../space/schedules.md).
 5. Создайте новую сессию и проверьте доступность инструментов.

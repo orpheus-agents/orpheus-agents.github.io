@@ -27,11 +27,11 @@ A healthy process does not confirm model access. Verify that separately with a c
 
 ## Quotas and available resets
 
-For accounts using [account authentication](../configuration/authentication.md#account), you can monitor remaining quota and the number of available earned rate-limit resets. These values are available through the [limits API](../reference/api/get-account-limits.md) and service metrics.
+Monitor quota windows for global Kimi Coding Plan keys and for Codex and OpenCode Console accounts. The [limits API](../reference/api/get-account-limits.md) and service metrics expose the percentages and reset times that the provider reports. See [account types and windows](../web/limits.md).
 
 The [`reset_credits_available`](../reference/api/schema-accountlimititem.md) field contains the available reset count for the whole account: `0` means none are available, while `null` means the count is unknown. Resets belong to the account rather than an individual quota window and are separate from monetary credits. Orpheus reports their count without consuming them.
 
-Data updates about once a minute while the account has an active Codex session. Reading the API or metrics does not refresh the observation or start a sandbox. A snapshot becomes `stale` after five minutes without an update, an unrecovered read failure or a passed window reset time. The last percentages and reset count remain available, but are no longer confirmed as current. [Limit states](../web/limits.md) distinguish fresh, stale and unknown data.
+Codex and OpenCode Console require an active session on the account to update quota observations. Kimi Coding Plan usage can be read with the subscription key independently of a running sandbox. Reading the API or metrics does not refresh the observation or start a sandbox. A snapshot becomes `stale` after five minutes without an update, an unrecovered read failure or a passed window reset time. The last percentages and reset count remain available, but are no longer confirmed as current. [Limit states](../web/limits.md) distinguish fresh, stale and unknown data.
 
 ## HTTP request metrics {#http-metrics}
 
@@ -65,7 +65,7 @@ All metrics are gauges and describe accounts across the installation. With multi
 
 `window` is `primary` or `secondary`, and `state` is `fresh`, `stale`, `unknown` or `unavailable`. [`account_id`](../reference/profiles.md#profile-auth-account-id) groups profiles sharing an account. The provider defines window duration, so do not infer it from the name `primary` or `secondary`.
 
-Unknown numbers and timestamps have no series, while a confirmed zero is reported as `0`. Stale values remain alongside the `stale` state and observation time. Removed accounts and windows disappear on the next successful scrape. Installations using only API keys return no account metric series.
+Unknown numbers and timestamps have no series, while a confirmed zero is reported as `0`. Stale values remain alongside the `stale` state and observation time. Removed accounts and windows disappear on the next successful scrape. Accounts without a supported quota source produce no account metric series.
 
 If data is unavailable or the read exceeds three seconds, the endpoint returns HTTP 503. Monitor these failures with your usual `up` alert. A successful scrape confirms metrics availability, not the freshness of provider quotas.
 

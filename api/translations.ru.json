@@ -162,5 +162,6 @@
   "Read the account authorization file": "Чтение файла авторизации аккаунта",
   "Conditionally replace the account authorization file": "Условная замена файла авторизации аккаунта",
   "Current provider limits by account": "Текущие лимиты провайдера по аккаунтам",
-  "Comma-separated account UUIDs. Omit to read all account-file identities.": "UUID аккаунтов через запятую. Без параметра возвращаются все аккаунты с файловой авторизацией."
+  "Comma-separated account UUIDs. Omit to read all accounts with supported quota sources.": "UUID аккаунтов через запятую. Без параметра возвращаются все аккаунты, для которых поддерживается чтение квот.",
+  "Native model integration ID. Required for OpenCode API keys and inferred from the OpenCode Console account file for OAuth.": "ID интеграции провайдера модели. Для API-ключа OpenCode обязателен. При авторизации через OAuth определяется из файла аккаунта OpenCode Console."
 }

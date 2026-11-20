@@ -4,7 +4,16 @@
 
 Open a card to edit the name or authorization, enable or disable the account, or delete it. Deletion is blocked while a profile or session references the account. API keys appear only as masks. [Configure authorization](../configuration/authentication.md).
 
-Provider quota observations are available for account-file authorization. API-key accounts remain in the list without these quotas. A failed request is shown separately from a successful response with no observation.
+The provider and [authorization mode](../configuration/authentication.md) determine which quotas appear.
+
+| Account | Quota windows |
+| --- | --- |
+| Codex with account authorization | Provider windows and the available reset count when reported |
+| Global Kimi Coding Plan key (`kimi-code-plan-global`) | Five-hour, weekly, monthly coding and monthly total windows. The card shows each reported window and its reset time |
+| OpenCode Console account with Go | Rolling five-hour, weekly and monthly windows when reported by the workspace |
+| OpenCode Console workspace with credits only | A successful observation can have no windows. Monetary credits are outside the quota display |
+
+Other API keys remain in the catalog without quota windows.
 
 | State | Meaning |
 | --- | --- |
@@ -13,7 +22,7 @@ Provider quota observations are available for account-file authorization. API-ke
 | `unknown` | No successful observation |
 | `unavailable` | Data could not be obtained |
 
-Missing data does not mean zero usage. Updates come from running sessions using the account. Viewing the page does not wake a paused sandbox.
+Use the observation state and timestamp to distinguish a missing measurement from a confirmed zero. Viewing the page reads saved observations and leaves paused sandboxes asleep.
 
 An account is identified by [`account_id`](../reference/profiles.md#profile-auth-account-id). Usage percentages belong to provider quota windows. Check the window duration and reset time.
 

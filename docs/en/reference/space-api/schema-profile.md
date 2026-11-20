@@ -14,7 +14,7 @@
 | `available` | Yes | boolean |   |
 | `name` | Yes | string |   |
 | `description` | Yes | string / null |   |
-| `harness` | Yes | string |  enum: <code>["codex"]</code> |
+| `harness` | Yes | string |  enum: <code>["codex","opencode"]</code> |
 | `model` | Yes | string |  minLength: <code>1</code> |
 | `codex` | Yes | [CodexProfile](schema-codexprofile.md) |   |
 | `instructions` | Yes | string |   |
@@ -72,7 +72,8 @@
     "harness": {
       "type": "string",
       "enum": [
-        "codex"
+        "codex",
+        "opencode"
       ]
     },
     "model": {

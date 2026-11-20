@@ -1,9 +1,9 @@
 # Sandbox environment and templates
 
-A template defines the software and files available to an agent. Prepare a template in your AgentBox project with Codex, the required CLI tools, skills and MCP configuration. Orpheus registers templates owned by the project identified by its [AgentBox key](../reference/environment.md#env-agentbox-api-key).
+A template defines the software and files available to an agent. Prepare a template in your AgentBox project with the harness selected in the [profile](profiles.md), the required CLI tools, skills and MCP configuration. Orpheus registers templates owned by the project identified by its [AgentBox key](../reference/environment.md#env-agentbox-api-key).
 
 1. Define and build the environment using the [AgentBox guide](https://docs.agentbox.ru/en/templates/).
-2. Include Codex CLI and the tools your workflows need. Mattermost also requires Linux and Python 3.9 or newer. The connector installs its attachment scripts automatically.
+2. Install Codex CLI for Codex accounts, or OpenCode 2.3.2 and Python 3 for OpenCode accounts. Verify each new OpenCode version in a fresh sandbox before updating the workflow template. Include the tools your workflows need. For a custom OpenCode provider, configure its integration ID and models in the template. Mattermost also requires Linux and Python 3.9 or newer. The connector installs its attachment scripts automatically.
 3. Register the template in Orpheus as described below.
 4. Use its exact catalog name in [`configuration.sandbox.template`](../reference/api/create-session.md), a Mattermost workflow's [`sandbox_template`](../reference/mattermost.md#workflow-sandbox-template), or a [Space schedule](../space/schedules.md).
 5. Create a new session and verify the tools.
