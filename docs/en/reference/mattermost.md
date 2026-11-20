@@ -21,8 +21,9 @@
 | <span id="workflow-id"></span>`id` | `required` | Unique workflow name |
 | <span id="workflow-revision"></span>`revision` | `required` | Revision string |
 | <span id="workflow-reconcile-from"></span>`reconcile_from` | `required` | Fixed UTC RFC3339 processing cutover |
-| <span id="workflow-profile"></span>`profile` | `required` | Orpheus profile name |
-| <span id="workflow-sandbox-template"></span>`sandbox_template` | `required` | AgentBox template name |
+| <span id="workflow-profile"></span>`profile` | `required` | Default [model profile](../configuration/profiles.md) |
+| <span id="workflow-sandbox-template"></span>`sandbox_template` | `required` | Default [sandbox template](../configuration/templates.md) from the Orpheus catalog |
+| <span id="workflow-profile-by-tag"></span>`profile_by_tag` | `{}` | Maps a hashtag to a required `profile` and an optional `sandbox_template`. Omitting the template selects the workflow default. [Example](../integrations/mattermost/workflow.md#profile-tags) |
 | <span id="workflow-mattermost-base-url"></span>`mattermost.base_url` | `required` | Mattermost URL |
 | <span id="workflow-mattermost-token-env"></span>`mattermost.token_env` | `required` | Bot token ENV name |
 | <span id="workflow-env-from"></span>`env_from` | `[]` | Worker variables selected for the agent |
@@ -59,6 +60,13 @@ Unrouted private channels are left automatically. Configure private-channel acce
 Mandatory fields are marked `required`. Unknown fields, duplicate keys, duplicate IDs and overlapping specialized routes are rejected. Quote `revision` as a string. Put the complete agent instructions after the YAML.
 
 Do not store secrets in workflow files. `token_env` and [`env_from`](../configuration/secrets.md) hold variable names. [Examples](../integrations/mattermost/workflow.md) · [Apply changes](../integrations/mattermost/reload.md).
+
+### Hashtag matching
+
+- In YAML, write each key without `#`. Use a lowercase name matching `[a-z][a-z0-9_-]*`.
+- In Mattermost, write the hashtag as a separate word in ordinary text. Matching ignores ASCII case and accepts trailing punctuation, so `#FAST!` matches `fast`. The connector skips tags in code, quotes, links and images, as well as escaped tags. The agent receives the original text.
+- Only the first post eligible to start work selects the profile and template. When [batching messages](../integrations/mattermost/automatic.md), the earliest eligible post wins, with post ID breaking a timestamp tie. Tags in linked threads or attachments have no effect.
+- Several tags can select the same profile and effective template. If either differs, the bot asks the author to edit that post. Other requests in the batch remain eligible.
 
 ## Message author and channel {#identity}
 

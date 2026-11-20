@@ -13,6 +13,6 @@ Select a period on the analytics page. Metrics include run count, currently acti
 - Total run time adds durations across runs. Parallel work can exceed the period's wall-clock duration.
 - Token totals reflect stored agent reports. Monetary cost is not calculated here.
 
-Manage sandbox templates under [Settings → Templates](../configuration/templates.md#manage). Create tasks through Mattermost, [Space](../space/overview.md) or your integration's API calls. Space schedule sessions use the `schedule` namespace.
+In **Settings**, check quotas and manage [LLM accounts](limits.md), [model profiles](../configuration/profiles.md) and [sandbox templates](../configuration/templates.md#manage). Create tasks through Mattermost, [Space](../space/overview.md) or your integration's API calls. Space schedule sessions use the `schedule` namespace.
 
 [Sessions and runs](sessions.md) · [Analytics API](../reference/api/get-analytics-overview.md)

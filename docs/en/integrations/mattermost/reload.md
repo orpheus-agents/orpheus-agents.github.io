@@ -12,17 +12,20 @@ docker compose kill -s SIGHUP mattermost
 | Change | Action |
 | --- | --- |
 | Workflow instructions or policy | Validate and send SIGHUP |
+| [Hashtag mapping](workflow.md#profile-tags) | Validate and send SIGHUP. The new mapping applies when a thread first calls the bot |
 | Profile or account settings | Apply through [Settings](../../configuration/profiles.md). New sessions use the updated profile and account binding. No restart is needed |
 | Service definition in [`orpheus.toml`](../../configuration/secrets.md#services) | Recreate API and worker with the updated configuration. New sessions use the new definition |
 | New AgentBox build under the selected template name/tag | New sandboxes use the updated build. No connector reload is needed |
 | Template catalog record, activity or description | Apply through [Web or API](../../configuration/templates.md#manage). No API or worker restart is needed. Accepted sessions keep their settings |
 | Environment, token or new connection | Recreate the connector container |
 
-Existing sessions keep their accepted settings and sandbox. If existing conversations need the new profile, service definition or sandbox build, increase [`revision`](../../reference/mattermost.md#workflow-revision) and reload the workflow. The next request starts a new session. Ordinary template or tool updates do not require this reset.
+Existing sessions keep their accepted settings and sandbox. If a conversation needs updated settings under the same profile name, a new service definition or a new sandbox build, increase [`revision`](../../reference/mattermost.md#workflow-revision) and reload the workflow. The next request starts a new session. Ordinary template or tool updates do not require this reset.
 
-Changing instructions, profile, template or service selection changes the effective revision. Reordering service codes does not. Current work finishes. The next request starts a new session.
+Changing instructions, the default profile or template, or the selected services changes the effective revision. Reordering service codes or editing only the hashtag mapping keeps the revision. When the revision changes, current work finishes and the next request starts a new session.
 
-A rejected input is retained until the effective workflow revision changes. After correcting an unknown profile, template or service, increase `revision` and reload. The connector retries the rejected input without a restart. Rejection notices are deduplicated by revision, reason and input.
+In a replacement session, the connector reuses the profile and any template explicitly selected by hashtag. This choice survives edits to the opening post, connector restarts and sandbox replacement. For each setting inherited from the workflow, the replacement uses the current default.
+
+After correcting an unknown profile, template or service, increase `revision` and reload. The connector retries the rejected input without a restart. Rejection notices are deduplicated by revision, reason and input.
 
 ## Remove a workflow
 

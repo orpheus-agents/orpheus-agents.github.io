@@ -12,7 +12,26 @@ Workflow объединяет маршрутизацию, выбор профи�
 
 Тело файла является полной инструкцией этого помощника. В примере включены правила чтения вложений и возврата файлов. Меняйте их вместе с назначением агента.
 
-[Workflows по каналам](channels.md) · [Все параметры](../../reference/mattermost.md)
+## Выбор профиля по хештегу {#profile-tags}
+
+Чтобы в одном канале можно было выбирать модель для задачи, добавьте в YAML раздел [`profile_by_tag`](../../reference/mattermost.md#workflow-profile-by-tag). Укажите имена активных [профилей](../../configuration/profiles.md) и [шаблонов](../../configuration/templates.md#manage) из каталога Orpheus.
+
+```yaml
+profile: default
+sandbox_template: codex
+profile_by_tag:
+  fast:
+    profile: codex-fast
+  research:
+    profile: research
+    sandbox_template: opencode
+```
+
+При таких настройках запрос `@orpheus Сравни отчёты #research` выберет для треда профиль `research` и шаблон `opencode`. С тегом `#fast` бот использует профиль `codex-fast` и шаблон по умолчанию `codex`. Без знакомого тега он возьмёт `default` и `codex`.
+
+Поставьте тег в первом сообщении, которое вызывает бота в тред. Это может быть и ответ в уже начатой дискуссии. Чтобы выбрать другой профиль или шаблон после принятия запроса, начните новый тред.
+
+## Доступ агента к сервисам
 
 Выберите для агента [сервисы](../../configuration/secrets.md#services) из каталога Orpheus:
 
@@ -21,3 +40,5 @@ services: [helpdesk]
 ```
 
 В каталоге должен существовать `helpdesk`, а значения его ENV должны быть переданы worker Orpheus. `services` можно сочетать с [`env_from`](../../reference/mattermost.md#workflow-env-from). Токен бота для файловых хуков остаётся в области запуска, если его явно не выбрали для сессии.
+
+[Workflows по каналам](channels.md) · [Применение изменений](reload.md) · [Все параметры](../../reference/mattermost.md)

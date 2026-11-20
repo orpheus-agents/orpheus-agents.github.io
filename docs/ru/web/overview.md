@@ -13,6 +13,6 @@
 - Суммарное время складывается по запускам. Параллельные задачи могут дать сумму больше длительности периода.
 - Токены отражают сохранённые отчёты агента. Денежная стоимость здесь не рассчитывается.
 
-В разделе [Настройки → Шаблоны](../configuration/templates.md#manage) можно управлять шаблонами песочниц. Задачи создаются через Mattermost, [Space](../space/overview.md) или API интеграции. Сессии заданий Space имеют namespace `schedule`.
+В **Настройках** можно посмотреть квоты и настроить [LLM-аккаунты](limits.md), [профили моделей](../configuration/profiles.md) и [шаблоны песочниц](../configuration/templates.md#manage). Задачи создаются через Mattermost, [Space](../space/overview.md) или API интеграции. Сессии заданий Space имеют namespace `schedule`.
 
 [Сессии и запуски](sessions.md) · [API аналитики](../reference/api/get-analytics-overview.md)
