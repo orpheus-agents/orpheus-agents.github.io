@@ -6,7 +6,9 @@ Create authorization in **Settings → LLM accounts**. Set a name, harness and a
 
 Choose **API key** and enter the provider key. Orpheus encrypts it in the database using [`ENV_ENCRYPTION_KEY`](../reference/environment.md#env-env-encryption-key). API and worker must share this key. Provider keys do not belong in the runtime environment or [`sandbox.env_from`](../reference/api/create-session.md).
 
-For an OpenCode account, choose a provider or enter its exact integration ID. For a global Kimi Coding Plan subscription key, choose `kimi-code-plan-global`. For a custom integration such as `selectel` or `yandex-cloud`, configure its endpoint, adapter and models in the [sandbox template](templates.md) under the same ID.
+For OpenCode, the **Provider** list shows built-in LLM providers that accept an API key. Each entry shows the provider name and its OpenCode ID. If you have a global Kimi Coding Plan key, choose **Kimi Code · global subscription** (`kimi-code-plan-global`).
+
+If your [sandbox template](templates.md) defines a provider such as Selectel or Yandex Cloud, choose **Other provider…**. In **Provider ID**, enter the exact ID from the template, for example `selectel` or `yandex-cloud`. The template must define the endpoint, adapter and models under that ID.
 
 The account card shows a mask. Enter a new key to replace it. The old key is never returned by the API or filled into the replacement field.
 
