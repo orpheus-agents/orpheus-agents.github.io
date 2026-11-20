@@ -18,7 +18,7 @@ See [browser access](../../operations/sso.md). Session mutations require a Beare
 
 | Name | In | Required | Type | Description and constraints |
 | --- | --- | --- | --- | --- |
-| `account_ids` | query | No | array&lt;string&gt; | Comma-separated account UUIDs. Omit to read all account-file identities. minItems: <code>1</code><br>maxItems: <code>200</code> |
+| `account_ids` | query | No | array&lt;string&gt; | Comma-separated account UUIDs. Omit to read all accounts with supported quota sources. minItems: <code>1</code><br>maxItems: <code>200</code> |
 
 ## Responses
 

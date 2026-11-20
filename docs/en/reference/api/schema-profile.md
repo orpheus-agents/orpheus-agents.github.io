@@ -9,7 +9,7 @@
 | `id` | Yes | string |  format: <code>"uuid"</code> |
 | `name` | Yes | string |  minLength: <code>1</code><br>maxLength: <code>255</code> |
 | `description` | Yes | string / null |  maxLength: <code>4096</code> |
-| `harness` | Yes | string |  enum: <code>["codex"]</code> |
+| `harness` | Yes | string |  enum: <code>["codex","opencode"]</code> |
 | `account_id` | Yes | string |  format: <code>"uuid"</code> |
 | `account_name` | Yes | string |  minLength: <code>1</code><br>maxLength: <code>255</code> |
 | `account_active` | Yes | boolean |   |
@@ -59,7 +59,8 @@
     "harness": {
       "type": "string",
       "enum": [
-        "codex"
+        "codex",
+        "opencode"
       ]
     },
     "account_id": {

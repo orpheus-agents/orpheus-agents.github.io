@@ -8,7 +8,8 @@
 | --- | --- | --- | --- |
 | `id` | Да | string |  format: <code>"uuid"</code> |
 | `name` | Да | string |  minLength: <code>1</code><br>maxLength: <code>255</code> |
-| `harness` | Да | string |  enum: <code>["codex"]</code> |
+| `harness` | Да | string |  enum: <code>["codex","opencode"]</code> |
+| `provider` | Да | string | ID интеграции провайдера модели. Для API-ключа OpenCode обязателен. При авторизации через OAuth определяется из файла аккаунта OpenCode Console. minLength: <code>1</code><br>maxLength: <code>128</code> |
 | `auth_mode` | Да | string |  enum: <code>["account","api_key"]</code> |
 | `active` | Да | boolean |   |
 | `credential_store` | Да | string / null |   |
@@ -25,6 +26,7 @@
     "name",
     "harness",
     "auth_mode",
+    "provider",
     "active",
     "credential_store",
     "profiles"
@@ -42,8 +44,15 @@
     "harness": {
       "type": "string",
       "enum": [
-        "codex"
+        "codex",
+        "opencode"
       ]
+    },
+    "provider": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Native model integration ID. Required for OpenCode API keys and inferred from the OpenCode Console account file for OAuth."
     },
     "auth_mode": {
       "type": "string",

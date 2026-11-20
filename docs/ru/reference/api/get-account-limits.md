@@ -18,7 +18,7 @@ HTTPBearer / BrowserSession
 
 | Имя | Где | Обязательный | Тип | Описание и ограничения |
 | --- | --- | --- | --- | --- |
-| `account_ids` | query | Нет | array&lt;string&gt; | UUID аккаунтов через запятую. Без параметра возвращаются все аккаунты с файловой авторизацией. minItems: <code>1</code><br>maxItems: <code>200</code> |
+| `account_ids` | query | Нет | array&lt;string&gt; | UUID аккаунтов через запятую. Без параметра возвращаются все аккаунты, для которых поддерживается чтение квот. minItems: <code>1</code><br>maxItems: <code>200</code> |
 
 ## Ответы
 

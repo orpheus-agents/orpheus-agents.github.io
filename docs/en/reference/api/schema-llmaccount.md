@@ -8,7 +8,8 @@
 | --- | --- | --- | --- |
 | `id` | Yes | string |  format: <code>"uuid"</code> |
 | `name` | Yes | string |  minLength: <code>1</code><br>maxLength: <code>255</code> |
-| `harness` | Yes | string |  enum: <code>["codex"]</code> |
+| `harness` | Yes | string |  enum: <code>["codex","opencode"]</code> |
+| `provider` | Yes | string | Native model integration ID. Required for OpenCode API keys and inferred from the OpenCode Console account file for OAuth. minLength: <code>1</code><br>maxLength: <code>128</code> |
 | `auth_mode` | Yes | string |  enum: <code>["account","api_key"]</code> |
 | `active` | Yes | boolean |   |
 | `credential_store` | Yes | string / null |   |
@@ -25,6 +26,7 @@
     "name",
     "harness",
     "auth_mode",
+    "provider",
     "active",
     "credential_store",
     "profiles"
@@ -42,8 +44,15 @@
     "harness": {
       "type": "string",
       "enum": [
-        "codex"
+        "codex",
+        "opencode"
       ]
+    },
+    "provider": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Native model integration ID. Required for OpenCode API keys and inferred from the OpenCode Console account file for OAuth."
     },
     "auth_mode": {
       "type": "string",
