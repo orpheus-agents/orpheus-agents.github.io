@@ -39,6 +39,6 @@ profile_by_tag:
 services: [helpdesk]
 ```
 
-В каталоге должен существовать `helpdesk`, а значения его ENV должны быть переданы worker Orpheus. `services` можно сочетать с [`env_from`](../../reference/mattermost.md#workflow-env-from). Токен бота для файловых хуков остаётся в области запуска, если его явно не выбрали для сессии.
+В каталоге должен существовать `helpdesk`, а worker Orpheus должен получить значения источников из его `credentials`. `services` можно сочетать с [`env_from`](../../reference/mattermost.md#workflow-env-from). Токен бота для файловых хуков остаётся в области запуска, если его явно не выбрали для сессии.
 
 [Workflows по каналам](channels.md) · [Применение изменений](reload.md) · [Все параметры](../../reference/mattermost.md)

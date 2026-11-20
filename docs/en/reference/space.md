@@ -89,7 +89,7 @@ Changing the effective base configuration starts fresh context on the next execu
 ## Select services {#environment}
 
 1. Define a [service](../configuration/secrets.md#services) in the Orpheus catalog.
-2. Supply its ENV values to the **Orpheus worker**.
+2. Supply the `credentials.*.env` sources on the Orpheus worker. Set the endpoint and ordinary client parameters in the service TOML.
 3. Select its code in the schedule's [`services`](space-api/schema-createschedule.md).
 
 There are no default services or ENV lists in Space configuration. An omitted selection on creation is `[]`. An empty selection removes all selected services. Unknown codes return `422`. Catalog failures return `503` when validation is needed. Unchanged selections and clearing services can be saved without catalog access. Resuming a paused schedule validates its complete selection.

@@ -32,7 +32,7 @@ An explicitly invalid Authorization header does not fall back to browser authent
 
 ## Service selection
 
-[Service codes](../../configuration/secrets.md#services) are order-insensitive and must be unique. An unknown code returns `422 unknown_service` before acceptance. A retry with the same idempotency key and input replays the accepted result without consulting the current catalog. Responses contain immutable service snapshots and the combined ENV names, never secret values.
+[Service codes](../../configuration/secrets.md#services) are order-insensitive and must be unique. An unknown code returns `422 unknown_service` before acceptance. A retry with the same idempotency key and input replays the accepted result without consulting the current catalog. Responses return selected codes in `services`, manual references in `env_from`, and the names of explicit values in `env_names`. In the [run response](schema-run.md), `harness_env_names` and `hooks[].env_names` identify the variables supplied to each process. A null value means the names are unknown.
 
 ## Stored agent output
 

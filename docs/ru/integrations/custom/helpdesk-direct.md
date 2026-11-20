@@ -2,7 +2,7 @@
 
 Коннектор создаёт сессию по новому тикету. Агент получает токен хелпдеска и инструкцию публикации.
 
-Настройте [сервис `helpdesk`](../../configuration/secrets.md#services) на API и worker, а значения его `HELPDESK_URL` и `HELPDESK_TOKEN` передайте worker. В запросе выберите сервис:
+Настройте [сервис `helpdesk`](../../configuration/secrets.md#services) на API и worker. Укажите адрес Helpdesk в `endpoint` сервиса и передайте `SUPPORT_READ_TOKEN` в окружении worker. В запросе выберите сервис:
 
 ```json
 {

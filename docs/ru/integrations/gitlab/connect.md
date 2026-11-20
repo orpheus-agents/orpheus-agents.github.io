@@ -25,19 +25,25 @@ GitLab должен быть доступен по HTTPS как из конне�
 [services.gitlab]
 name = "Чтение GitLab"
 description = "Чтение репозиториев, merge request и обсуждений."
-env_from = ["GITLAB_HOST", "GITLAB_TOKEN"]
+delivery = "direct"
+endpoint = "https://gitlab.example.com"
+
+[services.gitlab.credentials]
+key = { env = "GITLAB_TOKEN" }
+
+[services.gitlab.environment]
+GITLAB_HOST = { from = "endpoint" }
 ```
 
-Задайте эти переменные на **worker Orpheus** для инструментов песочницы. Здесь `GITLAB_TOKEN` должен содержать токен только для чтения, отдельный от токена бота коннектора. Настройте шаблон, чтобы Git также использовал эти данные для доступа по HTTPS.
+Укажите адрес своего GitLab в `endpoint`, а токен только для чтения передайте в `GITLAB_TOKEN` на **worker Orpheus**. Настройте шаблон, чтобы Git также использовал эти данные для доступа по HTTPS.
 
 В [Compose-комплекте быстрого старта](../../getting-started/launch.md) добавьте эти строки в существующий блок `services.worker.environment`, сохранив остальные строки:
 
 ```yaml
-GITLAB_HOST: ${GITLAB_HOST:?Set GITLAB_HOST}
 GITLAB_TOKEN: ${GITLAB_READ_TOKEN:?Set a read-only GitLab token}
 ```
 
-Задайте `GITLAB_HOST` и `GITLAB_READ_TOKEN` в `.env` этого комплекта. Второе имя — отдельная переменная Compose для токена только для чтения. Примените [изменения каталога](../../configuration/secrets.md#changes) и [пересоздайте контейнер worker](../../operations/maintenance.md), чтобы он получил новое окружение.
+Задайте `GITLAB_READ_TOKEN` в `.env` комплекта. Примените [изменения каталога](../../configuration/secrets.md#changes) и [пересоздайте контейнер worker](../../operations/maintenance.md), чтобы он получил новое окружение.
 
 ## Запустите коннектор
 

@@ -6,9 +6,9 @@
 
 | Field | Required | Type | Description and constraints |
 | --- | --- | --- | --- |
-| `services` | Yes | array&lt;[Service](schema-service.md)&gt; | Immutable service descriptions and environment names resolved when accepted.  |
-| `env_from` | Yes | array&lt;string&gt; | Sorted orchestrator environment variable names, including expanded services.  |
-| `env_names` | Yes | array&lt;string&gt; |   |
+| `services` | Yes | [ServiceCodes](schema-servicecodes.md) |   |
+| `env_from` | Yes | array&lt;string&gt; | Sorted worker variable names explicitly requested for the session.  |
+| `env_names` | Yes | array&lt;string&gt; | Sorted names of explicit session env values.  |
 | `template` | Yes | string |   |
 
 ## JSON Schema
@@ -18,14 +18,10 @@
   "additionalProperties": false,
   "properties": {
     "services": {
-      "description": "Immutable service descriptions and environment names resolved when accepted.",
-      "type": "array",
-      "items": {
-        "$ref": "#/components/schemas/Service"
-      }
+      "$ref": "#/components/schemas/ServiceCodes"
     },
     "env_from": {
-      "description": "Sorted orchestrator environment variable names, including expanded services.",
+      "description": "Sorted worker variable names explicitly requested for the session.",
       "items": {
         "type": "string"
       },
@@ -33,6 +29,7 @@
       "type": "array"
     },
     "env_names": {
+      "description": "Sorted names of explicit session env values.",
       "items": {
         "type": "string"
       },

@@ -1,4 +1,11 @@
 [services.mattermost]
 name = "Mattermost"
 description = "Read channels and publish messages through the bot."
-env_from = ["MATTERMOST_BOT_TOKEN"]
+delivery = "direct"
+endpoint = "https://chat.example.com"
+
+[services.mattermost.credentials]
+bot = { env = "MATTERMOST_BOT_TOKEN" }
+
+[services.mattermost.environment]
+MATTERMOST_URL = { from = "endpoint" }

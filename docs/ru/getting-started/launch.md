@@ -14,6 +14,7 @@ python3 init.py
 
 1. В `.env` задайте [`AGENTBOX_API_KEY`](../reference/environment.md#env-agentbox-api-key) и [`MATTERMOST_BOT_TOKEN`](../integrations/mattermost/connect.md).
 2. В [`workflows/assistant.md`](../integrations/mattermost/workflow.md) найдите параметр [`mattermost.base_url`](../reference/mattermost.md#workflow-mattermost-base-url) и замените `https://chat.example.com` на HTTPS-адрес вашего сервера Mattermost. По этому адресу коннектор обменивается сообщениями, а песочницы AgentBox скачивают вложения и отправляют файлы с результатами.
+3. Укажите тот же адрес в `services.mattermost.endpoint` в [каталоге сервисов](../configuration/secrets.md#services). Песочница получит его в `MATTERMOST_URL`, если выбрать сервис `mattermost`.
 
 База запускается с пустыми каталогами аккаунтов и профилей. Для применения миграций TOML с профилями не нужен.
 

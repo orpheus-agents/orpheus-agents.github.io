@@ -57,7 +57,6 @@
   "All services are available to every caller with read access. Returns ENV names, never values.": "Все сервисы доступны каждому пользователю с правом чтения. Возвращаются имена ENV без значений.",
   "Get schedule interface settings": "Настройки интерфейса заданий",
   "Explicit selection of service codes. No defaults; empty clears the selection. Unknown codes return 422 and an unavailable catalog returns 503. Unchanged selections can be preserved without the catalog; resuming validates the full selection.": "Явный выбор кодов сервисов без значений по умолчанию. Пустой список очищает выбор. Неизвестный код возвращает 422, недоступный каталог — 503. Прежний выбор можно сохранить без каталога. Возобновление проверяет весь выбор.",
-  "Names of worker environment variables included in this service; never values.": "Имена переменных окружения worker, входящих в сервис, без значений.",
   "Get a page of Orpheus templates": "Страница шаблонов Orpheus",
   "Returns active and inactive templates. The name filters are mutually exclusive. Cursors are bound to the filters; restart pagination after changing them.": "Возвращает активные и неактивные шаблоны. Фильтры по имени взаимоисключающие. Курсоры привязаны к фильтрам. После изменения фильтров начните с первой страницы.",
   "Exact stored name, including any team slug and tag; case-sensitive.": "Точное сохранённое имя с учётом регистра, включая team slug и тег, если они есть.",
@@ -73,5 +72,6 @@
   "Exact case-sensitive profile name.": "Точное имя профиля с учётом регистра.",
   "Literal case-insensitive substring of the name.": "Подстрока имени без учёта регистра.",
   "Exact Orpheus profile name; creation uses the configured default when omitted. Every save except a pure pause requires an active profile and account.": "Точное имя профиля Orpheus. При создании без значения используется настроенный дефолт. Любое сохранение, кроме чистой паузы, требует активного профиля и аккаунта.",
-  "Configured creation default, independent of catalog filters and pagination. Resolve the exact name before automatically selecting it.": "Настроенный дефолт для создания, независимый от фильтров и пагинации каталога. Перед автоматическим выбором проверьте точное имя."
+  "Configured creation default, independent of catalog filters and pagination. Resolve the exact name before automatically selecting it.": "Настроенный дефолт для создания, независимый от фильтров и пагинации каталога. Перед автоматическим выбором проверьте точное имя.",
+  "Sorted destination variable names supplied by this service to the client.": "Отсортированные имена переменных, которые клиент получает от сервиса."
 }

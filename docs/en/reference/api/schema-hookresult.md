@@ -6,6 +6,7 @@
 
 | Field | Required | Type | Description and constraints |
 | --- | --- | --- | --- |
+| `env_names` | Yes | array&lt;string&gt; / null | Sorted names passed by Orpheus for the confirmed start of this hook script. Null if unknown.  |
 | `id` | Yes | string |  format: <code>"uuid"</code> |
 | `name` | Yes | string |  enum: <code>["after_create","before_run","after_run","before_remove"]</code> |
 | `status` | Yes | string |  enum: <code>["pending","running","completed","failed","cancelled","skipped"]</code> |
@@ -24,6 +25,21 @@
 ```json
 {
   "properties": {
+    "env_names": {
+      "description": "Sorted names passed by Orpheus for the confirmed start of this hook script. Null if unknown.",
+      "anyOf": [
+        {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "id": {
       "type": "string",
       "format": "uuid"
@@ -150,6 +166,7 @@
   "required": [
     "id",
     "name",
+    "env_names",
     "status",
     "started_at",
     "deadline_at",

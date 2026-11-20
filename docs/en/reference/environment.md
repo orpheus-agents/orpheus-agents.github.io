@@ -9,7 +9,7 @@ Process settings are supplied through ENV. The application does not load [`.env`
 | <span id="env-orpheus-migrations-dir"></span>`ORPHEUS_MIGRATIONS_DIR` | `migrations` | Migration directory. The --dir flag takes precedence |
 | <span id="env-public-api-keys"></span>`PUBLIC_API_KEYS` | `[]` | JSON array of Bearer keys with equal access |
 | <span id="env-env-encryption-key"></span>`ENV_ENCRYPTION_KEY` | `required` | 32-byte base64url key for environment encryption |
-| <span id="env-harness-env-allowlist"></span>`HARNESS_ENV_ALLOWLIST` | `[]` | JSON array of extra permitted worker ENV names. Combined with all [service ENV names](../configuration/secrets.md#services) |
+| <span id="env-harness-env-allowlist"></span>`HARNESS_ENV_ALLOWLIST` | `[]` | JSON array of extra permitted worker ENV names. Combined with all [service credential source names](../configuration/secrets.md#services) |
 | <span id="env-agentbox-api-key"></span>`AGENTBOX_API_KEY` | `required on worker` | AgentBox access. Also supply to API for [template registration](../configuration/templates.md#register) |
 | <span id="env-agentbox-api-url"></span>`AGENTBOX_API_URL` | `unset` | Explicit AgentBox API origin. Use the same endpoint settings on API and worker |
 | <span id="env-agentbox-domain"></span>`AGENTBOX_DOMAIN` | `agentbox-runtime.ru` | Domain used for `https://api.<domain>` when no explicit API URL is set |
@@ -37,6 +37,6 @@ Process settings are supplied through ENV. The application does not load [`.env`
 | <span id="env-saml-sp-key-file"></span>`SAML_SP_KEY_FILE` | `unset` | Path to SP private key |
 | <span id="env-browser-session-ttl-seconds"></span>`BROWSER_SESSION_TTL_SECONDS` | `43200` | Browser session lifetime, 300-86400 seconds |
 
-`required` marks a required value. `unset` means no value is configured. SAML fields are required in `saml` mode. Supply integration variables such as [`HELPDESK_TOKEN`](../configuration/secrets.md) to the worker. Register their names in a [service](../configuration/secrets.md#services), or use `HARNESS_ENV_ALLOWLIST` for names outside the catalog.
+`required` marks a required value. `unset` means no value is configured. SAML fields are required in `saml` mode. Supply credential sources on the worker, such as `SUPPORT_READ_TOKEN` for [Helpdesk](../configuration/secrets.md#services). Permit additional manual references through `HARNESS_ENV_ALLOWLIST`.
 
 API and worker must share credential-store and service configuration, allowed environment names and encryption key. Recreate containers after ENV changes. [Practical setup](../configuration/secrets.md).

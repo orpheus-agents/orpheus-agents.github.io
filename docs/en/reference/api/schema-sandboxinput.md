@@ -7,7 +7,7 @@
 | Field | Required | Type | Description and constraints |
 | --- | --- | --- | --- |
 | `env` | No | object |  additionalProperties: <code>{"type":"string"}</code> |
-| `services` | No | [ServiceCodes](schema-servicecodes.md) | Services available to the agent and session hooks, expanded together with env_from.  |
+| `services` | No | [ServiceCodes](schema-servicecodes.md) | Session service codes. The worker resolves them using its current service configuration when preparing the harness or a hook.  |
 | `env_from` | No | array&lt;string&gt; |   |
 | `template` | Yes | string | Exact active catalog name, including any team slug and tag. Missing or inactive records return 422 unknown_template with detail code template_not_found or template_inactive. Accepted sessions and idempotent replays keep their stored name regardless of subsequent catalog changes. minLength: <code>1</code> |
 
@@ -25,7 +25,7 @@
       "type": "object"
     },
     "services": {
-      "description": "Services available to the agent and session hooks, expanded together with env_from.",
+      "description": "Session service codes. The worker resolves them using its current service configuration when preparing the harness or a hook.",
       "$ref": "#/components/schemas/ServiceCodes"
     },
     "env_from": {

@@ -8,7 +8,7 @@ CLI позволяет управлять заданиями через API Spac
 
 ```sh
 set -eu
-version=v0.14.0
+version=v0.15.0
 arch=amd64
 release="https://github.com/orpheus-agents/orpheus-space/releases/download/$version"
 for file in "orpheus-space_${version}_linux_${arch}.tar.gz" "orpheus-space_${version}_skill.tar.gz" checksums.txt; do
@@ -29,7 +29,7 @@ ORPHEUS_SPACE_HOST=https://space.example.com
 ORPHEUS_SPACE_API_KEY=<space-api-key>
 ```
 
-Используйте ключ из [`PUBLIC_API_KEYS` Space](../reference/space.md#access). Адрес задаётся без `/api/v1`. Опишите [сервис](../configuration/secrets.md#services) с обеими ENV, передайте их значения worker Orpheus и выберите сервис в workflow или сессии. Агент получит полные права API-ключа на задания. Выбирайте сервис только для поручений, которым нужно управлять расписаниями.
+На worker задайте `ORPHEUS_SPACE_API_KEY` из [`PUBLIC_API_KEYS` Space](../reference/space.md#access). В [конфигурации сервиса](../configuration/secrets.md#services) укажите адрес Space без суффикса `/api/v1` в `endpoint`, передайте его в `ORPHEUS_SPACE_HOST` через `{ from = "endpoint" }`. Объявите ключ в `credentials` как `key = { env = "ORPHEUS_SPACE_API_KEY" }`. Выберите сервис в workflow или сессии, когда агенту нужны права этого ключа для управления заданиями.
 
 ## Проверка
 

@@ -7,7 +7,7 @@
 | Поле | Обязательное | Тип | Описание и ограничения |
 | --- | --- | --- | --- |
 | `env` | Нет | object |  additionalProperties: <code>{"type":"string"}</code> |
-| `services` | Нет | [ServiceCodes](schema-servicecodes.md) | Сервисы для агента и хуков сессии. Их ENV объединяются с env_from.  |
+| `services` | Нет | [ServiceCodes](schema-servicecodes.md) | Коды сервисов сессии. При подготовке процесса агента или хука worker использует текущие настройки этих сервисов.  |
 | `env_from` | Нет | array&lt;string&gt; |   |
 | `template` | Да | string | Точное имя активного шаблона из каталога, включая team slug и тег, если они есть. Отсутствующая или неактивная запись возвращает 422 unknown_template с кодом детали template_not_found или template_inactive. Принятые сессии и идемпотентные повторы сохраняют имя независимо от последующих изменений каталога. minLength: <code>1</code> |
 
@@ -25,7 +25,7 @@
       "type": "object"
     },
     "services": {
-      "description": "Services available to the agent and session hooks, expanded together with env_from.",
+      "description": "Session service codes. The worker resolves them using its current service configuration when preparing the harness or a hook.",
       "$ref": "#/components/schemas/ServiceCodes"
     },
     "env_from": {

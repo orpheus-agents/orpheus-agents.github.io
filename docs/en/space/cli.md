@@ -8,7 +8,7 @@ Installation in a Linux Codex sandbox. For arm64, replace `arch=amd64` with `arc
 
 ```sh
 set -eu
-version=v0.14.0
+version=v0.15.0
 arch=amd64
 release="https://github.com/orpheus-agents/orpheus-space/releases/download/$version"
 for file in "orpheus-space_${version}_linux_${arch}.tar.gz" "orpheus-space_${version}_skill.tar.gz" checksums.txt; do
@@ -29,7 +29,7 @@ ORPHEUS_SPACE_HOST=https://space.example.com
 ORPHEUS_SPACE_API_KEY=<space-api-key>
 ```
 
-Use a key from Space's [`PUBLIC_API_KEYS`](../reference/space.md#access). The host has no `/api/v1` suffix. Define a [service](../configuration/secrets.md#services) with both ENV names, supply their values to the Orpheus worker and select the service in the workflow or session. This grants the agent the API key's full schedule permissions. Select it only when the task needs to manage schedules.
+Set a Space [`PUBLIC_API_KEYS`](../reference/space.md#access) key on the worker as `ORPHEUS_SPACE_API_KEY`. In the [service definition](../configuration/secrets.md#services), set `endpoint` to the Space origin without `/api/v1`, map `ORPHEUS_SPACE_HOST` to `{ from = "endpoint" }`, and declare `key = { env = "ORPHEUS_SPACE_API_KEY" }` under `credentials`. Select the service in a workflow or session when the agent needs the key’s schedule permissions.
 
 ## Verify
 

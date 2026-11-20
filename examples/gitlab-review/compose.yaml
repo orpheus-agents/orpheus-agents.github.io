@@ -2,7 +2,7 @@ name: orpheus-gitlab-review
 
 services:
   review:
-    image: retailcrm/orpheus-gitlab-mr-review:${ORPHEUS_GITLAB_REVIEW_VERSION:-0.1.5}
+    image: retailcrm/orpheus-gitlab-mr-review:${ORPHEUS_GITLAB_REVIEW_VERSION:-0.2.0}
     platform: linux/amd64
     restart: unless-stopped
     stop_grace_period: 30s

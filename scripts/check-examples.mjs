@@ -65,19 +65,25 @@ if (payload.status !== 0) throw Error(payload.stderr)
 if (!ajv.validate({$ref: 'orpheus#/components/schemas/CreateSession'}, JSON.parse(payload.stdout))) throw Error(ajv.errorsText())
 const python = spawnSync('python3', ['scripts/check-python-examples.py'], { stdio: 'inherit' })
 if (python.status !== 0) process.exit(python.status ?? 1)
-const compose = spawnSync('docker', ['compose','--env-file','.env.example','config','--quiet'], {
-  cwd: 'examples/quickstart', encoding:'utf8',
-  env: { ...process.env, POSTGRES_PASSWORD:'fixture-password', ENV_ENCRYPTION_KEY:'Zm9yLWxvY2FsLWRldmVsb3BtZW50LW9ubHktMzJieXQ=', ORPHEUS_API_KEY:'fixture', AGENTBOX_API_KEY:'fixture', MATTERMOST_BOT_TOKEN:'fixture' },
-})
-if (compose.status !== 0) throw Error(compose.stderr || 'Docker Compose is required to validate the example')
-const spaceCompose = spawnSync('docker', ['compose', '--env-file', '.env.example', '--profile', 'execution', 'config', '--quiet'], {
-  cwd: 'examples/space', encoding: 'utf8',
-  env: { ...process.env, POSTGRES_PASSWORD: 'fixture-password', ORPHEUS_SPACE_API_KEY: 'space-fixture' },
-})
-if (spaceCompose.status !== 0) throw Error(spaceCompose.stderr)
-const reviewCompose = spawnSync('docker', ['compose', '--env-file', '.env.example', 'config', '--quiet'], {
-  cwd: 'examples/gitlab-review', encoding: 'utf8',
-  env: { ...process.env, GITLAB_TOKEN: 'gitlab-fixture', ORPHEUS_API_KEY: 'fixture' },
-})
-if (reviewCompose.status !== 0) throw Error(reviewCompose.stderr)
+const composeExamples = [
+  ['quickstart', ['orpheus', 'orpheus-mattermost', 'orpheus-web']],
+  ['space', ['orpheus-space', 'orpheus-space-web']],
+  ['gitlab-review', ['orpheus-gitlab-mr-review']],
+]
+for (const [example, components] of composeExamples) {
+  const cwd = `examples/${example}`
+  const env = {
+    ...process.env, POSTGRES_PASSWORD: 'fixture-password', ENV_ENCRYPTION_KEY: 'Zm9yLWxvY2FsLWRldmVsb3BtZW50LW9ubHktMzJieXQ=',
+    ORPHEUS_API_KEY: 'fixture', AGENTBOX_API_KEY: 'fixture', MATTERMOST_BOT_TOKEN: 'fixture', ORPHEUS_SPACE_API_KEY: 'space-fixture', GITLAB_TOKEN: 'gitlab-fixture',
+  }
+  // An empty Compose input exercises each image default independently of the example dotenv pins checked above.
+  for (const [, key] of readFileSync(`${cwd}/.env.example`, 'utf8').matchAll(/^(ORPHEUS_\w*VERSION)=/gm)) env[key] = ''
+  const result = spawnSync('docker', ['compose', '--env-file', '.env.example', '--profile', '*', 'config', '--images'], { cwd, env, encoding: 'utf8' })
+  if (result.status !== 0) throw Error(result.stderr || 'Docker Compose is required to validate the example')
+  const images = result.stdout.trim().split('\n')
+  for (const component of components) {
+    const image = `retailcrm/${component}:${upstream[component].tag.slice(1)}`
+    if (!images.includes(image)) throw Error(`${cwd} must resolve ${image} when no version is supplied`)
+  }
+}
 console.log(`Validated API payloads, code blocks, Compose and ${ru.length} translated page pairs.`)

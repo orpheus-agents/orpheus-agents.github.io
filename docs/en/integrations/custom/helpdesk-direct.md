@@ -2,7 +2,7 @@
 
 The connector creates a session for a new ticket. The agent receives helpdesk credentials and publication instructions.
 
-Configure the [`helpdesk` service](../../configuration/secrets.md#services) on API and worker, and supply its `HELPDESK_URL` and `HELPDESK_TOKEN` values to the worker. Select it in the request:
+Configure the [`helpdesk` service](../../configuration/secrets.md#services) on API and worker. Set the Helpdesk URL in its TOML endpoint and supply `SUPPORT_READ_TOKEN` to the worker. Select it in the request:
 
 ```json
 {

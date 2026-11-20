@@ -11,9 +11,10 @@
 | `agent_status` | Yes | string / null |   |
 | `agent_error` | Yes | [Error](schema-error.md) / null |   |
 | `hooks` | Yes | array&lt;[HookResult](schema-hookresult.md)&gt; |   |
+| `harness_env_names` | Yes | array&lt;string&gt; / null | Sorted names passed by Orpheus at launch of the harness used by this run. Null if unknown, including before attachment.  |
 | `env_names` | Yes | array&lt;string&gt; | Sorted names of explicit variables supplied for this run; values are never returned.  |
-| `services` | Yes | array&lt;[Service](schema-service.md)&gt; | Immutable service descriptions and environment names resolved when accepted.  |
-| `env_from` | Yes | array&lt;string&gt; | Sorted orchestrator environment variable names for this run, including expanded services.  |
+| `services` | Yes | [ServiceCodes](schema-servicecodes.md) |   |
+| `env_from` | Yes | array&lt;string&gt; | Sorted worker variable names explicitly requested for this run.  |
 | `input_fingerprint` | Yes | string / null | Input snapshot version supplied when the run was accepted. Opaque identifier, 1–256 UTF-8 bytes; no NUL or whitespace-only value. Compared exactly, without normalization.  |
 | `cancel_requested_at` | Yes | string / null |   |
 | `created_at` | Yes | string |  format: <code>"date-time"</code> |
@@ -86,6 +87,21 @@
         "$ref": "#/components/schemas/HookResult"
       }
     },
+    "harness_env_names": {
+      "description": "Sorted names passed by Orpheus at launch of the harness used by this run. Null if unknown, including before attachment.",
+      "anyOf": [
+        {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
     "env_names": {
       "description": "Sorted names of explicit variables supplied for this run; values are never returned.",
       "type": "array",
@@ -94,14 +110,10 @@
       }
     },
     "services": {
-      "description": "Immutable service descriptions and environment names resolved when accepted.",
-      "type": "array",
-      "items": {
-        "$ref": "#/components/schemas/Service"
-      }
+      "$ref": "#/components/schemas/ServiceCodes"
     },
     "env_from": {
-      "description": "Sorted orchestrator environment variable names for this run, including expanded services.",
+      "description": "Sorted worker variable names explicitly requested for this run.",
       "type": "array",
       "items": {
         "type": "string"
@@ -265,6 +277,7 @@
     "hooks",
     "input_fingerprint",
     "env_names",
+    "harness_env_names",
     "env_from",
     "services",
     "id",
