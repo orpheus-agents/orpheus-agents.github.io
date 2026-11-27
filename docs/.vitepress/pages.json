@@ -135,6 +135,11 @@
     "Results and operations"
   ],
   [
+    "integrations/github/connect",
+    "Подключение ревью GitHub PR",
+    "Connect GitHub PR review"
+  ],
+  [
     "integrations/custom/overview",
     "Подключение своей системы",
     "Connect your own system"

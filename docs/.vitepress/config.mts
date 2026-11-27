@@ -32,6 +32,7 @@ const groups = [
   ['configuration/', 'Настройка агентов', 'Configure agents'],
   ['integrations/mattermost/', 'Mattermost', 'Mattermost'],
   ['integrations/gitlab/', 'Ревью GitLab MR', 'GitLab MR review'],
+  ['integrations/github/', 'Ревью GitHub PR', 'GitHub PR review'],
   ['integrations/custom/', 'Своя интеграция', 'Custom integrations'],
   ['web/', 'Веб-интерфейс', 'Web interface'],
   ['space/', 'Orpheus Space', 'Orpheus Space'],

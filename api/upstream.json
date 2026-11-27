@@ -30,5 +30,10 @@
     "repository": "https://github.com/orpheus-agents/orpheus-gitlab-mr-review",
     "tag": "v0.2.0",
     "commit": "959fa3b02de6b2797e9db089772662d6ce60794d"
+  },
+  "orpheus-github-pr-review": {
+    "repository": "https://github.com/orpheus-agents/orpheus-github-pr-review",
+    "tag": "v0.1.0",
+    "commit": "e795d2004e844763582ed32af6c119e96edc346d"
   }
 }
