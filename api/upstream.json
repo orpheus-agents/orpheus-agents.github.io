@@ -6,8 +6,8 @@
   },
   "orpheus-mattermost": {
     "repository": "https://github.com/orpheus-agents/orpheus-mattermost",
-    "tag": "v0.9.0",
-    "commit": "a7d7747cabd6bc5bd9e70a5909aee632caf720f5"
+    "tag": "v0.10.0",
+    "commit": "d3f29136a7187ec1d65b59f0ff958c8ba138180c"
   },
   "orpheus-web": {
     "repository": "https://github.com/orpheus-agents/orpheus-web",

@@ -23,7 +23,7 @@ trigger_bot_ids:
 
 ## Продолжение разговора
 
-[`start_on_mention: false`](../../reference/mattermost.md#workflow-start-on-mention) меняет запуск нового треда. Для следующих обращений в канале упоминайте бота. Личные сообщения обрабатываются без упоминания, если включён [`direct_messages`](../../reference/mattermost.md#workflow-direct-messages).
+[`start_on_mention: false`](../../reference/mattermost.md#workflow-start-on-mention) меняет запуск нового треда. Для следующих обращений в канале упоминайте бота или используйте [настроенное имя](workflow.md#trigger-names). Личные сообщения обрабатываются без упоминания, если включён [`direct_messages`](../../reference/mattermost.md#workflow-direct-messages).
 
 Для сбора нескольких последовательных сообщений можно задать [`message_batch_window: 3s`](../../reference/mattermost.md#workflow-message-batch-window). Окно начинается с первого ещё не принятого сообщения. При `0` запуск начинается сразу.
 

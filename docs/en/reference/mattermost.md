@@ -32,7 +32,9 @@
 | <span id="workflow-direct-messages"></span>`direct_messages` | `false` | Handle direct messages |
 | <span id="workflow-private-channels"></span>`private_channels` | `false` | Handle private channels |
 | <span id="workflow-group-messages"></span>`group_messages` | `false` | Handle group messages |
-| <span id="workflow-start-on-mention"></span>`start_on_mention` | `true` | Require a mention to start a thread |
+| <span id="workflow-start-on-mention"></span>`start_on_mention` | `true` | Require a mention or configured name to start a thread |
+| <span id="workflow-trigger-names"></span>`trigger_names` | `[]` | Literal names accepted at the start of a post. Each entry is a nonempty single-line string with no surrounding whitespace. [Example](../integrations/mattermost/workflow.md#trigger-names) |
+| <span id="workflow-trigger-name-regex"></span>`trigger_name_regex` | `""` | Go regular expression for a name at the start of a post. It must match nonempty text. An empty field disables the rule. [Example](../integrations/mattermost/workflow.md#trigger-names) |
 | <span id="workflow-trigger-bot-ids"></span>`trigger_bot_ids` | `[]` | Allowed external bots |
 | <span id="workflow-send-commentary-messages"></span>`send_commentary_messages` | `true` | Publish progress messages |
 | <span id="workflow-draining"></span>`draining` | `false` | Deliver accepted results without admitting new work |

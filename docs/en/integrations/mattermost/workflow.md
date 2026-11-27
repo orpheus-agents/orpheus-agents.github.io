@@ -12,6 +12,19 @@ Add [`direct_messages: true`](../../reference/mattermost.md#workflow-direct-mess
 
 The file body is the assistant's complete instruction set. The example includes attachment reading and file delivery rules. Adapt them to the assistant's role.
 
+## Address the bot by name {#trigger-names}
+
+Add [literal names](../../reference/mattermost.md#workflow-trigger-names), a [regular expression](../../reference/mattermost.md#workflow-trigger-name-regex), or both to the workflow YAML.
+
+```yaml
+trigger_names: [Orpheus, Orphy]
+trigger_name_regex: 'orpheus-[0-9]+'
+```
+
+`Orphy, check the logs` matches the list. `ORPHEUS-42: check the logs` matches the expression. Either form can start or continue work in a thread, just like `@orpheus`. One post is accepted once even if both rules match.
+
+Start the first line of the post with the name in plain text. End the name with whitespace, a comma, colon, period, exclamation mark, question mark, ellipsis, or the end of the line. Literal names are case-insensitive. The regular expression uses Go syntax and is case-insensitive by default.
+
 ## Let users choose a profile by hashtag {#profile-tags}
 
 To offer several models in one channel, add [`profile_by_tag`](../../reference/mattermost.md#workflow-profile-by-tag) to the workflow YAML. Use the names of active [profiles](../../configuration/profiles.md) and [templates](../../configuration/templates.md#manage) from your Orpheus catalog.
