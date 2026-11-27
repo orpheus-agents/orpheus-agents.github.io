@@ -33,7 +33,7 @@
   },
   "orpheus-github-pr-review": {
     "repository": "https://github.com/orpheus-agents/orpheus-github-pr-review",
-    "tag": "v0.1.0",
-    "commit": "e795d2004e844763582ed32af6c119e96edc346d"
+    "tag": "v0.2.0",
+    "commit": "d73a292aa500fd9c53605e378c0dfe990265621d"
   }
 }
