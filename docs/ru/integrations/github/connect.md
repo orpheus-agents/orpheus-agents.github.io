@@ -15,14 +15,17 @@
 На каждом опросе коннектор обнаруживает доступные токену репозитории с правом **Write**.
 Задайте `GITHUB_REPOSITORIES` списком `owner/repo` через запятую, чтобы ограничить опрос.
 
-См. [настройки коннектора](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.2.0/docs/configuration.md)
-и [пример Compose](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.2.0/examples/compose.yaml).
+См. [настройки коннектора](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.3.0/docs/configuration.md)
+и [пример Compose](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.3.0/examples/compose.yaml).
 
 ## Задайте правила ревью
 
-Начните с [workflow по умолчанию](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.2.0/examples/workflows/default.md).
+Начните с [workflow по умолчанию](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.3.0/examples/workflows/default.md).
 Укажите профиль, шаблон песочницы и коды сервисов из настроек Orpheus. Добавьте под YAML правила
-ревью. Workflow без `repository_ids` подходит остальным репозиториям в области опроса.
+ревью. Чтобы задать отдельные правила, перечислите имена `owner/repo` в поле
+[`repositories`](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.3.0/examples/workflows/projects.md),
+например `repositories: [team/api, team/web]`. Workflow без этого поля применяется к остальным
+репозиториям в области опроса.
 В шаблоне ошибки доступны <code v-pre>{{ .Reason }}</code> и <code v-pre>{{ .SessionURL }}</code>. После правки workflow
 перезапустите коннектор.
 

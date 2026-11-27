@@ -15,15 +15,17 @@ the same commit.
 The connector discovers writable repositories accessible to the token on every poll. Set
 `GITHUB_REPOSITORIES` to a comma-separated list of `owner/repo` names to limit the discovery.
 
-See the [connector configuration](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.2.0/docs/configuration.md)
-and [Compose example](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.2.0/examples/compose.yaml).
+See the [connector configuration](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.3.0/docs/configuration.md)
+and [Compose example](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.3.0/examples/compose.yaml).
 
 ## Set review instructions
 
-Start with the [default workflow](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.2.0/examples/workflows/default.md).
+Start with the [default workflow](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.3.0/examples/workflows/default.md).
 Set the profile, sandbox template and service codes from your Orpheus configuration, then add
-the review rules below the YAML. A workflow without `repository_ids` applies to the remaining
-repositories in the polling scope. The failure template can include <code v-pre>{{ .Reason }}</code> and
+the review rules below the YAML. For repository-specific rules, put the `owner/repo` names in
+[`repositories`](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.3.0/examples/workflows/projects.md),
+for example `repositories: [team/api, team/web]`. A workflow without this field applies to the
+remaining repositories in the polling scope. The failure template can include <code v-pre>{{ .Reason }}</code> and
 <code v-pre>{{ .SessionURL }}</code>. Restart the connector after editing a workflow.
 
 ## Run a pilot
