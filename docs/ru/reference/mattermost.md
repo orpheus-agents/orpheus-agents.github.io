@@ -32,7 +32,9 @@
 | <span id="workflow-direct-messages"></span>`direct_messages` | `false` | Обрабатывать личные сообщения |
 | <span id="workflow-private-channels"></span>`private_channels` | `false` | Обрабатывать закрытые каналы |
 | <span id="workflow-group-messages"></span>`group_messages` | `false` | Обрабатывать групповые сообщения |
-| <span id="workflow-start-on-mention"></span>`start_on_mention` | `true` | Требовать упоминание для нового треда |
+| <span id="workflow-start-on-mention"></span>`start_on_mention` | `true` | Требовать упоминание или настроенное имя для нового треда |
+| <span id="workflow-trigger-names"></span>`trigger_names` | `[]` | Имена для обращения в начале сообщения. Каждый элемент — непустая однострочная строка без пробелов по краям. [Пример](../integrations/mattermost/workflow.md#trigger-names) |
+| <span id="workflow-trigger-name-regex"></span>`trigger_name_regex` | `""` | Регулярное выражение Go для имени в начале сообщения. Совпадение должно захватывать непустой текст. Пустое поле отключает правило. [Пример](../integrations/mattermost/workflow.md#trigger-names) |
 | <span id="workflow-trigger-bot-ids"></span>`trigger_bot_ids` | `[]` | Разрешённые внешние боты |
 | <span id="workflow-send-commentary-messages"></span>`send_commentary_messages` | `true` | Публиковать промежуточные сообщения |
 | <span id="workflow-draining"></span>`draining` | `false` | Доставлять принятые результаты без новых задач |

@@ -23,7 +23,7 @@ A scheduled agent can use this to create independent tasks in a channel under th
 
 ## Continuing the conversation
 
-[`start_on_mention: false`](../../reference/mattermost.md#workflow-start-on-mention) changes new-thread admission. Mention the bot for subsequent channel requests. Direct messages need no mention when [`direct_messages`](../../reference/mattermost.md#workflow-direct-messages) is enabled.
+[`start_on_mention: false`](../../reference/mattermost.md#workflow-start-on-mention) changes new-thread admission. For subsequent channel requests, mention the bot or use a [configured name](workflow.md#trigger-names). Direct messages need no mention when [`direct_messages`](../../reference/mattermost.md#workflow-direct-messages) is enabled.
 
 To group several consecutive messages, set [`message_batch_window: 3s`](../../reference/mattermost.md#workflow-message-batch-window). The window starts with the first unaccepted trigger. With `0`, work starts immediately.
 
