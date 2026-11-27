@@ -6,23 +6,26 @@
 
 ## Настройте доступ
 
-1. Добавьте технического пользователя в организацию и дайте ему право **Write** в каждом
-   репозитории для ревью. Передайте коннектору токен с правом **Pull requests: Read and write**
-   в этих репозиториях.
+1. Дайте техническому пользователю право **Write** в каждом репозитории для ревью. Передайте
+   коннектору токен с правом **Pull requests: Read and write** в этих репозиториях.
 2. Настройте в Orpheus профиль ревью и песочницу с Git, GitHub CLI и доступом по HTTPS.
    Песочнице нужны права на чтение содержимого репозитория и pull requests.
-3. Укажите в `GITHUB_REPOSITORIES` список `owner/repo` через запятую. Все репозитории должны
-   принадлежать одной организации на GitHub.com. Задайте `GITHUB_TOKEN`, `ORPHEUS_BASE_URL`
-   и `ORPHEUS_API_KEY` в окружении коннектора.
+3. Задайте `GITHUB_TOKEN`, `ORPHEUS_BASE_URL` и `ORPHEUS_API_KEY` в окружении коннектора.
 
-См. [настройки коннектора](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.1.0/docs/configuration.md)
-и [пример Compose](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.1.0/examples/compose.yaml).
+На каждом опросе коннектор обнаруживает доступные токену репозитории с правом **Write**.
+Задайте `GITHUB_REPOSITORIES` списком `owner/repo` через запятую, чтобы ограничить опрос.
+
+См. [настройки коннектора](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.3.0/docs/configuration.md)
+и [пример Compose](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.3.0/examples/compose.yaml).
 
 ## Задайте правила ревью
 
-Начните с [workflow по умолчанию](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.1.0/examples/workflows/default.md).
+Начните с [workflow по умолчанию](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.3.0/examples/workflows/default.md).
 Укажите профиль, шаблон песочницы и коды сервисов из настроек Orpheus. Добавьте под YAML правила
-ревью. Workflow без `repository_ids` подходит остальным репозиториям из `GITHUB_REPOSITORIES`.
+ревью. Чтобы задать отдельные правила, перечислите имена `owner/repo` в поле
+[`repositories`](https://github.com/orpheus-agents/orpheus-github-pr-review/blob/v0.3.0/examples/workflows/projects.md),
+например `repositories: [team/api, team/web]`. Workflow без этого поля применяется к остальным
+репозиториям в области опроса.
 В шаблоне ошибки доступны <code v-pre>{{ .Reason }}</code> и <code v-pre>{{ .SessionURL }}</code>. После правки workflow
 перезапустите коннектор.
 
@@ -31,4 +34,4 @@
 Сделайте небольшое изменение в открытом PR и выберите технического пользователя в **Reviewers**.
 По умолчанию коннектор опрашивает GitHub каждые 30 секунд. После публикации review GitHub
 закроет запрос к этому пользователю. Запускайте один экземпляр коннектора на инсталляцию
-Orpheus, организацию GitHub и учётную запись ревьюера.
+Orpheus и учётную запись ревьюера.
